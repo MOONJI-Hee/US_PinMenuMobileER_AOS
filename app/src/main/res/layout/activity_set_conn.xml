@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/f9"
+    tools:context="com.wooriyo.us.pinmenumobileer.printer.SetConnActivity">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/title"
+        android:text="@string/printer_title_conn_mng"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_back_white" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/menu"
+        android:id="@+id/imgPhone"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:elevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_phone_aos"/>
+    </LinearLayout>
+
+    <TextView
+        style="@style/text17"
+        android:id="@+id/android"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="20dp"
+        android:textStyle="bold"
+        android:text="@string/android_smartphone"
+        app:layout_constraintBottom_toTopOf="@+id/tv_nick"
+        app:layout_constraintStart_toEndOf="@+id/imgPhone" />
+
+    <TextView
+        android:id="@+id/tv_nick"
+        style="@style/text15"
+        android:layout_marginBottom="5dp"
+        android:text="@string/printer_nick"
+        app:layout_constraintBottom_toTopOf="@+id/phoneNick"
+        app:layout_constraintStart_toStartOf="@+id/android" />
+
+    <TextView
+        android:id="@+id/phoneNick"
+        style="@style/tv_nick"
+        android:hint="@string/printer_nick_hint"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgPhone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/android" />
+
+    <TextView
+        style="@style/text17m"
+        android:id="@+id/tvAble"
+        android:layout_height="48dp"
+        android:layout_marginTop="35dp"
+        android:gravity="center_vertical"
+        android:text="@string/printer_available"
+        app:layout_constraintStart_toStartOf="@+id/imgPhone"
+        app:layout_constraintTop_toBottomOf="@+id/imgPhone"/>
+    
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rvPrinter"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:background="@color/white"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tvAble"/>-->
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAble">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSewoo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSam4s"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    style="@style/btn_sub"
+                    android:id="@+id/plus"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_margin="20dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_print_plus_small" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>

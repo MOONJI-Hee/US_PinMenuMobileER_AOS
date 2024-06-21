@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "151520380148",
+    "project_id": "pinmenu-us",
+    "storage_bucket": "pinmenu-us.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151520380148:android:a02f18ffb1075525a78aa1",
+        "android_client_info": {
+          "package_name": "com.wooriyo.us.pinmenumobileer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc6I1-3yF4oj24SYXcfZneKvZYn8Xo9hI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

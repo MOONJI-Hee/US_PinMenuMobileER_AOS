@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.wooriyo.us.pinmenumobileer">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" />
+
+    <application
+        android:name="com.wooriyo.us.pinmenumobileer.MyApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.PinmenuMobileER">
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.more.SetMenuUiActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.more.SetStoreImgActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.more.SetActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.qr.EventPreviewActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.qr.SetEventActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.menu.AddOptActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.menu.AddGoodsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.menu.SetGoodsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.menu.ChangeMenuSeqActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.menu.ChangeCateSeqActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.menu.AddCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.menu.SetCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.pg.PgCancelActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.pg.PgHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.more.SetCustomerInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.payment.SetPgInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.common.WebViewActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.qr.QrDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.qr.QrAgreeActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.member.MasterLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.MainActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.history.ByHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.payment.NicepayJoinWayActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.payment.NicepayInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.payment.QrActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.pay.SelMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.payment.SetNicepayActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.payment.ReaderModelActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.pay.PayCardActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.printer.SelectCateActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.printer.SelectPrinterActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.printer.ContentSetActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.printer.DetailPrinterActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.common.SelectStoreActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.printer.SetConnActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.printer.SupportPrinterActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.printer.NewConnActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.common.MapActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.store.RegStoreActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.member.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.member.FindPwdActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.member.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.member.StartActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.wooriyo.us.pinmenumobileer.more.MemberSetActivity"
+            android:exported="false" />
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_appKey" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_noti" />
+
+        <service
+            android:name="com.wooriyo.us.pinmenumobileer.fcm.MyFirebaseService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>
