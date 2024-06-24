@@ -18,10 +18,10 @@ class DeleteDialog(val type: Int, val strName: String, val onClickListener: OnCl
 
         var strType = ""
         if(type == 1) {
-            strType = "카테고리"
+            strType = "category"
             binding.info.text = getString(R.string.category_delete_info)
         }else if(type == 2) {
-            strType = "메뉴"
+            strType = "menu"
             binding.info.text = getString(R.string.menu_delete_info)
         }
 

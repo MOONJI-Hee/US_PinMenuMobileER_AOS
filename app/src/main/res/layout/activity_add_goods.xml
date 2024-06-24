@@ -343,7 +343,7 @@
             android:id="@+id/delete"
             android:layout_width="0dp"
             android:layout_marginEnd="15dp"
-            android:text="@string/btn_delete"
+            android:text="@string/delete"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/save"
@@ -353,7 +353,7 @@
             style="@style/btn"
             android:id="@+id/save"
             android:layout_width="0dp"
-            android:text="@string/btn_save"
+            android:text="@string/save"
             app:layout_constraintStart_toEndOf="@+id/delete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

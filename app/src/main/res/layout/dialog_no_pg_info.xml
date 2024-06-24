@@ -71,7 +71,7 @@
             style="@style/btn_dialog"
             android:layout_width="match_parent"
             android:layout_marginTop="40dp"
-            android:text="@string/btn_confirm"
+            android:text="@string/confirm"
             app:layout_constraintTop_toBottomOf="@+id/text4"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

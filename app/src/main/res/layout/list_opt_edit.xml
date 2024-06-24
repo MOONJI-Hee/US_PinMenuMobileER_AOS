@@ -63,7 +63,7 @@
         android:id="@+id/delete"
         android:textColor="#FF0000"
         android:gravity="center"
-        android:text="@string/btn_delete2"
+        android:text="@string/delete2"
         app:layout_constraintStart_toEndOf="@+id/price"
         app:layout_constraintTop_toTopOf="@+id/price"
         app:layout_constraintBottom_toBottomOf="@+id/price"

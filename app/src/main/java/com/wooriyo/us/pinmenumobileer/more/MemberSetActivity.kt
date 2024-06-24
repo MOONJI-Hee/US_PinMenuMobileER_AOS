@@ -59,7 +59,7 @@ class MemberSetActivity: BaseActivity(), View.OnClickListener {
         binding.checkResult.visibility = View.GONE
         binding.info1.visibility = View.GONE
 
-        binding.save.text = getText(R.string.btn_save)
+        binding.save.text = getText(R.string.save)
         binding.clTerms.visibility = View.GONE
 
         binding.etArpayo.addTextChangedListener(object : TextWatcher {

@@ -92,7 +92,7 @@
             style="@style/btn_cancel"
             android:id="@+id/delete"
             android:layout_width="0dp"
-            android:text="@string/btn_delete2"
+            android:text="@string/delete2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/save"
             app:layout_constraintTop_toTopOf="parent" />
@@ -101,7 +101,7 @@
             android:id="@+id/save"
             android:layout_width="0dp"
             android:layout_marginStart="10dp"
-            android:text="@string/btn_save"
+            android:text="@string/save"
             app:layout_constraintWidth_percent="0.76"
             app:layout_constraintStart_toEndOf="@+id/delete"
             app:layout_constraintEnd_toEndOf="parent"

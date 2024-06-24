@@ -188,9 +188,9 @@ class ByHistoryActivity: BaseActivity() {
         adapter.setOnDeleteListener(object: ItemClickListener {
             override fun onItemClick(position: Int) {
                 ConfirmDialog(
-                    getString(R.string.btn_delete),
+                    getString(R.string.delete),
                     getString(R.string.dialog_delete),
-                    getString(R.string.btn_delete)
+                    getString(R.string.delete)
                 ) { deleteOrder(list[position].idx) }.show(supportFragmentManager, "DeleteDialog")
             }
         })
@@ -223,9 +223,9 @@ class ByHistoryActivity: BaseActivity() {
             override fun onItemClick(position: Int) {
                 super.onItemClick(position)
                 ConfirmDialog(
-                    getString(R.string.btn_delete),
+                    getString(R.string.delete),
                     getString(R.string.dialog_delete),
-                    getString(R.string.btn_delete)
+                    getString(R.string.delete)
                 ) { deleteCall(list[position].idx) }.show(supportFragmentManager, "DeleteCallDialog")
             }
         })
@@ -247,9 +247,9 @@ class ByHistoryActivity: BaseActivity() {
         orderAdapter.setOnDeleteListener(object: ItemClickListener {
             override fun onItemClick(position: Int) {
                 ConfirmDialog(
-                    getString(R.string.btn_delete),
+                    getString(R.string.delete),
                     getString(R.string.dialog_delete),
-                    getString(R.string.btn_delete)
+                    getString(R.string.delete)
                 ) { deleteOrder(orderList[position].idx) }.show(supportFragmentManager, "DeleteDialog")
             }
         })
@@ -281,9 +281,9 @@ class ByHistoryActivity: BaseActivity() {
         reservAdapter.setOnDeleteListener(object: ItemClickListener {
             override fun onItemClick(position: Int) {
                 ConfirmDialog(
-                    getString(R.string.btn_delete),
+                    getString(R.string.delete),
                     getString(R.string.dialog_delete),
-                    getString(R.string.btn_delete)
+                    getString(R.string.delete)
                 ) { deleteOrder(reservList[position].idx) }.show(supportFragmentManager, "DeleteDialog")
             }
         })
@@ -317,9 +317,9 @@ class ByHistoryActivity: BaseActivity() {
             override fun onItemClick(position: Int) {
                 super.onItemClick(position)
                 ConfirmDialog(
-                    getString(R.string.btn_delete),
+                    getString(R.string.delete),
                     getString(R.string.dialog_delete),
-                    getString(R.string.btn_delete)
+                    getString(R.string.delete)
                 ) { deleteCall(callList[position].idx) }.show(supportFragmentManager, "DeleteCallDialog")
             }
         })
