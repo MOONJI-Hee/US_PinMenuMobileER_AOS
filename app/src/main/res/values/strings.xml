@@ -1,8 +1,5 @@
 <resources>
-    <string name="app_name">핀메뉴 관리</string>
-
-    <string name="kakao_appKey">ed079e485180274fc2b0ae6a18748457</string>
-    <string name="kakao_apiKey">015591dc3e42af388c31ed63f3597fd3</string>
+    <string name="app_name" translatable="false">핀메뉴 관리 미국버전 </string>
 
     <string name="login">로그인</string>
     <string name="logout">로그아웃</string>
@@ -13,13 +10,12 @@
     <string name="drop">탈퇴</string>
 
     <string name="won">원</string>
-    <string name="gea">개</string>
+    <string name="gea" translatable="false">개</string>
 
-    <string name="plus">+</string>
-    <string name="minus">-</string>
+    <string name="plus" translatable="false">+</string>
+    <string name="minus" translatable="false">-</string>
 
     <string name="total">총</string>
-    <string name="delete_order">주문삭제</string>
     <string name="total_gea">총 %d개</string>
 
     <string name="set_tableno">테이블 이동</string>
@@ -33,7 +29,6 @@
 
     <string name="order">주문</string>
     <string name="call">호출</string>
-    <string name="pos">포스</string>
 
     <string name="confirm">확인</string>
     <string name="cancel">취소</string>
@@ -44,7 +39,7 @@
     <string name="setting">설정</string>
     <string name="restore">복원</string>
 
-    <string name="dot">・</string>
+    <string name="dot" translatable="false">・</string>
 
     <!--  버튼 텍스트  -->
     <string name="btn_login">로&#160;그&#160;인</string>
@@ -64,7 +59,6 @@
     <string name="btn_payment">결&#160;&#160;제</string>
     <string name="btn_payment2">결&#160;제</string>
     <string name="btn_choice">선&#160;&#160;택</string>
-    <string name="btn_link">연&#160;&#160;동</string>
     <string name="btn_clear">초&#160;기&#160;화</string>
     <string name="btn_add">추&#160;&#160;가</string>
     <string name="btn_close">닫&#160;&#160;기</string>
@@ -76,14 +70,14 @@
     <string name="date">날짜</string>
     <string name="month">월</string>
     <string name="day">일</string>
-    <string name="tilde">~</string>
-    <string name="colon">:</string>
-    <string name="right_angle">\></string>
-    <string name="zero">0</string>
-    <string name="zero2">00</string>
+    <string name="tilde" translatable="false">~</string>
+    <string name="colon" translatable="false">:</string>
+    <string name="right_angle" translatable="false">\></string>
+    <string name="zero" translatable="false">0</string>
+    <string name="zero2" translatable="false">00</string>
     <string name="min">분</string>
 
-    <string name="zeroClock"><font color="#B4B4B4">00</font>:<font color="#B4B4B4">00</font></string>
+    <string name="zeroClock" translatable="false"><font color="#B4B4B4">00</font>:<font color="#B4B4B4">00</font></string>
 
     <string name="monday">월요일</string>
     <string name="tuesday">화요일</string>
@@ -106,20 +100,12 @@
     <string name="check_id">중복체크</string>
     <string name="unable">사용불가</string>
     <string name="able">사용가능</string>
-    <string name="link">연동</string>
-    <string name="link_before">연동전</string>
-    <string name="link_after">연동됨</string>
-    <string name="link_fail">연동불가</string>
-    <string name="arpayo_id">알파요 아이디(이메일)</string>
-    <string name="arpayo_id_hint">알파요 ID(이메일) 입력해 주세요.</string>
     <string name="signup_info1">아이디(이메일)는\n비밀번호 찾기를 할 때 필요한 정보입니다.\n사용 가능한 이메일로 가입해 주세요.</string>
-    <string name="signup_info2">알파요 앱 아이디를 연동해주시면\n자동시급계산 앱 알파요를 사용 중인 사장님들에게\n추가 보상을 드립니다.</string>
     <string name="term1">이용약관 동의(필수)</string>
     <string name="term2">개인정보 취급방침 동의(필수)</string>
     <string name="term3">마케팅 활용 동의(선택)</string>
 
     <!--  로그인 & 비번찾기  -->
-    <string name="login_info">회원가입은 홈페이지\n또는 태블릿용 앱에서 가능합니다.</string>
     <string name="find_pwd">비밀번호 찾기</string>
     <string name="email">아이디(이메일)</string>
     <string name="email_hint">이메일을 입력해 주세요</string>
@@ -130,9 +116,6 @@
     <!-- 매장 리스트 -->
     <string name="use">사용중</string>
     <string name="not_use">미사용</string>
-    <string name="store_addition">부가서비스&#160;:&#160;</string>
-    <string name="arpayo_conn">알파요연동</string>
-    <string name="arpayo_dis_conn">알파요미연동</string>
     <string name="main">메인</string>
     <string name="store_udt">정보수정</string>
     <string name="store_pay_info">결제정보</string>
@@ -143,8 +126,6 @@
     <string name="store_name">매장명</string>
     <string name="store_name_hint">매장명을 입력해주세요.</string>
     <string name="store_addr">매장주소</string>
-    <string name="store_addr_hint">지도검색 버튼을 눌러서 입력</string>
-    <string name="store_map">지도검색</string>
     <string name="map_hint">주소를 입력하세요.</string>
     <string name="store_addr_info1">매장 주소는 매우 중요한 정보입니다.\n매장 주소를 토대로 주변 고객분들께 재방문, 신규방문\n이벤트가 진행됩니다.\n매장 주소는 지도에서 정확하게 선택해 주세요.</string>
     <string name="store_addr_info2">핀메뉴 관리자 앱을 사용하시기 위해서는 1개의\n매장을 필수로 등록 하셔야 이용이 가능합니다.</string>
@@ -157,7 +138,7 @@
     <string name="store_pd">배달/주차 정보</string>
     <string name="store_tel_hint">예) 1688-2315</string>
     <string name="store_insta">인스타그램 계정</string>
-    <string name="at"><![CDATA[@]]></string>
+    <string name="at" translatable="false"><![CDATA[@]]></string>
     <string name="store_insta_hint">계정을 입력해주세요</string>
     <string name="store_delivery">배달 가능 여부</string>
     <string name="store_delivery_y">배달 가능</string>
@@ -192,7 +173,6 @@
     <string name="call_mgmt">직원 호출</string>
     <string name="menu_mgmt">메뉴판 설정</string>
     <string name="event_mgmt">이벤트 관리</string>
-    <string name="find_menu">메뉴판 찾기</string>
     <string name="order_info_sub">주문 내역 확인</string>
     <string name="call_mgmt_sub">호출 내역 확인</string>
     <string name="menu_mgmt_sub">메뉴 정보 입력</string>
@@ -209,10 +189,7 @@
     <string name="menu_exp_hint">상품 설명을 입력해주세요.\n외국어 설명이 필요한 경우 줄을 바꿔 입력하여 사용할 수 있습니다.</string>
     <string name="cookingTime">조리시간</string>
     <string name="price">가격</string>
-    <string name="menu_img_reg_info1">동영상은 첫번째 사진등록에 해주세요.</string>
     <string name="menu_img_reg_info2">이미지 권장 규격 800×600(비율 4:3)\n사진 크기 최대 5MB / 동영상 최대 10MB</string>
-    <string name="menu_vid_reg">동영상 /\n사진 등록</string>
-    <string name="menu_vid_reg_hint">동영상 / 이미지 없음</string>
     <string name="menu_img_reg">사진 등록</string>
     <string name="menu_img_reg_hint">이미지 없음</string>
     <string name="menu_sleep">슬립 모드 때 상품 노출</string>
@@ -235,7 +212,7 @@
 
     <!--  카테고리 / 메뉴 삭제 다이얼로그  -->
     <string name="dialog_delete_title">%s삭제</string>
-    <string name="dialog_delete_name">[ %s ]</string>
+    <string name="dialog_delete_name" translatable="false">[ %s ]</string>
     <string name="dialog_delete_confirm">%s를 삭제하시겠습니까?</string>
     <string name="category_delete_info">삭제를 누르면 해당 카테고리에 속한 모든 메뉴가 삭제되며, 삭제 이후에는 복원하실 수 없습니다.</string>
     <string name="menu_delete_info">삭제를 누르면 입력한 모든 정보가 삭제되며,\n삭제 이후에는 복원하실 수 없습니다.</string>
@@ -253,50 +230,19 @@
     <string name="category_set">카테고리\n설정</string>
     <string name="category_add">카테고리 추가</string>
 
-    <string name="category_seq">카테고리순서 변경</string>
+    <string name="category_seq">카테고리 순서 변경</string>
     <string name="category_seq_change_way">변경방법 : 변경할 카테고리를 눌러 상하로 드래그</string>
 
     <!--  결제  -->
     <string name="payment">결제</string>
     <string name="payment_title">결제방식 설정</string>
-    <string name="payment_info">고객 결제(매출) 내역 : 나이스페이먼츠와\nKICC 제공 서비스를 통해서 확인 가능\n※ 핀메뉴에서는 결제내역 확인을 제공하지 않습니다.</string>
-    <string name="use_post_payment">후결제 사용</string>
+    <string name="use_post_payment" translatable="false">후결제 사용</string>
     <string name="payment_usable_device">연결가능 기기 보기</string>
     <string name="payment_usable_reader">연결 가능 카드리더기</string>
     <string name="payment_status">상태 : %s</string>
-    <string name="use_post_QR">QR코드 후결제 사용</string>
-    <string name="use_post_QR_info">후결제는 핀메뉴 관리 앱에서 고객이\n결제할 카드사를 선택 후 포스(POS)처럼\n사용할 수 있습니다.</string>
-    <string name="use_post_card">카드 후결제 사용</string>
-    <string name="use_post_card_info">후결제는 핀메뉴 관리 앱에서 KICC앱과\n연동하여 카드리더기를 통해 포스(POS)\n처럼 결제할 수 있습니다.</string>
-    <string name="install_kicc_info">결제 진행할 태블릿PC(or 스마트폰)에\n<font color="#426493"><b>KICC앱(EasyCheckIC)</b></font> 설치 필수</string>
-    <string name="kicc_link">구매방법 : www.kicc.co.kr</string>
-    <string name="et_291">ET-291</string>
-    <string name="et_291_info">・연결방식 : 블루투스4.0\n・결제방식 : 이지체크IC앱과 연동\n・특이사항 : 자체 영수증 출력 가능</string>
-    <string name="et_901">ET-901</string>
-    <string name="et_901_info">・연결방식 : 블루투스4.0\n・결제방식 : 이지체크IC앱과 연동\n・특이사항 : 가장 저렴(C타입 충전)</string>
-    <string name="et_977">ET-977</string>
-    <string name="et_977_info">・연결방식 : 연결선\n・결제방식 : IC칩, MSR 양방향 결제\n・특이사항 : 키오스크로 사용 시 추천</string>
-    <string name="payment_title_set_nicepay">나이스페이먼츠 Key설정</string>
-    <string name="payment_set_nicepay_info">QR코드 결제를 이용하시기 위해서는 나이스페이먼츠 Key설정이 필요합니다.</string>
-    <string name="payment_set_nicepay_info2">MID와 Key를 정확하게 입력하지 않으면 결제가 원활하게 이루어지지 않을 수 있습니다.</string>
-    <string name="mid">MID</string>
-    <string name="mid_info">나이스페이먼츠 웹사이트 > 로그인 > 가맹점정보(상단)\n> Key관리(좌측) > MID 옆에 있는 ID 복사</string>
-    <string name="key">Key</string>
-    <string name="key_info">나이스페이먼츠 > 로그인 > 가맹점정보(상단)\n> Key관리(좌측) > MID 아래 있는 긴 문장(key) 복사</string>
-    <string name="btn_set_nicepay">Key설정 저장</string>
-    <string name="payment_title_pg_info">PG 카드 심사 정보</string>
-    <string name="payment_set_pg_info">사업자등록증에 등록된 내용을 작성해 주세요.\n해당 내용은 PG 결제를 위한 카드사 심사에 사용되며\n고객 주문 페이지 하단에 노출됩니다.</string>
-    <string name="payment_set_pg_store_name">상호</string>
-    <string name="payment_set_pg_store_name_hint">사업자등록증의 상호를 작성해 주세요.</string>
-    <string name="payment_set_pg_store_addr">사업장주소</string>
-    <string name="payment_set_pg_store_addr_hint">사업자등록증의 주소를 작성해 주세요.</string>
-    <string name="payment_set_pg_store_tel">연락처 (‘-’포함해서 작성)</string>
-    <string name="payment_set_pg_store_tel_hint">매장 전화번호를 작성해 주세요.</string>
-    <string name="payment_set_pg_reg_number">사업자번호</string>
-    <string name="payment_set_pg_reg_number_hint">사업자등록번호를 작성해 주세요.</string>
-    <string name="payment_set_pg_owner_name">대표자명</string>
-    <string name="payment_set_pg_owner_name_hint">사업자등록증의 대표자명을 작성해 주세요.</string>
-    <string name="payment_set_pg_dialog_blink">모든 정보가 입력되어야 합니다.\n하나의 정보도 누락없이 작성해 주세요.</string>
+    <string name="use_post_QR" translatable="false">QR코드 후결제 사용</string>
+    <string name="use_post_QR_info" translatable="false">후결제는 핀메뉴 관리 앱에서 고객이\n결제할 카드사를 선택 후 포스(POS)처럼\n사용할 수 있습니다.</string>
+    <string name="use_post_card" translatable="false">카드 후결제 사용</string>
 
     <!--  프린터  -->
     <string name="printer_title_store">매장 선택</string>
@@ -322,19 +268,10 @@
     <string name="printer_device">선택된 기기</string>
     <string name="printer_nick_info">별명은 반드시 구별 할 수 있는 명칭을\n사용해 주세요.</string>
 
-    <string name="sewoo_tech">세우테크</string>
-    <string name="skl_ts400b">SKL-TS400B</string>
-    <string name="skl_te202">SKL-TE202</string>
-    <string name="sewoo_recommend">(세우테크 추천)</string>
-    <string name="gcube">GCUBE</string>
-    <string name="sam4s">Sam4S</string>
-
     <string name="printer_conn_way">연결방식&#160;:&#160;</string>
     <string name="printer_etc">특이사항&#160;:&#160;</string>
     <string name="printer_bluetooth">블루투스</string>
     <string name="printer_wifi">와이파이</string>
-    <string name="printer_etc_ts400b">세우테크가 강력하게 추천하는\n블루투스 프린터</string>
-    <string name="printer_etc_gcube">iOS에서 지원하지 않음</string>
     <string name="printer_support_info">핀메뉴에서는 프린터를 제공하지 않습니다.\n핀메뉴와 연동이 가능한 프린터를 보유하고 있다면\n직접 연결을 통해 바로 이용이 가능하며,\n연동이 가능한 프린터가 없다면 구매 후 연동하여\n이용이 가능합니다.</string>
 
     <string name="printer_title_conn_mng">연결 프린터 관리</string>
@@ -368,23 +305,19 @@
     <!--  QR 오더  -->
     <string name="qrcode">QR코드</string>
     <string name="qr_use_info">QR코드 사용안내</string>
-    <string name="qr_pg_first">핀메뉴 QR오더와 결제를 이용하기 위해서는\n나이스페이먼츠 PG 설정이 선행되어야 합니다.</string>
-    <string name="qr_nicepay_status">나이스페이먼츠 상태&#160;:&#160;</string>
-    <string name="qr_insurance">결제 금액 정산을 위한 이행보증보험은\n기본 월 200만원까지로, 이 이상 매출이 발생하면\n이행보증보험료가 발생합니다.</string>
-    <string name="qr_insurance_check">결제 관련 이행보증보험 결제관리를\n이해하였고 동의합니다.</string>
     <string name="qr_setting_go">QR코드 설정 바로가기</string>
     <string name="qr_setting">QR코드 설정</string>
     <string name="qr_usable_cnt">추가 가능한 QR코드 수&#160;:&#160;</string>
-    <string name="qr_store_name">Store Name</string>
-    <string name="only_eng">Only English</string>
+    <string name="qr_store_name" translatable="false">Store Name</string>
+    <string name="only_eng" translatable="false">Only English</string>
     <string name="qr_file_name_info">QR코드 저장시 파일명에 사용</string>
     <string name="qr_down_all">전체 QR코드 사진첩에 저장하기</string>
     <string name="qr_down_one">QR코드 사진첩에 저장하기</string>
     <string name="qr_post_pay_all">QR코드 전체 후불결제 적용</string>
     <string name="qr_post_pay_one">QR코드 후불결제 적용</string>
     <string name="qr_post_pay">후불결제</string>
-    <string name="qr_cnt">QR-%s</string>
-    <string name="table_no">Table No.</string>
+    <string name="qr_cnt" translatable="false">QR-%s</string>
+    <string name="table_no" translatable="false">Table No.</string>
     <string name="table_no_hint">테이블 번호 입력</string>
     <string name="qr_setting_info1">QR오더는 결제가 완료된 후 주문내역이 전송됩니다.\n(단, 후불결제 기능을 설정했을 경우 제외)</string>
     <string name="qr_setting_info2">이 페이지에서 QR코드를 생성한 후 테이블번호 저장과 변경이 가능하며 QR코드 삭제가 가능합니다.</string>
@@ -402,7 +335,6 @@
     <string name="qr_copy_url_reserv">예약 URL 복사</string>
 
     <string name="qr_reserv_info1">예약 QR 선불결제만 가능</string>
-    <string name="qr_reserv_pg_unable">PG가입 후 사용가능</string>
     <string name="qr_reserv_info3">PG 가입 완료 후 예약 기능이 활성화 됩니다.</string>
     <string name="qr_reserv_info4">예약 QR코드는 테이블 수에 포함되지 않습니다.</string>
     <string name="qr_reserv_info5">예약 테이블명은 변경이 불가능합니다.</string>
@@ -476,15 +408,12 @@
     <string name="order_dialog_clear">주문정보는 3일간 보관되며,\n\'초기화\'버튼을 누르면 모든 주문정보가\n삭제됩니다.</string>
     <string name="dialog_clear">주문/호출 정보는 3일간 보관되며,\n\'초기화\'버튼을 누르면\n모든 주문/호출 정보가 삭제됩니다.</string>
     <string name="dialog_clear_warning">한번 초기화된 내역은 복원되지 않습니다.</string>
-    <string name="order_no_pos">포스 미연동</string>
 
     <string name="table_no_kr">테이블번호</string>
     <string name="order_no">주문번호</string>
 
     <!--  예약 정보  -->
     <string name="reserv_no">예약번호</string>
-    <string name="reserv_store">매\n장</string>
-    <string name="reserv_togo">포\n장</string>
     <string name="reserv_paid">선결제</string>
     <string name="reserv_tel">전화번호</string>
     <string name="reserv_name">예약자명</string>
@@ -501,35 +430,20 @@
     <string name="pg_history_search_hint">금액(원)</string>
     <string name="dialog_no_pg_info1">핀메뉴 QR코드 주문&amp;결제가 활성화되지 않았습니다.</string>
     <string name="dialog_no_pg_info2">신청방법</string>
-    <string name="dialog_no_pg_info3">핀메뉴 웹사이트 > 햄버거버튼</string>
-    <string name="dialog_no_pg_info4">PG(나이스페이먼츠) 신청/관리</string>
     <string name="dialog_pg_cancel_info">결제취소가 진행되면 복구할 수 없습니다.\n(취소처리는 카드사에 따라 다를 수 있음)</string>
 
-    <!--  QR코드 결제고객 정보  -->
-    <string name="qr_customer_info_title">QR코드 결제고객정보</string>
-    <string name="qr_select_info">정보 선택</string>
-    <string name="qr_select_info_info">핀메뉴를 통해 확보된 고객의 개인정보는 저장 후\n3개월이 지나면 자동 삭제됩니다.</string>
-    <string name="qr_customer_info_name">성명</string>
-    <string name="qr_customer_info_phone">휴대폰 번호</string>
-    <string name="qr_customer_info_addr">배송지 주소</string>
-    <string name="qr_customer_info_etc">기타 입력 (30자)</string>
-    <string name="qr_customer_info_noti">안내문</string>
-    <string name="qr_customer_info_noti_hint">개인정보를 어떤 용도로 사용하는지 고객에게 안내 할 수 있습니다.\n사용을 원하지 않으시면 OFF 하세요.</string>
-    <string name="qr_select_table">테이블 선택</string>
-    <string name="qr_select_all">전체</string>
-    <string name="dialog_no_business">본 기능은 비즈니스 상품 이용 고객에게 제공됩니다. 이용을 위해서는 비즈니스 상품으로 변경해주세요.</string>
-    <string name="dialog_disable_qr">이용 가능한 QR 갯수 초과</string>
+
 
     <!-- 주문 결제 -->
     <string name="order_select_pay">다음 중 하나를 선택해 주세요</string>
     <string name="order_pay_qr">QR코드 결제</string>
-    <string name="order_pay_qr_bank">국민, 신한, 삼성, 현대, 농협</string>
+    <string name="order_pay_qr_bank" translatable="false">국민, 신한, 삼성, 현대, 농협</string>
     <string name="order_pay_card">카드결제</string>
     <string name="order_complete">완료처리</string>
     <string name="order_pay_once">일괄결제</string>
     <string name="order_pay_finish">결제종료</string>
     <string name="order_pay_finish_info">결제가 완료되지 않았습니다.\n‘완료’를 누르면 완료 상태로 변경됩니다.\n완료된 목록의 ‘복원’버튼을 누르면 다시\n결제할 수 있는 상태로 돌아갑니다.</string>
-    <string name="order_pay_info1">‘결제’버튼을 누르면 KICC앱으로\n이동되어 카드결제가 진행됩니다.</string>
+    <string name="order_pay_info1" translatable="false">‘결제’버튼을 누르면 KICC앱으로\n이동되어 카드결제가 진행됩니다.</string>
     <string name="order_pay_info2">결제 중 미결제 항목이 있어도 우측상단\n‘결제종료’로 완료처리가 가능합니다.</string>
     <string name="order_pay_info3">하단 ‘메뉴선택’버튼으로 체크박스를 해제하여 결제가\n필요없는 메뉴는 제외하고 결제가 가능합니다.\n체크하지 않은 메뉴는 따로 결제를 할 수 없습니다.\n메뉴별로 따로 결제를 원하신다면 상단의 ‘일괄결제’를\n누르고 ‘더치페이’를 선택하여 ‘주문 목록으로 나누기’를\n이용해 주시기 바랍니다.</string>
     <string name="order_pay_charge">결제금액</string>
@@ -545,22 +459,6 @@
     <string name="order_enable_card">카드 결제를 사용하시려면\n‘결제방식 설정’에서 ‘후결제 사용’을\n활성화해 주시기 바랍니다.</string>
     <string name="title_card">카드 결제</string>
 
-    <!-- 주문 결제 - QR -->
-    <string name="title_qr">QR코드 카드결제</string>
-    <string name="qr_info">QR코드 카드결제를 이용하기 위해서는\n나이스페이먼츠 가맹점 가입이 필요합니다.</string>
-    <string name="qr_nicepay_join_way">QR코드 카드결제 가맹점 가입방법</string>
-    <string name="qr_nicepay_setting">PG 카드 심사 정보 작성</string>
-    <string name="qr_nicepay_join_done">나이스페이먼츠 Key설정 완료</string>
-    <string name="qr_nicepay_join_done_info">핀메뉴 QR코드 결제를 이용할 수 있습니다.\n기본적으로 QR코드 결제는 식사 후\n정산하는 ‘후불’입니다.\n\n돌아가기를 누르시면 ‘주문정보’ 페이지로 이동합니다.</string>
-    <string name="qr_vat">수수료(VAT별도)</string>
-    <string name="qr_join_way">가맹점 가입방법</string>
-    <string name="qr_guide_title">QR코드 카드결제를 이용하기 위한 절차</string>
-    <string name="qr_guide_fir">1. 나이스페이먼츠 가맹점 계약 신청 및 우편 발송</string>
-    <string name="qr_guide_fir_1">・자세한 사항은 핀메뉴 웹사이트에 있습니다.\n&#160;&#160;&#160;&#160;<font color="#006CFF">(경로 : www.pinmenu.biz > 로그인 >\n&#160;&#160;&#160;&#160;상단 햄버거 버튼 > PG 신청/관리)</font></string>
-    <string name="qr_guide_fir_2">・나이스페이먼츠와 가맹점 계약을 통해 핀메뉴\n&#160;&#160;&#160;&#160;결제 수수료가 정해집니다.\n&#160;&#160;&#160;&#160;(핀메뉴는 나이스페이먼츠의 정책에 따릅니다.)</string>
-    <string name="qr_guide_sec">2. PG 카드 심사 정보 작성</string>
-    <string name="qr_guide_sec_1">・사업자정보, 상호, 대표자명, 연락처, 사업장주소를\n&#160;&#160;&#160;&#160;사업자등록증에 기재된 내용대로 누락없이 작성</string>
-
     <!--  타이틀  -->
     <string name="title_login">핀메뉴 로그인</string>
     <string name="title_master_login">핀메뉴 마스터 로그인</string>
@@ -575,7 +473,7 @@
     <string name="title_cate">카테고리</string>
     <string name="title_cate_add">카테고리입력</string>
     <string name="title_cate_udt">카테고리수정</string>
-    <string name="title_map">지도 검색</string>
+    <string name="title_map" translatable="false">지도 검색</string>
 
     <!--  비어있는 목록  -->
     <string name="no_order_list">주문내역이 없습니다.</string>
@@ -593,10 +491,12 @@
     <!--  알림 다이얼로그  -->
     <string name="dialog_notice">알림</string>
     <string name="dialog_information">안&#160;&#160;내</string>
-    <string name="dialog_version">Ver %s</string>
+    <string name="dialog_version" translatable="false">Ver %s</string>
     <string name="dialog_no_printer">연결된 프린트 기기가 없습니다.</string>
     <string name="dialog_check_conn">프린터 연결 상태를 확인해주세요.</string>
     <string name="dialog_dont_show">다시보지않기</string>
+    <string name="dialog_no_business">본 기능은 비즈니스 상품 이용 고객에게 제공됩니다. 이용을 위해서는 비즈니스 상품으로 변경해주세요.</string>
+    <string name="dialog_disable_qr">이용 가능한 QR 갯수 초과</string>
 
     <!--  토스트 메세지  -->
     <string name="msg_retry">다시 시도해주세요.</string>
@@ -608,10 +508,8 @@
     <string name="msg_typemiss_pw">비밀번호는 8자리 이상 영문, 숫자만 입력해 주세요.</string>
     <string name="msg_typemiss_id">이메일 형식이 아닙니다.</string>
     <string name="msg_no_checked">아이디 중복체크클 해주세요.</string>
-    <string name="msg_no_linked">알파요 아이디를 연동해 주세요.</string>
     <string name="msg_agree_term1">이용약관에 동의해 주세요.</string>
     <string name="msg_agree_term2">개인정보 취급방침에 동의해 주세요.</string>
-    <string name="msg_do_agree">이행보증보험 결제관리에 동의해주시기 바랍니다.</string>
     <string name="msg_success_down">다운로드가 완료되었습니다.</string>
     <string name="msg_fail_down">다운로드가 실패하였습니다.</string>
     <string name="msg_find_pwd">임시 비밀번호가 이메일로 전송되었습니다.</string>
@@ -634,13 +532,11 @@
     <string name="msg_no_pay">결제 후 이용 가능합니다.</string>
     <string name="msg_no_store">매장 등록 후 이용할 수 있습니다.</string>
     <string name="msg_no_card_reader">연결된 카드리더기가 없습니다.</string>
-    <string name="msg_no_mid">MID를 입력해주세요.</string>
-    <string name="msg_no_key">Key를 입력해주세요.</string>
     <string name="msg_payment_cancel">결제가 취소되었습니다.</string>
     <string name="msg_no_event_exp">이벤트 설명을 입력해 주세요.</string>
 
     <!--  테스트 인쇄 문구  -->
-    <string name="print_test">오리지널 스마트 전자메뉴판 핀메뉴 테스트 인쇄 입니다.\n1234567890\n가나다라마바사아자차카타파하\nABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="print_test" translatable="false">오리지널 스마트 전자메뉴판 핀메뉴 테스트 인쇄 입니다.\n1234567890\n가나다라마바사아자차카타파하\nABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 
     <!--  권한 다이얼로그  -->
     <string name="pms_storage_title">외부 저장소 권한 요청</string>

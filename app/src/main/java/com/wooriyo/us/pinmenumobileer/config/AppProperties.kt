@@ -2,13 +2,12 @@ package com.wooriyo.us.pinmenumobileer.config
 
 class AppProperties {
         companion object {
-
                 private const val REAL_SERVER: String = "http://app.pinmenu.biz/api/"
                 private const val TEST_SERVER: String = "http://testapp.pinmenu.biz/api/"
-                private const val AWS_SERVER: String = "http://3.137.162.70/api/"
+                private const val AWS_SERVER: String = "http://app.pinmenu.net/api/"
 
                 const val SERVER: String = REAL_SERVER
-                const val IMG_SERVER: String = "http://img.pinmenu.biz/api/"
+                const val IMG_SERVER: String = "http://img.pinmenu.net/api/"
                 const val CP_SERVER: String = "http://cp.wooriyo.com/api/"
 
                 const val KAKAO_URL : String = "https://dapi.kakao.com"

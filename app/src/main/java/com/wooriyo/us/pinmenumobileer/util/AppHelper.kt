@@ -186,11 +186,11 @@ class AppHelper {
             val arr_app = appver.split(".")
 
             for(i : Int in arr_app.indices) {
-                if(arr_app[i].toInt() < arr_cur[i].toInt()) {
-                    return false
+                if(arr_app[i].toInt() > arr_cur[i].toInt()) {
+                    return true
                 }
             }
-            return true
+            return false
         }
 
         fun osVersion(): Int = Build.VERSION.SDK_INT    // 안드로이드 버전
