@@ -43,7 +43,7 @@ class QrAgreeActivity : BaseActivity() {
         if(binding.checkAgree.isChecked) {
             setNiceAgree()
         }else {
-            Toast.makeText(mActivity, R.string.msg_do_agree, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(mActivity, R.string.msg_do_agree, Toast.LENGTH_SHORT).show()
         }
     }
 

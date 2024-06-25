@@ -37,14 +37,12 @@ class PgAdapter(val dataSet: ArrayList<PgDetailDTO>): RecyclerView.Adapter<PgAda
 
                 if(data.cancel == 0) {
                     cancelComplete.visibility = View.GONE
-                    btnCancel.setTextColor(Color.BLACK)
-                    btnCancel.setBackgroundResource(R.drawable.bg_r6_grd)
-                    btnCancel.text = context.getString(R.string.payment_cancel)
+                    tvCancelComplete.visibility = View.GONE
+                    btnCancel.visibility = View.VISIBLE
                 }else {
                     cancelComplete.visibility = View.VISIBLE
-                    btnCancel.setTextColor(Color.RED)
-                    btnCancel.setBackgroundResource(R.drawable.bg_r6g)
-                    btnCancel.text = context.getString(R.string.payment_cancel_complete)
+                    tvCancelComplete.visibility = View.VISIBLE
+                    btnCancel.visibility = View.GONE
                 }
 
                 btnCancel.setOnClickListener {

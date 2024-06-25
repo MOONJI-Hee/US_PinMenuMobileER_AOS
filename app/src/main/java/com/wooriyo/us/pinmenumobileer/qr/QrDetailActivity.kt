@@ -87,8 +87,8 @@ class QrDetailActivity : BaseActivity() {
 
             binding.qrInfoArea.setOnInflateListener { stub, inflated ->
                 val bindingInfo = QrInfoReservBinding.bind(inflated)
-                bindingInfo.pgStatus.text =
-                    if(MyApplication.store.mid.isNullOrEmpty() || MyApplication.store.mid_key.isNullOrEmpty()) getString(R.string.qr_reserv_pg_unable) else getString(R.string.able)
+//                bindingInfo.pgStatus.text =
+//                    if(MyApplication.store.mid.isNullOrEmpty() || MyApplication.store.mid_key.isNullOrEmpty()) getString(R.string.qr_reserv_pg_unable) else getString(R.string.able)
             }
         }else {
             binding.qrInfoArea.layoutResource = R.layout.qr_info

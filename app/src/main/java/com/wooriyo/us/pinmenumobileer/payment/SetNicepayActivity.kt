@@ -47,14 +47,6 @@ class SetNicepayActivity : BaseActivity() {
         val mid = binding.etMid.text.toString()
         val key = binding.etKey.text.toString()
 
-        if(mid.isEmpty()) {
-            Toast.makeText(mActivity, R.string.msg_no_mid, Toast.LENGTH_SHORT).show()
-            return
-        }else if (key.isEmpty()) {
-            Toast.makeText(mActivity, R.string.msg_no_key, Toast.LENGTH_SHORT).show()
-            return
-        }
-
         ApiClient.service.insMidSetting(MyApplication.useridx, MyApplication.storeidx, MyApplication.androidId, MyApplication.bidx, mid, key).enqueue(object : Callback<ResultDTO>{
             override fun onResponse(call: Call<ResultDTO>, response: Response<ResultDTO>) {
                 Log.d(TAG, "나이스페이먼츠 key 설정 url : $response")

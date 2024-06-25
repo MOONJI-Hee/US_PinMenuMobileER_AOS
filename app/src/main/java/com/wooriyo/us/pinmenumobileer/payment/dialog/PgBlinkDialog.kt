@@ -15,7 +15,6 @@ class PgBlinkDialog: BaseDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DialogAlertBinding.inflate(layoutInflater)
 
-        binding.content.text = getString(R.string.payment_set_pg_dialog_blink)
         binding.confirm.text = getString(R.string.back)
 
         binding.confirm.setOnClickListener { dismiss() }

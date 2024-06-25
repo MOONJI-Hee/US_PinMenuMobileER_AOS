@@ -26,6 +26,7 @@
             style="@style/text17b"
             android:id="@+id/warning"
             android:layout_marginTop="20dp"
+            android:gravity="center"
             android:textColor="#FF0000"
             android:text="@string/dialog_clear_warning"
             app:layout_constraintStart_toStartOf="parent"

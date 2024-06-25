@@ -55,7 +55,7 @@
             style="@style/btn_dialog_right"
             android:id="@+id/save"
             android:layout_width="0dp"
-            android:text="@string/save"
+            android:text="@string/btn_relocation"
             app:layout_constraintTop_toTopOf="@+id/cancel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cancel"

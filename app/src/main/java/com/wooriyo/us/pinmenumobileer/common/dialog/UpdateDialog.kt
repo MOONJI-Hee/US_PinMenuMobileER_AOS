@@ -28,7 +28,7 @@ class UpdateDialog(val update: Int, val msg: String): BaseDialogFragment() {
 
         if(update == 0) {   // 권장 업데이트
             binding.cancel.run {
-                text = "나중에 하기"
+                text = "Do it later"
                 setOnClickListener {
                     onClickListener.onClick(it)
                     dismiss()
@@ -42,7 +42,7 @@ class UpdateDialog(val update: Int, val msg: String): BaseDialogFragment() {
         }
 
         binding.content.text = msg
-        binding.confirm.text = "업데이트"
+        binding.confirm.text = "Update"
         binding.confirm.setOnClickListener {
             try {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context?.packageName}")))

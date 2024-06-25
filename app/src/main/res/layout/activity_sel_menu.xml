@@ -38,7 +38,6 @@
             style="@style/btn_small"
             android:layout_width="82dp"
             android:layout_marginEnd="10dp"
-            android:text="@string/order_pay_finish"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -125,7 +124,6 @@
 
         <TextView
             style="@style/text18b"
-            android:text="@string/order_pay_charge"
             android:layout_marginStart="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/won"/>
@@ -152,7 +150,6 @@
             android:layout_width="86dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:text="@string/order_pay_sel_done"
             android:textSize="17sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

@@ -75,9 +75,6 @@ class StoreListFragment : Fragment() {
         val member = MyApplication.pref.getMbrDTO()
         if(member != null) {
             binding.userid.text = member.userid.substringBefore("@")
-
-            if(member.arpayoid.isNullOrEmpty())
-                binding.arpayo.text = getString(R.string.arpayo_dis_conn)
         }
 
         binding.version.text = "Ver ${MyApplication.appver}"

@@ -150,7 +150,7 @@
         android:id="@+id/delete"
         android:layout_width="0dp"
         android:layout_marginStart="20dp"
-        android:text="@string/delete2"
+        android:text="@string/delete"
         app:layout_constraintWidth_percent="0.20"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/save"

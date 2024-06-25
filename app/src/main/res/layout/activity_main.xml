@@ -24,136 +24,158 @@
         android:layout_height="84dp"
         android:background="@drawable/bg_main_tabbar"
         app:layout_constraintBottom_toBottomOf="parent">
-        <LinearLayout
-            android:id="@+id/icMain"
+        <ImageView
+            android:id="@+id/ivMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginBottom="22dp"
-            android:orientation="vertical"
-            android:gravity="center"
-            app:layout_constraintEnd_toStartOf="@+id/icMenu"
+            android:src="@drawable/ic_main_tabar_main_s"
+            app:layout_constraintEnd_toStartOf="@+id/ivMenu"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-            <ImageView
-                android:id="@+id/ivMain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_main_tabar_main_s" />
-            <TextView
-                android:id="@+id/tvMain"
-                style="@style/text12d"
-                android:textColor="@color/main"
-                android:text="@string/main"/>
-        </LinearLayout>
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/icPay"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            android:gravity="center"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/icQr"-->
-<!--            app:layout_constraintStart_toEndOf="@id/icMain"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/icMain">-->
-<!--            <ImageView-->
-<!--                android:id="@+id/ivPay"-->
-<!--                android:layout_width="36dp"-->
-<!--                android:layout_height="36dp"-->
-<!--                android:src="@drawable/icon_card_n_white" />-->
-<!--            <TextView-->
-<!--                android:id="@+id/tvPay"-->
-<!--                style="@style/text12d"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:text="@string/payment"/>-->
-<!--        </LinearLayout>-->
-
-        <LinearLayout
-            android:id="@+id/icMenu"
+            app:layout_constraintBottom_toTopOf="@+id/tvMain"/>
+        <TextView
+            style="@style/text12d"
+            android:id="@+id/tvMain"
+            android:layout_marginBottom="22dp"
+            android:textColor="@color/main"
+            android:text="@string/main"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/ivMain"
+            app:layout_constraintEnd_toEndOf="@+id/ivMain"/>
+        <ImageView
+            android:id="@+id/ivMenu"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/icon_menuset_n_white"
+            app:layout_constraintStart_toEndOf="@+id/ivMain"
+            app:layout_constraintEnd_toStartOf="@+id/ivQr"
+            app:layout_constraintBottom_toTopOf="@+id/tvMenu"/>
+        <TextView
+            android:id="@+id/tvMenu"
+            style="@style/text12d"
+            android:textColor="@color/white"
+            android:text="@string/menu_manage"
+            app:layout_constraintEnd_toEndOf="@+id/ivMenu"
+            app:layout_constraintStart_toStartOf="@+id/ivMenu"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMain" />
+        <ImageView
+            android:id="@+id/ivQr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            app:layout_constraintEnd_toStartOf="@+id/icQr"
-            app:layout_constraintStart_toEndOf="@id/icMain"
-            app:layout_constraintBottom_toBottomOf="@id/icMain">
-            <ImageView
-                android:id="@+id/ivMenu"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/icon_menuset_n_white" />
-            <TextView
-                android:id="@+id/tvMenu"
-                style="@style/text12d"
-                android:textColor="@color/white"
-                android:text="@string/menu_manage"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/icQr"
+            android:src="@drawable/icon_qr_n_white"
+            app:layout_constraintStart_toEndOf="@+id/ivMenu"
+            app:layout_constraintEnd_toStartOf="@+id/ivPrint"
+            app:layout_constraintBottom_toTopOf="@+id/tvQr"/>
+        <TextView
+            android:id="@+id/tvQr"
+            style="@style/text12d"
+            android:textColor="@color/white"
+            android:text="@string/qrcode"
+            app:layout_constraintEnd_toEndOf="@+id/ivQr"
+            app:layout_constraintStart_toStartOf="@+id/ivQr"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMain"/>
+        <ImageView
+            android:id="@+id/ivPrint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            app:layout_constraintEnd_toStartOf="@+id/icPrint"
-            app:layout_constraintStart_toEndOf="@id/icMenu"
-            app:layout_constraintBottom_toBottomOf="@+id/icMain">
-            <ImageView
-                android:id="@+id/ivQr"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_qr_n_white" />
-            <TextView
-                android:id="@+id/tvQr"
-                style="@style/text12d"
-                android:textColor="@color/white"
-                android:text="@string/qrcode"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/icPrint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            app:layout_constraintEnd_toStartOf="@+id/icMore"
-            app:layout_constraintStart_toEndOf="@id/icQr"
-            app:layout_constraintBottom_toBottomOf="@+id/icMain">
-            <ImageView
-                android:id="@+id/ivPrint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_print_n_white" />
-            <TextView
-                style="@style/text12d"
-                android:id="@+id/tvPrint"
-                android:textColor="@color/white"
-                android:text="@string/printer"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/icMore"
+            android:src="@drawable/icon_print_n_white"
+            app:layout_constraintStart_toEndOf="@+id/ivQr"
+            app:layout_constraintEnd_toStartOf="@+id/ivMore"
+            app:layout_constraintBottom_toTopOf="@+id/tvPrint"/>
+        <TextView
+            style="@style/text12d"
+            android:id="@+id/tvPrint"
+            android:textColor="@color/white"
+            android:text="@string/printer"
+            app:layout_constraintEnd_toEndOf="@+id/ivPrint"
+            app:layout_constraintStart_toStartOf="@+id/ivPrint"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMain"/>
+        <ImageView
+            android:id="@+id/ivMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_main_tabar_more_n"
+            app:layout_constraintStart_toEndOf="@+id/ivPrint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvMore"/>
+        <TextView
+            style="@style/text12d"
+            android:id="@+id/tvMore"
+            android:textColor="@color/white"
+            android:text="@string/more"
+            app:layout_constraintEnd_toEndOf="@+id/ivMore"
+            app:layout_constraintStart_toStartOf="@+id/ivMore"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMain"/>
+
+        <LinearLayout
+            android:id="@+id/icMain"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@+id/ivMain"
+            app:layout_constraintEnd_toEndOf="@+id/ivMain"
+            app:layout_constraintTop_toTopOf="@+id/ivMain"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMain" />
+        <LinearLayout
+            android:id="@+id/icMenu"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@+id/ivMenu"
+            app:layout_constraintEnd_toEndOf="@+id/ivMenu"
+            app:layout_constraintTop_toTopOf="@+id/ivMenu"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMenu"/>
+        <LinearLayout
+            android:id="@+id/icQr"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@+id/ivQr"
+            app:layout_constraintEnd_toEndOf="@+id/ivQr"
+            app:layout_constraintTop_toTopOf="@+id/ivQr"
+            app:layout_constraintBottom_toBottomOf="@+id/tvQr" />
+        <LinearLayout
+            android:id="@+id/icPrint"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:orientation="vertical"
             android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@id/icMain"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/icPrint" >
-            <ImageView
-                android:id="@+id/ivMore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_main_tabar_more_n" />
-            <TextView
-                style="@style/text12d"
-                android:id="@+id/tvMore"
-                android:textColor="@color/white"
-                android:text="@string/more" />
-        </LinearLayout>
+            app:layout_constraintStart_toStartOf="@+id/ivPrint"
+            app:layout_constraintEnd_toEndOf="@+id/ivPrint"
+            app:layout_constraintTop_toTopOf="@+id/ivPrint"
+            app:layout_constraintBottom_toBottomOf="@+id/tvPrint" />
+        <LinearLayout
+            android:id="@+id/icMore"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@+id/ivMore"
+            app:layout_constraintEnd_toEndOf="@+id/ivMore"
+            app:layout_constraintTop_toTopOf="@+id/ivMore"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMore"/>
 
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/icPay"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="vertical"-->
+        <!--            android:gravity="center"-->
+        <!--            app:layout_constraintEnd_toStartOf="@+id/icQr"-->
+        <!--            app:layout_constraintStart_toEndOf="@id/icMain"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@id/icMain">-->
+        <!--            <ImageView-->
+        <!--                android:id="@+id/ivPay"-->
+        <!--                android:layout_width="36dp"-->
+        <!--                android:layout_height="36dp"-->
+        <!--                android:src="@drawable/icon_card_n_white" />-->
+        <!--            <TextView-->
+        <!--                android:id="@+id/tvPay"-->
+        <!--                style="@style/text12d"-->
+        <!--                android:textColor="@color/white"-->
+        <!--                android:text="@string/payment"/>-->
+        <!--        </LinearLayout>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

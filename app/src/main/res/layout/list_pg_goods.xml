@@ -44,21 +44,20 @@
             android:layout_marginStart="4dp"
             app:layout_constraintStart_toEndOf="@+id/cnt"
             app:layout_constraintBottom_toBottomOf="parent" />
-
+        <TextView
+            style="@style/text15"
+            android:id="@+id/won"
+            android:text="@string/won"
+            android:layout_marginEnd="3dp"
+            app:layout_constraintEnd_toStartOf="@+id/price"
+            app:layout_constraintBottom_toBottomOf="parent"/>
         <TextView
             style="@style/text_num_b"
             android:id="@+id/price"
             android:text="@string/zero"
             android:textSize="17sp"
-            android:layout_marginEnd="4dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/won"/>
-        <TextView
-            style="@style/text15"
-            android:id="@+id/won"
-            android:text="@string/won"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

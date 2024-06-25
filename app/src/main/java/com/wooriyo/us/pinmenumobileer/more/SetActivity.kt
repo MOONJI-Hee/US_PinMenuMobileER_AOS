@@ -35,25 +35,6 @@ class SetActivity : BaseActivity() {
 
         binding.run {
             back.setOnClickListener { finish() }
-            qrCustomerInfo.setOnClickListener {
-                when(MyApplication.storeList.size) {
-                    0 -> Toast.makeText(mActivity, R.string.msg_no_store, Toast.LENGTH_SHORT).show()
-                    1 -> {
-                        if(MyApplication.storeList[0].paytype == 2) {
-                            MyApplication.store = MyApplication.storeList[0]
-                            MyApplication.storeidx = MyApplication.storeList[0].idx
-                            startActivity(Intent(mActivity, SetCustomerInfoActivity::class.java))
-                        }else {
-                            AlertDialog("", getString(R.string.dialog_no_business)).show(supportFragmentManager, "NoBusinessDialog")
-                        }
-                    }
-                    else ->  {
-                        val intent = Intent(mActivity, SelectStoreActivity::class.java)
-                        intent.putExtra("type", "customer_info")
-                        startActivity(intent)
-                    }
-                }
-            }
             udtMbr.setOnClickListener { startActivity(Intent(mActivity, MemberSetActivity::class.java)) }
             versionInfo.setOnClickListener {
                 val content = getString(R.string.dialog_version).format(MyApplication.appver)
@@ -61,11 +42,11 @@ class SetActivity : BaseActivity() {
             }
             logout.setOnClickListener {
                 val onClickListener = View.OnClickListener {logout()}
-                ConfirmDialog("", getString(R.string.dialog_logout), getString(R.string.btn_confirm), onClickListener).show(supportFragmentManager, "LogoutDialog")
+                ConfirmDialog("", getString(R.string.dialog_logout), getString(R.string.confirm), onClickListener).show(supportFragmentManager, "LogoutDialog")
             }
             drop.setOnClickListener {
                 val onClickListener = View.OnClickListener {dropMbr()}
-                ConfirmDialog("", getString(R.string.dialog_drop), getString(R.string.btn_confirm), onClickListener).show(supportFragmentManager, "DropDialog")
+                ConfirmDialog("", getString(R.string.dialog_drop), getString(R.string.confirm), onClickListener).show(supportFragmentManager, "DropDialog")
             }
         }
     }

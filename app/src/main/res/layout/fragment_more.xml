@@ -29,19 +29,11 @@
         <TextView
             style="@style/text17d"
             android:id="@+id/userid"
-            android:layout_marginTop="18dp"
             android:layout_marginStart="20dp"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/appIcon"
+            app:layout_constraintBottom_toBottomOf="@+id/appIcon"
             app:layout_constraintStart_toEndOf="@+id/appIcon"
             tools:text="wooriyo@wooriyo.com"/>
-
-        <TextView
-            style="@style/subtext"
-            android:id="@+id/arpayo"
-            android:layout_marginTop="2dp"
-            app:layout_constraintStart_toStartOf="@+id/userid"
-            app:layout_constraintTop_toBottomOf="@+id/userid"
-            tools:text="알파요 미연동"/>
 
         <TextView
             style="@style/text15d"

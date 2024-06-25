@@ -43,6 +43,7 @@ class FindPwdActivity : BaseActivity() {
                     val result = response.body() ?: return
                     if(result.status == 1){
                         Toast.makeText(this@FindPwdActivity, R.string.msg_find_pwd, Toast.LENGTH_SHORT).show()
+                        finish()
                     }else
                         Toast.makeText(this@FindPwdActivity, result.msg, Toast.LENGTH_SHORT).show()
                 }

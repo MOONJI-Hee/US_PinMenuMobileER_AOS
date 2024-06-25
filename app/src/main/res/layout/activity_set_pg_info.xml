@@ -7,7 +7,6 @@
     <TextView
         style="@style/title"
         android:id="@+id/title"
-        android:text="@string/payment_title_pg_info"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -34,66 +33,55 @@
 
         <TextView
             style="@style/text15"
-            android:layout_marginTop="25dp"
-            android:text="@string/payment_set_pg_info"/>
+            android:layout_marginTop="25dp"/>
 
         <TextView
             style="@style/text15d"
-            android:text="@string/payment_set_pg_reg_number"
             android:layout_marginTop="30dp"/>
 
         <EditText
             android:id="@+id/etRegNum"
             style="@style/edittext"
             android:inputType="number"
-            android:hint="@string/payment_set_pg_reg_number_hint"
             android:layout_marginTop="10dp"/>
 
         <TextView
             style="@style/text15d"
-            android:text="@string/payment_set_pg_store_name"
             android:layout_marginTop="20dp"/>
 
         <EditText
             android:id="@+id/etStoreName"
             style="@style/edittext"
-            android:hint="@string/payment_set_pg_store_name_hint"
             android:layout_marginTop="10dp"/>
 
         <TextView
             style="@style/text15d"
-            android:text="@string/payment_set_pg_owner_name"
             android:layout_marginTop="20dp"/>
 
         <EditText
             android:id="@+id/etOwnerName"
             style="@style/edittext"
             android:inputType="text"
-            android:hint="@string/payment_set_pg_owner_name_hint"
             android:layout_marginTop="10dp"/>
 
         <TextView
             style="@style/text15d"
-            android:text="@string/payment_set_pg_store_tel"
             android:layout_marginTop="20dp"/>
 
         <EditText
             android:id="@+id/etStoreTel"
             style="@style/edittext"
             android:inputType="phone"
-            android:hint="@string/payment_set_pg_store_tel_hint"
             android:layout_marginTop="10dp"/>
 
         <TextView
             style="@style/text15d"
-            android:text="@string/payment_set_pg_store_addr"
             android:layout_marginTop="20dp"/>
 
         <EditText
             android:id="@+id/etStoreAddr"
             style="@style/edittext"
             android:inputType="text"
-            android:hint="@string/payment_set_pg_store_addr_hint"
             android:layout_marginTop="10dp"/>
 
     </LinearLayout>

@@ -15,7 +15,6 @@
         <TextView
             style="@style/text20m"
             android:id="@+id/title"
-            android:text="@string/dialog_information"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

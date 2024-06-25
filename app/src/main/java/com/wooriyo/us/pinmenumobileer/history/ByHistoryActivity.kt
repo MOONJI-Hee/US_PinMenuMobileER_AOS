@@ -172,7 +172,7 @@ class ByHistoryActivity: BaseActivity() {
                 super.onItemClick(position)
 
                 if(list[position].iscompleted == 0) {
-                    showCompleteDialog("주문") { completeOrder(list[position].idx, 1) }
+                    showCompleteDialog("order") { completeOrder(list[position].idx, 1) }
                 }else {
                     completeOrder(list[position].idx, 0)
                 }
@@ -215,7 +215,7 @@ class ByHistoryActivity: BaseActivity() {
         adapter.setOnCallCompleteListener(object : ItemClickListener {
             override fun onItemClick(position: Int) {
                 super.onItemClick(position)
-                showCompleteDialog("호출") { completeCall(list[position].idx) }
+                showCompleteDialog("call") { completeCall(list[position].idx) }
             }
         })
 
@@ -237,7 +237,7 @@ class ByHistoryActivity: BaseActivity() {
                 super.onItemClick(position)
 
                 if(orderList[position].iscompleted == 0) {
-                    showCompleteDialog("주문") { completeOrder(orderList[position].idx, 1) }
+                    showCompleteDialog("order") { completeOrder(orderList[position].idx, 1) }
                 }else {
                     completeOrder(orderList[position].idx, 0)
                 }
@@ -265,7 +265,7 @@ class ByHistoryActivity: BaseActivity() {
                 super.onItemClick(position)
 
                 if(reservList[position].iscompleted == 0) {
-                    showCompleteDialog("주문") { completeOrder(reservList[position].idx, 1) }
+                    showCompleteDialog("order") { completeOrder(reservList[position].idx, 1) }
                 }else {
                     completeOrder(reservList[position].idx, 0)
                 }
@@ -310,7 +310,7 @@ class ByHistoryActivity: BaseActivity() {
         callAdapter.setOnItemClickListener(object : ItemClickListener {
             override fun onItemClick(position: Int) {
                 super.onItemClick(position)
-                showCompleteDialog("호출") { completeCall(callList[position].idx) }
+                showCompleteDialog("call") { completeCall(callList[position].idx) }
             }
         })
         callAdapter.setOnDeleteListener(object : ItemClickListener {

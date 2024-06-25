@@ -29,7 +29,6 @@ class MoreFragment : Fragment() {
 
         binding.run {
             userid.text = pref.getMbrDTO()?.userid
-            arpayo.text = if (pref.getMbrDTO()?.arpayoid.isNullOrEmpty()) requireContext().getString(R.string.arpayo_dis_conn) else requireContext().getString(R.string.arpayo_conn)
 
             manual.setOnClickListener {
                 val browserIntent = Intent(Intent.ACTION_VIEW).apply {

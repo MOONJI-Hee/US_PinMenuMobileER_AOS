@@ -40,19 +40,20 @@
             app:layout_constraintEnd_toStartOf="@+id/select"
             app:layout_constraintBottom_toBottomOf="@+id/name" />
         <TextView
+            style="@style/text16"
+            android:id="@+id/unit"
+            android:text="@string/won"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/price"/>
+        <TextView
             style="@style/text_num"
             android:id="@+id/price"
             android:layout_marginTop="7dp"
+            android:layout_marginStart="3dp"
             android:textSize="17sp"
             tools:text="5,000"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/unit"
             app:layout_constraintTop_toBottomOf="@+id/name"/>
-        <TextView
-            style="@style/text16"
-            android:text="@string/won"
-            android:layout_marginStart="1dp"
-            app:layout_constraintStart_toEndOf="@+id/price"
-            app:layout_constraintBottom_toBottomOf="@+id/price"/>
         <TextView
             style="@style/text16"
             android:id="@+id/option"
@@ -62,15 +63,6 @@
             android:visibility="gone"
             tools:text="코코팜추가"
             app:layout_constraintTop_toBottomOf="@+id/price"/>
-        <TextView
-            style="@style/text16"
-            android:id="@+id/noPos"
-            android:layout_marginTop="3dp"
-            android:text="@string/order_no_pos"
-            android:textColor="#FF0000"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/tv_gea"
-            app:layout_constraintEnd_toEndOf="@+id/tv_gea"/>
         <CheckBox
             android:id="@+id/select"
             android:layout_width="32dp"

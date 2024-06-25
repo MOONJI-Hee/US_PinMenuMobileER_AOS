@@ -32,10 +32,8 @@ class OrderDetailAdapter(val dataSet: ArrayList<OrderDTO>): RecyclerView.Adapter
                 price.text = AppHelper.price(data.price)
 
                 if(data.ispos == 2) {
-                    noPos.visibility = View.VISIBLE
                     layout.setBackgroundColor(Color.parseColor("#F2F2F2"))
                 }else {
-                    noPos.visibility = View.GONE
                     layout.setBackgroundColor(Color.parseColor("#FFFFFF"))
                 }
 

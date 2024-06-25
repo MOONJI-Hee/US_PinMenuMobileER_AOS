@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -92,14 +93,12 @@ class ReservationAdapter(val dataSet: ArrayList<OrderHistoryDTO>): RecyclerView.
                     1 -> {
                         clTableNo.visibility = View.VISIBLE
                         reservType.setBackgroundColor(Color.parseColor("#FF005E"))
-                        reservType.text = context.getString(R.string.reserv_store)
-                        tvDate.text = String.format(context.getString(R.string.reserv_date), "매장")
+                        tvDate.text = String.format(context.getString(R.string.reserv_date), "Store")
                     }
                     2 -> {
                         clTableNo.visibility = View.GONE
                         reservType.setBackgroundColor(Color.parseColor("#46B6FF"))
-                        reservType.text = context.getString(R.string.reserv_togo)
-                        tvDate.text = String.format(context.getString(R.string.reserv_date), "포장")
+                        tvDate.text = String.format(context.getString(R.string.reserv_date), "To-go")
                     }
                 }
 
@@ -107,23 +106,26 @@ class ReservationAdapter(val dataSet: ArrayList<OrderHistoryDTO>): RecyclerView.
                     top.setBackgroundColor(Color.parseColor("#E0E0E0"))
                     clPrice.setBackgroundResource(R.drawable.bg_r6g)
                     btnComplete.setBackgroundResource(R.drawable.bg_r6g)
-                    btnComplete.text = "복원"
+                    btnComplete.text = "Restore"
                     complete.visibility = View.VISIBLE
                     arrowTableNo.visibility = View.GONE
+                    TextViewCompat.setTextAppearance(btnComplete, R.style.text15)
                 } else if (data.isreser != 0) {
                     top.setBackgroundResource(R.color.main)
                     clPrice.setBackgroundResource(R.drawable.bg_r6g)
                     btnComplete.setBackgroundResource(R.drawable.bg_r6y)
-                    btnComplete.text = "완료"
+                    btnComplete.text = "Done"
                     complete.visibility = View.GONE
                     arrowTableNo.visibility = View.VISIBLE
+                    TextViewCompat.setTextAppearance(btnComplete, R.style.text18b)
                 } else {
                     top.setBackgroundResource(R.color.main)
                     clPrice.setBackgroundResource(R.drawable.bg_r6y)
                     btnComplete.setBackgroundResource(R.drawable.bg_r6y)
-                    binding.btnComplete.text = context.getString(R.string.confirm)
+                    binding.btnComplete.text = "Ok"
                     complete.visibility = View.GONE
                     arrowTableNo.visibility = View.VISIBLE
+                    TextViewCompat.setTextAppearance(btnComplete, R.style.text18b)
                 }
 
                 delete.setOnClickListener { deleteListener.onItemClick(adapterPosition) }

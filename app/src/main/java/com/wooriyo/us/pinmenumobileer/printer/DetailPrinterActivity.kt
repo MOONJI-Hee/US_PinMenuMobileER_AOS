@@ -52,10 +52,10 @@ class DetailPrinterActivity : BaseActivity() {
         var model = ""
         if(printer_sw != null) {
             img = R.drawable.skl_ts400b
-            model = getString(R.string.skl_ts400b)
+//            model = getString(R.string.skl_ts400b)
         }else if (printer_s4 != null) {
             img = R.drawable.sam4s
-            model = getString(R.string.gcube)
+//            model = getString(R.string.gcube)
         }
 
         binding.ivPrinter.setImageResource(img)

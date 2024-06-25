@@ -11,7 +11,6 @@ import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.setStoreDTO
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.store
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.useridx
 import com.wooriyo.us.pinmenumobileer.R
-import com.wooriyo.us.pinmenumobileer.common.MapActivity
 import com.wooriyo.us.pinmenumobileer.databinding.ActivityRegStoreBinding
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
@@ -50,13 +49,6 @@ class RegStoreActivity : BaseActivity() {
         setStoreDTO()
 
         binding.save.setOnClickListener{ save() }
-        binding.btnMap.setOnClickListener{
-            val intent = Intent(mActivity, MapActivity::class.java)
-            intent.putExtra("lat", store.lat) // 위도 (latitude)
-            intent.putExtra("long", store.long) // 경도 (longitude)
-            intent.putExtra("address", store.address)
-            setAddr.launch(intent)
-        }
 
         Log.d(TAG, "store 생성 useridx >> $useridx")
     }

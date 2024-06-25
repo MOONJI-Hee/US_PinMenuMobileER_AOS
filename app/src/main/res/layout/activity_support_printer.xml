@@ -67,14 +67,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_ts400b">
             <TextView
-                style="@style/text17"
-                android:text="@string/sewoo_tech" />
+                style="@style/text17" />
             <TextView
-                style="@style/text17"
-                android:text="@string/skl_ts400b" />
+                style="@style/text17" />
             <TextView
-                style="@style/subtext"
-                android:text="@string/sewoo_recommend"/>
+                style="@style/subtext" />
         </LinearLayout>
         <ImageView
             android:id="@+id/open_ts400b"
@@ -114,7 +111,6 @@
             app:layout_constraintStart_toEndOf="@+id/tv1"/>
         <TextView
             style="@style/text15"
-            android:text="@string/printer_etc_ts400b"
             app:layout_constraintTop_toTopOf="@+id/tv2"
             app:layout_constraintStart_toEndOf="@+id/tv2"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -156,11 +152,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_te202">
             <TextView
-                style="@style/text17"
-                android:text="@string/sewoo_tech" />
+                style="@style/text17" />
             <TextView
-                style="@style/text17"
-                android:text="@string/skl_te202" />
+                style="@style/text17" />
         </LinearLayout>
         <ImageView
             android:id="@+id/open_te202"
@@ -233,11 +227,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_sam4s">
             <TextView
-                style="@style/text17"
-                android:text="@string/gcube" />
+                style="@style/text17" />
             <TextView
-                style="@style/text17"
-                android:text="@string/sam4s" />
+                style="@style/text17" />
         </LinearLayout>
         <ImageView
             android:id="@+id/open_gcube"
@@ -277,7 +269,6 @@
             app:layout_constraintStart_toEndOf="@+id/tv5"/>
         <TextView
             style="@style/text15"
-            android:text="@string/printer_etc_gcube"
             app:layout_constraintTop_toTopOf="@+id/tv6"
             app:layout_constraintStart_toEndOf="@+id/tv6"/>
 

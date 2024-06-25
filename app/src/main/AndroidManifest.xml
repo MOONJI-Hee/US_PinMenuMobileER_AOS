@@ -149,9 +149,6 @@
             android:name="com.wooriyo.us.pinmenumobileer.printer.NewConnActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.common.MapActivity"
-            android:exported="false" />
-        <activity
             android:name="com.wooriyo.us.pinmenumobileer.store.RegStoreActivity"
             android:exported="false" />
         <activity
@@ -175,9 +172,6 @@
         <activity
             android:name="com.wooriyo.us.pinmenumobileer.more.MemberSetActivity"
             android:exported="false" />
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_appKey" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_noti" />

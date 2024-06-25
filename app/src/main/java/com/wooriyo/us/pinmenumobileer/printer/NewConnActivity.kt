@@ -147,35 +147,35 @@ class NewConnActivity : BaseActivity() {
         var img = 0
         when(printType) {
             1 -> {
-                printerModel = getString(R.string.skl_ts400b)
+//                printerModel = getString(R.string.skl_ts400b)
                 img = R.drawable.skl_ts400b
             }
             2 -> {
-                printerModel = getString(R.string.skl_te202)
+//                printerModel = getString(R.string.skl_te202)
                 img = R.drawable.skl_te202
             }
             3 -> {
-                printerModel = getString(R.string.sam4s)
+//                printerModel = getString(R.string.sam4s)
                 img = R.drawable.sam4s
             }
         }
 
         binding.ivPrinter.setImageResource(img)
-        binding.btnPrinter.visibility = View.VISIBLE
-        binding.btnPlus.visibility = View.INVISIBLE
+//        binding.btnPrinter.visibility = View.VISIBLE
+//        binding.btnPlus.visibility = View.INVISIBLE
 
-        binding.printerModel.text = printerModel
+//        binding.printerModel.text = printerModel
         binding.tvNickPrinter.setTextColor(Color.BLACK)
-        binding.nickPrinter.isEnabled = true
+//        binding.nickPrinter.isEnabled = true
     }
 
     fun setConnStatus() {
         binding.ivStatus.setImageResource(R.drawable.icon_print_connection_on)
         binding.tvStatus.setTextColor(Color.BLACK)
-        binding.tvStatus.text = getString(R.string.after_conn)
+//        binding.tvStatus.text = getString(R.string.after_conn)
         binding.tvNickPrinter.setTextColor(Color.BLACK)
-        binding.nickPrinter.isEnabled = true
-        binding.btnRetry.visibility = View.GONE
+//        binding.nickPrinter.isEnabled = true
+//        binding.btnRetry.visibility = View.GONE
 
 //                setPrintConnStatus("Y")
     }
@@ -183,10 +183,10 @@ class NewConnActivity : BaseActivity() {
     fun setDisConnStatus() {
         binding.ivStatus.setImageResource(R.drawable.icon_print_connection_off)
         binding.tvStatus.setTextColor(Color.parseColor("#B4B4B4"))
-        binding.tvStatus.text = getString(R.string.before_conn)
+//        binding.tvStatus.text = getString(R.string.before_conn)
         binding.tvNickPrinter.setTextColor(Color.parseColor("#B4B4B4"))
-        binding.nickPrinter.isEnabled = false
-        binding.btnRetry.visibility = View.VISIBLE
+//        binding.nickPrinter.isEnabled = false
+//        binding.btnRetry.visibility = View.VISIBLE
 
 //                setPrintConnStatus("N")
     }
@@ -201,8 +201,8 @@ class NewConnActivity : BaseActivity() {
                     val result = response.body() ?: return
                     when(result.status) {
                         1 -> {
-                            if(result.admnick.isNotEmpty())
-                                binding.nickDevice.text = result.admnick
+//                            if(result.admnick.isNotEmpty())
+//                                binding.nickDevice.text = result.admnick
                         }
                         else -> Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
                     }

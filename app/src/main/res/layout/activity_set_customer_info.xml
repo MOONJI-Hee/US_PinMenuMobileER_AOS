@@ -9,7 +9,6 @@
     <TextView
         style="@style/title"
         android:id="@+id/title"
-        android:text="@string/qr_customer_info_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -51,8 +50,7 @@
                 android:layout_height="40dp"
                 android:paddingStart="20dp"
                 android:gravity="center_vertical"
-                android:background="@color/f9"
-                android:text="@string/qr_select_info"/>
+                android:background="@color/f9"/>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -61,7 +59,6 @@
                 android:paddingEnd="16dp">
                 <TextView
                     style="@style/text17d"
-                    android:text="@string/qr_customer_info_name"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -78,7 +75,6 @@
                 android:paddingEnd="16dp">
                 <TextView
                     style="@style/text17d"
-                    android:text="@string/qr_customer_info_phone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -95,7 +91,6 @@
                 android:paddingEnd="16dp">
                 <TextView
                     style="@style/text17d"
-                    android:text="@string/qr_customer_info_addr"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -112,7 +107,6 @@
                 android:paddingEnd="16dp">
                 <TextView
                     style="@style/text17d"
-                    android:text="@string/qr_customer_info_etc"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -129,7 +123,6 @@
                 android:paddingEnd="16dp">
                 <TextView
                     style="@style/text17d"
-                    android:text="@string/qr_customer_info_noti"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -146,13 +139,11 @@
                 android:layout_height="173dp"
                 android:layout_marginHorizontal="20dp"
                 android:paddingVertical="10dp"
-                android:gravity="top"
-                android:hint="@string/qr_customer_info_noti_hint"/>
+                android:gravity="top"/>
             <TextView
                 style="@style/subtext"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="30dp"
-                android:text="@string/qr_select_info_info"/>
+                android:layout_marginTop="30dp"/>
             <TextView
                 style="@style/text15"
                 android:layout_width="match_parent"
@@ -160,8 +151,7 @@
                 android:layout_marginTop="30dp"
                 android:paddingStart="20dp"
                 android:gravity="center_vertical"
-                android:background="@color/f9"
-                android:text="@string/qr_select_table"/>
+                android:background="@color/f9"/>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -169,7 +159,6 @@
                 android:paddingEnd="16dp">
                 <TextView
                     style="@style/text17b"
-                    android:text="@string/qr_select_all"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>

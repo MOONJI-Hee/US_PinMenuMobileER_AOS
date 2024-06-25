@@ -49,17 +49,17 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
-            style="@style/text_num_b"
-            android:id="@+id/price"
-            android:textSize="22dp"
-            android:layout_marginEnd="3dp"
-            app:layout_constraintBottom_toBottomOf="@+id/cardInfo"
-            app:layout_constraintEnd_toStartOf="@+id/won"/>
-
-        <TextView
             style="@style/text17"
             android:id="@+id/won"
             android:text="@string/won"
+            android:layout_marginEnd="3dp"
+            app:layout_constraintEnd_toStartOf="@+id/price"
+            app:layout_constraintBottom_toBottomOf="@+id/cardInfo"/>
+
+        <TextView
+            style="@style/text_num_b"
+            android:id="@+id/price"
+            android:textSize="22dp"
             app:layout_constraintBottom_toBottomOf="@+id/cardInfo"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -95,7 +95,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="30dp"
-        android:text="@string/payment_cancel"
+        android:text="@string/btn_pg_cancel"
         app:layout_constraintTop_toBottomOf="@+id/rvGoods"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

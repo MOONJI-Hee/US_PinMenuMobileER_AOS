@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -71,34 +72,38 @@ class OrderAdapter(val dataSet: ArrayList<OrderHistoryDTO>): RecyclerView.Adapte
                     top.setBackgroundColor(Color.parseColor("#E0E0E0"))
                     clPrice.setBackgroundResource(R.drawable.bg_r6g)
                     btnComplete.setBackgroundResource(R.drawable.bg_r6g)
-                    btnComplete.text = "복원"
+                    btnComplete.text = "Restore"
                     complete.visibility = View.VISIBLE
                     completeQr.visibility = View.GONE
                     completePos.visibility = View.GONE
+                    TextViewCompat.setTextAppearance(btnComplete, R.style.text15)
                 } else if (data.paytype == 3) { // QR오더에서 들어온 주문 > 결제 완료
                     top.setBackgroundResource(R.color.main)
                     clPrice.setBackgroundResource(R.drawable.bg_r6g)
                     btnComplete.setBackgroundResource(R.drawable.bg_r6y)
-                    btnComplete.text = "완료"
+                    btnComplete.text = "Done"
                     complete.visibility = View.GONE
                     completeQr.visibility = View.VISIBLE
                     completePos.visibility = View.GONE
+                    TextViewCompat.setTextAppearance(btnComplete, R.style.text18b)
                 } else if (data.paytype == 4) {
                     top.setBackgroundResource(R.color.main)
                     clPrice.setBackgroundResource(R.drawable.bg_r6y)
                     btnComplete.setBackgroundResource(R.drawable.bg_r6y)
-                    btnComplete.text = "완료"
+                    btnComplete.text = "Done"
                     complete.visibility = View.GONE
                     completeQr.visibility = View.GONE
                     completePos.visibility = View.VISIBLE
+                    TextViewCompat.setTextAppearance(btnComplete, R.style.text18b)
                 } else {
                     top.setBackgroundResource(R.color.main)
                     clPrice.setBackgroundResource(R.drawable.bg_r6y)
                     btnComplete.setBackgroundResource(R.drawable.bg_r6y)
-                    btnComplete.text = "완료"
+                    btnComplete.text = "Done"
                     complete.visibility = View.GONE
                     completeQr.visibility = View.GONE
                     completePos.visibility = View.GONE
+                    TextViewCompat.setTextAppearance(btnComplete, R.style.text18b)
                 }
 
                 delete.setOnClickListener { deleteListener.onItemClick(adapterPosition) }

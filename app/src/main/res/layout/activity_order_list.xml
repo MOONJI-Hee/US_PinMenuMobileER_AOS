@@ -91,7 +91,7 @@
             <TextView
                 style="@style/text16w"
                 android:id="@+id/tvReserv"
-                android:text="@string/reservation"
+                android:text="@string/reserv"
                 android:textColor="@color/white"
                 android:layout_marginHorizontal="30dp"
                 app:layout_constraintStart_toStartOf="parent"

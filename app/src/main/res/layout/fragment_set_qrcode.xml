@@ -91,7 +91,7 @@
                     android:layout_width="83dp"
                     android:layout_marginEnd="20dp"
                     android:textSize="17sp"
-                    android:text="@string/save2"
+                    android:text="@string/save"
                     app:layout_constraintTop_toTopOf="@+id/etStoreName"
                     app:layout_constraintBottom_toBottomOf="@+id/etStoreName"
                     app:layout_constraintEnd_toEndOf="parent"/>
