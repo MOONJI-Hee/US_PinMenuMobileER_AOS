@@ -185,6 +185,8 @@ class AppHelper {
             val arr_cur = curver.split(".")
             val arr_app = appver.split(".")
 
+            if(curver == appver) return true
+
             for(i : Int in arr_app.indices) {
                 if(arr_app[i].toInt() > arr_cur[i].toInt()) {
                     return true
