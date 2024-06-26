@@ -8,8 +8,8 @@ class AppProperties {
                 private const val AWS_SERVER: String = "http://app.pinmenu.net/api/"
                 private const val AWS_IMG_SERVER: String = "http://img.pinmenu.net/api/"
 
-                const val SERVER: String = REAL_SERVER
-                const val IMG_SERVER: String = REAL_IMG_SERVER
+                const val SERVER: String = AWS_SERVER
+                const val IMG_SERVER: String = AWS_IMG_SERVER
 
                 // 푸시 알림 아이디
                 const val NOTIFICATION_ID_ORDER = 1
@@ -51,7 +51,6 @@ class AppProperties {
 
                 const val HANGUL_SIZE_BIG = 3.8
                 const val HANGUL_SIZE_SMALL = 3.5
-                const val HANGUL_SIZE_SAM4S = 2
 
                 const val HANGUL_SIZE = HANGUL_SIZE_BIG
 
@@ -70,21 +69,17 @@ class AppProperties {
 
                 const val ONE_LINE_BIG = 38
                 const val ONE_LINE_SMALL = 53
-                const val ONE_LINE_SAM4S = 31
 
                 const val HYPHEN_NUM_BIG = 50
                 const val HYPHEN_NUM_SMALL = 66
-                const val HYPHEN_NUM_SAM4S = 42
 
                 const val HYPHEN_NUM = HYPHEN_NUM_BIG
 
                 const val SPACE_BIG = 3
                 const val SPACE_SMALL = 5
-                const val SPACE_SAM4S = 2
 
                 const val SPACE = SPACE_BIG
 
                 const val TITLE_MENU = "메     뉴     명                          수량         금액  "
-                const val TITLE_MENU_SAM4S = "메   뉴   명                   수량   금액"
         }
 }

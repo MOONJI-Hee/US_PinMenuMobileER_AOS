@@ -63,7 +63,8 @@ class SelectStoreFragment : Fragment() {
                     when (type) {
                         "pay"   ->  (activity as MainActivity).insPaySetting(position)
                         "print" ->  (activity as MainActivity).insPrintSetting(position)
-                        "qr"    ->  (activity as MainActivity).checkQrAgree(position)
+//                        "qr"    ->  (activity as MainActivity).checkQrAgree(position)
+                        "qr"    ->  (activity as MainActivity).goQr(position)
                     }
                 }
             })

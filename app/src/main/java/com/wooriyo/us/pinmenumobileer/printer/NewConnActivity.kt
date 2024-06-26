@@ -222,7 +222,7 @@ class NewConnActivity : BaseActivity() {
         when(type) {
             1 -> {
                 nick = ""
-                model = "안드로이드 태블릿 PC"
+                model = getString(R.string.android_smartphone)
             }
             2 -> {
                 nick = printerNick

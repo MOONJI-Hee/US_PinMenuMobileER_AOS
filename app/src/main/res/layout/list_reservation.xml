@@ -7,16 +7,17 @@
     android:layout_marginEnd="10dp"
     android:background="@color/white">
 
-    <TextView
+    <LinearLayout
         android:id="@+id/reservType"
-        style="@style/text16w"
         android:layout_width="35dp"
         android:layout_height="48dp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:lineSpacingExtra="-4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+        <ImageView
+            android:id="@+id/ivReservType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top"

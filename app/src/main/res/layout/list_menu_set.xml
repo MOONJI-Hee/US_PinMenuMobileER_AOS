@@ -52,21 +52,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
         <TextView
+            style="@style/text15w"
+            android:id="@+id/won"
+            android:text="@string/won"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/price"/>
+        <TextView
             style="@style/text_num"
             android:id="@+id/price"
             android:textSize="15sp"
             android:textColor="@color/white"
+            android:layout_marginStart="4dp"
             android:layout_marginBottom="20dp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/won"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="5,500"/>
-        <TextView
-            style="@style/text15w"
-            android:id="@+id/won"
-            android:text="@string/won"
-            android:layout_marginStart="3dp"
-            app:layout_constraintBottom_toBottomOf="@+id/price"
-            app:layout_constraintStart_toEndOf="@+id/price"/>
+
         <ImageView
             android:id="@+id/setting"
             android:layout_width="wrap_content"

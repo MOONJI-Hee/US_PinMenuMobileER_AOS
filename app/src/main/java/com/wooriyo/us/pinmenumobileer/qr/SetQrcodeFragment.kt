@@ -191,8 +191,8 @@ class SetQrcodeFragment : Fragment() {
 
             val request = DownloadManager.Request(uri)
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) //진행 중, 완료 모두 노티 보여줌
-            request.setTitle("핀메뉴 관리")
-            request.setDescription("QR코드 다운로드 중") // [다운로드 중 표시되는 내용]
+            request.setTitle("Pinmenu Admin")
+            request.setDescription("QR Code Downloading...") // [다운로드 중 표시되는 내용]
             request.setNotificationVisibility(1) // [앱 상단에 다운로드 상태 표시]
             request.setTitle(fileName) // [다운로드 제목 표시]
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName) // [다운로드 폴더 지정]

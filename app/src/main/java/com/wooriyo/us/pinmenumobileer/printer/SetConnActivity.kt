@@ -186,7 +186,8 @@ class SetConnActivity : BaseActivity() {
         binding.back.setOnClickListener { finish() }
         binding.phoneNick.setOnClickListener { nickDialog.show(supportFragmentManager, "SetNickDialog") }
         binding.plus.setOnClickListener {
-            bluetoothAdapter.startDiscovery()
+//            bluetoothAdapter.startDiscovery()
+            startActivity(Intent(mActivity, NewConnActivity::class.java))
         }
     }
 

@@ -39,7 +39,6 @@ class MemberSetActivity: BaseActivity(), View.OnClickListener {
         memberDTO = MyApplication.pref.getMbrDTO()
         if(memberDTO != null) {
             userid = memberDTO!!.userid
-            arpayoId = memberDTO!!.arpayoid?:""
         }
 
         binding.title.text = getString(R.string.title_udt_mbr)
@@ -87,7 +86,6 @@ class MemberSetActivity: BaseActivity(), View.OnClickListener {
                     Log.d(TAG, "회원정보 수정 url : $response")
                     if(response.body()?.status == 1) {
                         MyApplication.pref.setPw(pass)
-                        memberDTO?.arpayoid = arpayoId
                         memberDTO?.let { MyApplication.pref.setMbrDTO(it) }
                         Toast.makeText(this@MemberSetActivity, R.string.msg_complete, Toast.LENGTH_SHORT).show()
                         finish()

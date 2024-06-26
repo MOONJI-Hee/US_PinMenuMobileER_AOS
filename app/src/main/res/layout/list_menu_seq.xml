@@ -18,19 +18,19 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
+        style="@style/text17d"
+        android:id="@+id/won"
+        android:text="@string/won"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/price"/>
+    <TextView
         android:id="@+id/price"
         style="@style/text_num"
         android:textSize="17sp"
+        android:layout_marginStart="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/won"
         app:layout_constraintTop_toBottomOf="@+id/name" />
-    <TextView
-        style="@style/text17d"
-        android:id="@+id/won"
-        android:layout_marginStart="2dp"
-        android:text="@string/won"
-        app:layout_constraintBottom_toBottomOf="@+id/price"
-        app:layout_constraintStart_toEndOf="@+id/price" />
 
     <ImageView
         android:id="@+id/icon"

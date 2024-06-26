@@ -115,7 +115,7 @@ class SewooAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adapte
 
                 binding.btnTest.setOnClickListener {
                     val fragmentActivity = context as FragmentActivity
-                    AlertDialog("", context.getString(R.string.dialog_check_conn)).show(fragmentActivity.supportFragmentManager, "AlertDialog")
+                    AlertDialog("", context.getString(R.string.dialog_no_printer)).show(fragmentActivity.supportFragmentManager, "AlertDialog")
                 }
             }
 

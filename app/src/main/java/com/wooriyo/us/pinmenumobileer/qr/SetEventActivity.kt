@@ -97,7 +97,7 @@ class SetEventActivity : BaseActivity() {
             delImg = 1
             file = null
             imgUri = null
-            binding.img.visibility = View.INVISIBLE
+            binding.img.visibility = View.GONE
             binding.delImg.visibility = View.GONE
             binding.imgDefault.visibility = View.VISIBLE
         }

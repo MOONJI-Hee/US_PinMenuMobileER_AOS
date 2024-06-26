@@ -109,7 +109,7 @@
                     style="@style/subtext"
                     android:id="@+id/tv3"
                     android:text="@string/qr_file_name_info"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     app:layout_constraintStart_toStartOf="@+id/etStoreName"
                     app:layout_constraintTop_toBottomOf="@+id/etStoreName"/>
 
@@ -236,7 +236,7 @@
                         style="@style/text15"
                         android:id="@+id/reserv"
                         android:layout_marginStart="6dp"
-                        android:text="@string/reservation"
+                        android:text="@string/reserv"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/tvTableNo"
                         app:layout_constraintEnd_toEndOf="parent"

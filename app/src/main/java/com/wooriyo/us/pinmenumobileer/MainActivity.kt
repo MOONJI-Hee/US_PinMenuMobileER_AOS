@@ -58,9 +58,9 @@ class MainActivity : BaseActivity() {
     )
 
     val goQrAgree = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == RESULT_OK) {
-            goQr()
-        }
+//        if (it.resultCode == RESULT_OK) {
+//            goQr()
+//        }
     }
 
     private val turnOnBluetoothResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -111,7 +111,8 @@ class MainActivity : BaseActivity() {
             icMain.setOnClickListener { goMain() }
             icMenu.setOnClickListener { setNavi(it.id) }
             icQr.setOnClickListener { setNavi(it.id) }
-            icPrint.setOnClickListener { setNavi(it.id) }
+//            icPrint.setOnClickListener { setNavi(it.id) }
+            icPrint.setOnClickListener { Toast.makeText(mActivity, R.string.msg_preparing, Toast.LENGTH_SHORT).show() }
             icMore.setOnClickListener { setNavi(it.id) }
         }
     }
@@ -297,7 +298,10 @@ class MainActivity : BaseActivity() {
         binding.ivMenu.setImageResource(R.drawable.icon_menuset_p)
     }
 
-    private fun goQr() {
+    fun goQr(position: Int) {
+        MyApplication.store = storeList[position]
+        MyApplication.storeidx = storeList[position].idx
+
         binding.banner.visibility = View.GONE
         binding.ivQr.setImageResource(R.drawable.icon_qr_p)
         replace(SetQrcodeFragment.newInstance())
@@ -316,33 +320,35 @@ class MainActivity : BaseActivity() {
     }
 
     fun checkQrAgree(position: Int) {
-        MyApplication.store = storeList[position]
-        MyApplication.storeidx = storeList[position].idx
-        if(storeList[position].agree == "Y")
-            goQr()
-        else
-            goQrAgree.launch(Intent(mActivity, QrAgreeActivity::class.java))
+//        MyApplication.store = storeList[position]
+//        MyApplication.storeidx = storeList[position].idx
+//        if(storeList[position].agree == "Y")
+//            goQr()
+//        else
+//            goQrAgree.launch(Intent(mActivity, QrAgreeActivity::class.java))
     }
 
     private fun setNavi(id:Int) {
-        if(isMain) {
-            binding.run{
-                bottomNav.setBackgroundColor(getColor(R.color.white))
-                ivMain.setImageResource(R.drawable.ic_main_tabar_main_n_white)
-                setTxtBlack(tvMain)
-                setTxtBlack(tvMenu)
-                setTxtBlack(tvQr)
-                setTxtBlack(tvPrint)
-                setTxtBlack(tvMore)
+        if(storeList.size != 1 || id != R.id.icMenu) {
+            if(isMain) {
+                binding.run{
+                    bottomNav.setBackgroundColor(getColor(R.color.white))
+                    ivMain.setImageResource(R.drawable.ic_main_tabar_main_n_white)
+                    setTxtBlack(tvMain)
+                    setTxtBlack(tvMenu)
+                    setTxtBlack(tvQr)
+                    setTxtBlack(tvPrint)
+                    setTxtBlack(tvMore)
+                }
             }
-        }
-        isMain = false
+            isMain = false
 
-        binding.run {
-            ivMenu.setImageResource(R.drawable.icon_menuset_n_black)
-            ivQr.setImageResource(R.drawable.icon_qr_n_black)
-            ivPrint.setImageResource(R.drawable.icon_print_n_black)
-            ivMore.setImageResource(R.drawable.ic_main_tabar_more_n_black)
+            binding.run {
+                ivMenu.setImageResource(R.drawable.icon_menuset_n_black)
+                ivQr.setImageResource(R.drawable.icon_qr_n_black)
+                ivPrint.setImageResource(R.drawable.icon_print_n_black)
+                ivMore.setImageResource(R.drawable.ic_main_tabar_more_n_black)
+            }
         }
 
         when(id) {
@@ -357,10 +363,9 @@ class MainActivity : BaseActivity() {
 //                }
 //            }
             R.id.icMenu -> {
-                when(MyApplication.storeList.size) {
+                when(storeList.size) {
                     0 -> Toast.makeText(mActivity, R.string.msg_no_store, Toast.LENGTH_SHORT).show()
                     1 -> {
-                        goMenuSet()
                         MyApplication.store = storeList[0]
                         MyApplication.storeidx = storeList[0].idx
 
@@ -377,7 +382,8 @@ class MainActivity : BaseActivity() {
             R.id.icQr -> {
                 when(MyApplication.storeList.size) {
                     0 -> Toast.makeText(mActivity, R.string.msg_no_store, Toast.LENGTH_SHORT).show()
-                    1 -> checkQrAgree(0)
+//                    1 -> checkQrAgree(0)
+                    1 -> goQr(0)
                     else -> {
                         binding.ivQr.setImageResource(R.drawable.icon_qr_p)
                         goSelStore("qr")

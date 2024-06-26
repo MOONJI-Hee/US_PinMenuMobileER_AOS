@@ -1,426 +1,428 @@
 <resources>
-    <string name="app_name" translatable="false">핀메뉴 관리 미국버전 </string>
+    <string name="app_name" translatable="false">Pinmenu Admin (SmartPhone)</string>
 
-    <string name="login">로그인</string>
-    <string name="logout">로그아웃</string>
-    <string name="id">아이디</string>
-    <string name="password">비밀번호</string>
+    <string name="login">Sign In</string>
+    <string name="logout">Log Out</string>
+    <string name="id">ID</string>
+    <string name="password">Password</string>
 
-    <string name="signup">회원가입</string>
-    <string name="drop">탈퇴</string>
+    <string name="signup">Sign Up</string>
+    <string name="drop">Withdrawal</string>
 
-    <string name="won">원</string>
-    <string name="gea">개</string>
+    <string name="won">$</string>
+    <string name="gea">EA</string>
 
     <string name="plus" translatable="false">+</string>
     <string name="minus" translatable="false">-</string>
 
-    <string name="total">총</string>
-    <string name="total_gea">총 %d개</string>
+    <string name="total">Total</string>
+    <string name="total_gea">Total %d</string>
 
-    <string name="set_tableno">테이블 이동</string>
-    <string name="sel_tableno">테이블번호 선택</string>
-    <string name="tableno">테이블 번호</string>
-    <string name="tablepass">테이블 비밀번호</string>
+    <string name="set_tableno">Table Relocation</string>
+    <string name="sel_tableno">Select Table Num</string>
+    <string name="tableno">Table No</string>
+    <string name="tablepass">Table Password</string>
 
-    <string name="essential">필수</string>
-    <string name="choice">선택</string>
-    <string name="empty">없음</string>
+    <string name="essential">Required</string>
+    <string name="choice">Select</string>
+    <string name="empty">Nothing</string>
 
-    <string name="order">주문</string>
-    <string name="call">호출</string>
+    <string name="order">Order</string>
+    <string name="call">Call</string>
 
-    <string name="confirm">확인</string>
-    <string name="cancel">취소</string>
-    <string name="save">저장</string>
-    <string name="delete">삭제</string>
-    <string name="update">수정</string>
-    <string name="setting">설정</string>
-    <string name="restore">복원</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="update">Update</string>
+    <string name="setting">Settings</string>
+    <string name="restore">Restore</string>
 
     <string name="dot" translatable="false">・</string>
 
     <!--  버튼 텍스트  -->
-    <string name="btn_update">수&#160;&#160;정</string>
-    <string name="btn_complete">완&#160;&#160;료</string>
-    <string name="btn_choice">선&#160;&#160;택</string>
-    <string name="btn_add">추&#160;&#160;가</string>
-    <string name="btn_close">닫&#160;&#160;기</string>
-    <string name="btn_not_today">오늘 그만 보기</string>
-    <string name="btn_relocation">테이블번호 변경</string>
+    <string name="btn_update">Edit</string>
+    <string name="btn_complete">Done</string>
+    <string name="btn_choice">Select</string>
+    <string name="btn_add">Add</string>
+    <string name="btn_close">Close</string>
+    <string name="btn_not_today">Do not open\nfor a day</string>
+    <string name="btn_relocation">Relocation</string>
+    <string name="btn_pg_cancel">Pmt. Cancel</string>
 
-    <string name="udt_info">정보변경</string>
-    <string name="back">돌아가기</string>
+    <string name="udt_info">Update Information</string>
+    <string name="back">Back</string>
 
-    <string name="date">날짜</string>
-    <string name="month">월</string>
-    <string name="day">일</string>
+    <string name="date">Date</string>
+    <string name="month">Month</string>
+    <string name="day">Day</string>
     <string name="tilde" translatable="false">~</string>
     <string name="colon" translatable="false">:</string>
     <string name="right_angle" translatable="false">\></string>
     <string name="zero" translatable="false">0</string>
     <string name="zero2" translatable="false">00</string>
-    <string name="min">분</string>
+    <string name="min">m</string>
 
     <string name="zeroClock" translatable="false"><font color="#B4B4B4">00</font>:<font color="#B4B4B4">00</font></string>
 
-    <string name="monday">월요일</string>
-    <string name="tuesday">화요일</string>
-    <string name="wednesday">수요일</string>
-    <string name="thursday">목요일</string>
-    <string name="friday">금요일</string>
-    <string name="saturday">토요일</string>
-    <string name="sunday">일요일</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
 
-    <string name="mon">월</string>
-    <string name="tue">화</string>
-    <string name="wed">수</string>
-    <string name="thu">목</string>
-    <string name="fri">금</string>
-    <string name="sat">토</string>
-    <string name="sun">일</string>
+    <string name="mon">MON</string>
+    <string name="tue">TUE</string>
+    <string name="wed">WED</string>
+    <string name="thu">THU</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
+    <string name="sun">SUN</string>
 
     <!--  회원가입  -->
-    <string name="password_hint">8자리 이상 입력해 주세요.</string>
-    <string name="check_id">중복체크</string>
-    <string name="unable">사용불가</string>
-    <string name="able">사용가능</string>
-    <string name="signup_info1">아이디(이메일)는\n비밀번호 찾기를 할 때 필요한 정보입니다.\n사용 가능한 이메일로 가입해 주세요.</string>
-    <string name="term1">이용약관 동의(필수)</string>
-    <string name="term2">개인정보 취급방침 동의(필수)</string>
-    <string name="term3">마케팅 활용 동의(선택)</string>
+    <string name="password_hint">Please enter at least 8 characters.</string>
+    <string name="check_id">Check\nAvailability</string>
+    <string name="unable">Not Available</string>
+    <string name="able">Available</string>
+    <string name="signup_info1">Your ID(Email) is required for password recovery.\nPlease sign up with a valid email.</string>
+    <string name="term1">Terms of Service (Required)</string>
+    <string name="term2">Privacy Policy (Required)</string>
+    <string name="term3">Marketing Consent (Optional)</string>
 
     <!--  로그인 & 비번찾기  -->
-    <string name="find_pwd">비밀번호 찾기</string>
-    <string name="email">아이디(이메일)</string>
-    <string name="email_hint">이메일을 입력해 주세요</string>
-    <string name="find_pwd_info1">회원 아이디(이메일)를 입력해 주세요.\n작성하신 아이디로 새로운 비밀번호가 전송됩니다.</string>
-    <string name="find_pwd_info2">가입되지 않은 아이디는 이메일이 발송되지 않습니다.</string>
-    <string name="send_pwd">새로운 비밀번호 전송</string>
+    <string name="find_pwd">Forgot Password</string>
+    <string name="email">ID(Email)</string>
+    <string name="email_hint">Please enter your email.</string>
+    <string name="find_pwd_info1">Please enter your member ID(Email).\nA new password will be sent to the email you provided.</string>
+    <string name="find_pwd_info2">If the ID is not registered, an email will not be sent.</string>
+    <string name="send_pwd">Send New Password</string>
 
     <!-- 매장 리스트 -->
-    <string name="use">사용중</string>
-    <string name="not_use">미사용</string>
-    <string name="main">메인</string>
+    <string name="use">Using</string>
+    <string name="not_use">Unused</string>
+    <string name="main">Main</string>
 
     <!--  매장 등록 & 수정  -->
-    <string name="store_name">매장명</string>
-    <string name="store_name_hint">매장명을 입력해주세요.</string>
-    <string name="store_addr">매장주소</string>
-    <string name="store_addr_hint">주소를 입력하세요.</string>
-    <string name="store_addr_info1">매장 주소는 매우 중요한 정보입니다.\n매장 주소를 토대로 주변 고객분들께 재방문, 신규방문\n이벤트가 진행됩니다.\n매장 주소는 지도에서 정확하게 선택해 주세요.</string>
-    <string name="store_addr_info2">핀메뉴 관리자 앱을 사용하시기 위해서는 1개의\n매장을 필수로 등록 하셔야 이용이 가능합니다.</string>
-    <string name="store_addr_info3">매장정보 수정, 메뉴등록은 태블릿PC 또는\n홈페이지에서 가능합니다</string>
-    <string name="store_reg">매장등록</string>
+    <string name="store_name">Store Name</string>
+    <string name="store_name_hint">Please enter the store name.</string>
+    <string name="store_addr">Store Address</string>
+    <string name="store_addr_hint">Please enter the address.</string>
+    <string name="store_addr_info1">Events will be held based on the store address provided.\nPlease enter the store address accurately.</string>
+    <string name="store_addr_info2">To use the Pinmenu Manager app, you must register at least one store.</string>
+    <string name="store_addr_info3">You can modify store information and register menus on a tablet PC or through the website.</string>
+    <string name="store_reg">Store registration</string>
     <!--  매장 세부 정보  -->
     <string name="at" translatable="false"><![CDATA[@]]></string>
     <!--  매장 영업 시간 -->
-    <string name="everyday">매일</string>
-    <string name="everymonth">매월</string>
+    <string name="everyday">Everyday</string>
+    <string name="everymonth">Every Month</string>
 
     <!--  메뉴 선택 (메인)  -->
-    <string name="order_mgmt">주문정보</string>
+    <string name="order_mgmt">Order Info</string>
 
     <!--  메뉴 관리  -->
-    <string name="menu_manage">메뉴관리</string>
-    <string name="menu_reg">메뉴등록</string>
-    <string name="menu_udt">메뉴수정</string>
-    <string name="menu_seq">메뉴순서 변경</string>
-    <string name="menu_seq_change_way">변경방법 : 변경할 메뉴를 눌러 상하로 드래그</string>
-    <string name="menu_name_hint">상품명을 입력해 주세요.</string>
-    <string name="menu_exp_hint">상품 설명을 입력해주세요.\n외국어 설명이 필요한 경우 줄을 바꿔 입력하여 사용할 수 있습니다.</string>
-    <string name="cookingTime">조리시간</string>
-    <string name="price">가격</string>
-    <string name="menu_img_reg_info2">이미지 권장 규격 800×600(비율 4:3) / 최대 5MB</string>
-    <string name="menu_img_reg">사진 등록</string>
-    <string name="menu_sleep">슬립 모드 때 상품 노출</string>
-    <string name="menu_status">메뉴 상태 사용</string>
+    <string name="menu_manage">Menu Mgmt.</string>
+    <string name="menu_reg">Register Menu</string>
+    <string name="menu_udt">Modify Menu</string>
+    <string name="menu_seq">Change Menu Order</string>
+    <string name="menu_seq_change_way">Method of change : Press and drag the menu you want to change up or down</string>
+    <string name="menu_name_hint">Please enter the product name.</string>
+    <string name="menu_exp_hint">Please enter the product description.</string>
+    <string name="cookingTime">Cook time</string>
+    <string name="price">Price</string>
+    <string name="menu_img_reg_info2">Recommended: 800×600 (4:3) / Max : 5MB</string>
+    <string name="menu_img_reg">Photo\nUpload</string>
+    <string name="menu_sleep">Product Exposure in Sleep Mode</string>
+    <string name="menu_status">Menu Status</string>
 
-    <string name="option">옵션</string>
-    <string name="option_require">필수옵션</string>
-    <string name="option_choice">선택옵션</string>
+    <string name="option">Options</string>
+    <string name="option_require">Required Option</string>
+    <string name="option_choice">Select Option</string>
 
     <!--  옵션 설정  -->
-    <string name="opt_num">옵션 %d</string>
+    <string name="opt_num">Option %d</string>
 
-    <string name="opt_req_name">필수옵션명(고객이 하나만 선택가능)</string>
-    <string name="opt_chc_name">선택옵션명(고객이 다중 선택가능)</string>
-    <string name="opt_hint">옵션명을 입력해 주세요.</string>
+    <string name="opt_req_name">Option Name(Customers can only choose one)</string>
+    <string name="opt_chc_name">Option Name(Customers can choose multiple)</string>
+    <string name="opt_hint">Please enter the option name</string>
 
     <!--  카테고리 / 메뉴 삭제 다이얼로그  -->
-    <string name="dialog_delete_title">%s삭제</string>
+    <string name="dialog_delete_title">Delete %s</string>
     <string name="dialog_delete_name" translatable="false">[ %s ]</string>
     <string name="dialog_delete_confirm">%s를 삭제하시겠습니까?</string>
-    <string name="category_delete_info">삭제를 누르면 해당 카테고리에 속한 모든 메뉴가 삭제되며, 삭제 이후에는 복원하실 수 없습니다.</string>
-    <string name="menu_delete_info">삭제를 누르면 입력한 모든 정보가 삭제되며,\n삭제 이후에는 복원하실 수 없습니다.</string>
+    <string name="category_delete_info">Pressing delete will remove all items within this category, and once deleted, they cannot be restored.</string>
+    <string name="menu_delete_info">Pressing delete will erase all entered information, and once deleted, they cannot be restored.</string>
 
     <!--  카테고리 설정  -->
-    <string name="category_name">카테고리 명칭</string>
-    <string name="category_name_hint">명칭을 입력해 주세요.</string>
-    <string name="category_exp">카테고리 설명</string>
-    <string name="category_exp_hint">설명 혹은 영문을 입력해 주세요.</string>
-    <string name="category_dialog_info1"><b>카테고리 순서 변경이 필요한 경우</b>에는\n우측 상단 [ 카테고리 순서 변경 ] 버튼을 누른 후\n변경하고자하는 카테고리를 선택하여 좌우로 이동시켜 순서를 변경합니다.\n변경 후에는 [ 저장 ] 버튼을 눌러주셔야 변경된 내용이 적용됩니다.</string>
-    <string name="category_dialog_info2"><b>카테고리 [숨김] 필요한 경우</b>에는\n우측 상단에 있는 [숨기기] 옆 Off 버튼을 On으로 변경\n후 저장을 눌러주십시오.\n삭제는 카테고리에 입력된 모든 메뉴 정보가 삭제되지만,\n[숨기기]는 고객에게 보여지지 않도록 설정됩니다.</string>
-    <string name="category_hide">숨기기</string>
-    <string name="category_add">카테고리 추가</string>
+    <string name="category_name">Category Name</string>
+    <string name="category_name_hint">Please enter the category name.</string>
+    <string name="category_exp">Category Description</string>
+    <string name="category_exp_hint">Please enter a brief description.</string>
+    <string name="category_dialog_info1"><b>To change the order of categories,</b>click on [Change Category Order] in the upper right corner. Then select the category you want to change, and move it left or right to change the order. After making changes, click [Save] to apply them.</string>
+    <string name="category_dialog_info2"><b>If you need to [Hide] a category,</b>\nchange the Off button next to [Hide] in the top right corner to On, and then click Save.\nDeleting will remove all menu information entered in the category, but [Hide] will make it not visible to customers.</string>
+    <string name="category_hide">Hide</string>
+    <string name="category_add">Add Category</string>
 
-    <string name="category_seq">카테고리 순서 변경</string>
-    <string name="category_seq_change_way">변경방법 : 변경할 카테고리를 눌러 상하로 드래그</string>
+    <string name="category_seq">Change Category Order</string>
+    <string name="category_seq_change_way">Method of change : Press and drag the category you want to change up or down</string>
 
     <!--  프린터  -->
-    <string name="printer_title_store">매장 선택</string>
-    <string name="printer">프린터</string>
-    <string name="printer_title_set">프린터 설정</string>
-    <string name="printer_menu_conn">프린터\n연결 관리</string>
-    <string name="printer_menu_support">연결 가능\n프린터 보기</string>
-    <string name="printer_menu_contents">출력 내용\n설정</string>
-    <string name="printer_menu_info">핀메뉴에서는 ‘출력 내용 설정’을 통해 주방과\n음료부가 나누어져 있는 경우 이를 분리하여\n출력할 수 있으며, 카테고리 출력을 설정하여\n편리하게 이용할 수 있습니다.</string>
+    <string name="printer_title_store">Select Store</string>
+    <string name="printer">Printer</string>
+    <string name="printer_title_set">Printer Settings</string>
+    <string name="printer_menu_conn">Manage Printer\nConnections</string>
+    <string name="printer_menu_support">View Available\nPrinters</string>
+    <string name="printer_menu_contents">Set Output\nContent</string>
+    <string name="printer_menu_info">In the Pinmenu, you can separate kitchen and beverage sections for printing through the ‘Set Output Content’. You can also set category printing for convenient use.</string>
 
-    <string name="printer_title_new">신규 프린터 연결</string>
-    <string name="android_smartphone">안드로이드 스마트폰</string>
-    <string name="printer_conn_info">스마트 기기 한대에 하나의 프린터만 연결하여\n이용할 수 있으며,\n연결된 블루투스 프린터는 반드시 관리앱이 실행중인\n기기와 근거리에 프린터를 배치해 주세요.\n프린터와 연결할 기기(디바이스) 및 연결된 프린터는\n별명을 부여하여 관리할 수 있습니다.</string>
-    <string name="before_conn">연결전</string>
-    <string name="after_conn">연결완료</string>
-    <string name="retry_conn">다시연결</string>
-    <string name="printer_title_sel_model">프린터 선택</string>
+    <string name="printer_title_new">Connect New Printer</string>
+    <string name="android_smartphone">Android Smartphone</string>
+    <string name="printer_conn_info">One printer can be connected to only one smart device for use.\nThe connected Bluetooth printer must be placed nearby the device with the management app running.\nDevices to connect to the printer and connected printers can be managed by assigning nicknames.</string>
+    <string name="before_conn">Before\nConnect</string>
+    <string name="after_conn">Connection\nComplete</string>
+    <string name="retry_conn">Retry</string>
+    <string name="printer_title_sel_model">Select Printer</string>
+    <string name="printer_empty">No Printer</string>
 
-    <string name="printer_nick">별명</string>
-    <string name="printer_nick_title">별명 입력</string>
-    <string name="printer_nick_hint">예) 주방</string>
-    <string name="printer_device">선택된 기기</string>
-    <string name="printer_nick_info">별명은 반드시 구별 할 수 있는 명칭을\n사용해 주세요.</string>
+    <string name="printer_nick">Nickname</string>
+    <string name="printer_nick_title">Enter Nickname</string>
+    <string name="printer_nick_hint">Ex) Kitchen</string>
+    <string name="printer_device">Selected Device</string>
+    <string name="printer_nick_info">Please use distinctive names for the nickname.</string>
 
-    <string name="printer_conn_way">연결방식&#160;:&#160;</string>
-    <string name="printer_etc">특이사항&#160;:&#160;</string>
-    <string name="printer_bluetooth">블루투스</string>
-    <string name="printer_wifi">와이파이</string>
-    <string name="printer_support_info">핀메뉴에서는 프린터를 제공하지 않습니다.\n핀메뉴와 연동이 가능한 프린터를 보유하고 있다면\n직접 연결을 통해 바로 이용이 가능하며,\n연동이 가능한 프린터가 없다면 구매 후 연동하여\n이용이 가능합니다.</string>
+    <string name="printer_conn_way">Connection Method&#160;:&#160;</string>
+    <string name="printer_etc">Note&#160;:&#160;</string>
+    <string name="printer_bluetooth">Bluetooth</string>
+    <string name="printer_wifi">Wifi</string>
+    <string name="printer_support_info">In the Pinmenu, printers are not provided.\nIf you have a printer that can be connected to the Pinmenu, you can use it immediately by connecting directly. If you do not have a printer that can be connected, you can purchase one and connect it for use.</string>
 
     <string name="printer_title_conn_mng">연결 프린터 관리</string>
-    <string name="printer_available">연결 가능한 프린터</string>
-    <string name="test">테스트</string>
-    <string name="good">양호</string>
-    <string name="clear">해제</string>
-    <string name="printer_not_conn">연결\n안됨</string>
-    <string name="unrest">불안</string>
+    <string name="printer_available">Available Printers</string>
+    <string name="test">Test</string>
+    <string name="good">Good</string>
+    <string name="clear">Disconnect</string>
+    <string name="printer_not_conn">Not\nConnected</string>
+    <string name="unrest">Unstable</string>
 
-    <string name="printer_choose">선택된 프린터</string>
-    <string name="printer_nick_change_info">별명 변경 후 반드시 저장을 눌러주세요.\n삭제를 누르면 해당 프린터는 삭제됩니다.</string>
-    <string name="printer_title_support">연결 가능 프린터 보기</string>
-    <string name="printer_title_contents">출력 내용 설정</string>
-    <string name="printer_nick_format">별명 : %s</string>
-    <string name="font">폰트</string>
-    <string name="big">크게</string>
-    <string name="small">작게</string>
-    <string name="printer_kitchen">주방 영수증</string>
-    <string name="printer_kitchen_format">선택된 카테고리 : %d개</string>
-    <string name="printer_kitchen_info">선택된 카테고리만 출력가능 (최대 10개)\n선택하지 않으면 모든 카테고리가 출력됩니다.</string>
-    <string name="printer_customer">고객 영수증</string>
-    <string name="printer_customer_info">결제된 고객용 영수증을 출력할 수 있습니다.</string>
-    <string name="printer_order_no">주문 번호</string>
-    <string name="printer_order_no_info">핀메뉴에서 생성된 주문 번호를 출력합니다.</string>
-    <string name="printer_title_category_set">카테고리 선택하기(%d/10)</string>
-    <string name="printer_category_info">최대 10개까지 선택이 가능합니다.</string>
+    <string name="printer_choose">Selected Printer</string>
+    <string name="printer_nick_change_info">After changing nickname, save required.\nDeleting will remove printer.</string>
+    <string name="printer_title_support">View Available Printers</string>
+    <string name="printer_title_contents">Set Output Content</string>
+    <string name="printer_nick_format">Nickname : %s</string>
+    <string name="font">Font</string>
+    <string name="big">Large</string>
+    <string name="small">Small</string>
+    <string name="printer_kitchen">Kitchen Receipt</string>
+    <string name="printer_kitchen_format">Selected Category : %d</string>
+    <string name="printer_kitchen_info">Only selected categories can be printed. (up to 10)\nIf none are selected, all categories will be printed.</string>
+    <string name="printer_customer">Customer Receipt</string>
+    <string name="printer_customer_info">You can print the receipt for the paid customer.</string>
+    <string name="printer_order_no">Order Number</string>
+    <string name="printer_order_no_info">We print the order number generated in the Pinmenu.</string>
+    <string name="printer_title_category_set">Selected Category(%d/10)</string>
+    <string name="printer_category_info">Up to 10 selections allowed.</string>
 
     <!--  QR 오더  -->
-    <string name="qrcode">QR코드</string>
-    <string name="qr_use_info">QR코드 사용안내</string>
-    <string name="qr_setting_go">QR코드 설정 바로가기</string>
-    <string name="qr_setting">QR코드 설정</string>
-    <string name="qr_usable_cnt">추가 가능한 QR코드 수&#160;:&#160;</string>
+    <string name="qrcode">QR Code</string>
+    <string name="qr_use_info">QR Code Usage Guide</string>
+    <string name="qr_setting_go">QR Code Settings Shortcut</string>
+    <string name="qr_setting">QR Code Settings</string>
+    <string name="qr_usable_cnt">Extra QR Codes Limit&#160;:&#160;</string>
     <string name="qr_store_name" translatable="false">Store Name</string>
     <string name="only_eng" translatable="false">Only English</string>
-    <string name="qr_file_name_info">QR코드 저장시 파일명에 사용</string>
-    <string name="qr_down_all">전체 QR코드 사진첩에 저장하기</string>
-    <string name="qr_down_one">QR코드 사진첩에 저장하기</string>
-    <string name="qr_post_pay_all">QR코드 전체 후불결제 적용</string>
-    <string name="qr_post_pay_one">QR코드 후불결제 적용</string>
-    <string name="qr_post_pay">후불결제</string>
+    <string name="qr_file_name_info">Use as filename when saving QR code</string>
+    <string name="qr_down_all">Save to Entire QR Code Album</string>
+    <string name="qr_down_one">Save to QR Code Album</string>
+    <string name="qr_post_pay_all">Enable All QR Code Post-pay</string>
+    <string name="qr_post_pay_one">Enable QR Code Post-pay</string>
+    <string name="qr_post_pay">Post-pay</string>
     <string name="qr_cnt" translatable="false">QR-%s</string>
     <string name="table_no" translatable="false">Table No.</string>
-    <string name="table_no_hint">테이블 번호 입력</string>
-    <string name="qr_setting_info1">QR오더는 결제가 완료된 후 주문내역이 전송됩니다.\n(단, 후불결제 기능을 설정했을 경우 제외)</string>
-    <string name="qr_setting_info2">이 페이지에서 QR코드를 생성한 후 테이블번호 저장과 변경이 가능하며 QR코드 삭제가 가능합니다.</string>
+    <string name="table_no_hint">Enter Table No.</string>
+    <string name="qr_setting_info1">QR order transmit order details after payment completion.\n(Excluding if post-pay option is enabled)</string>
+    <string name="qr_setting_info2">After generating the QR on this page, you can save and modify the table number, and also delete the QR.</string>
 
-    <string name="qr_detail_info1">생성된 QR코드는 변경할 수 없고, 삭제만 가능합니다.</string>
-    <string name="qr_detail_info2">삭제된 QR코드는 다시 사용할 수 없습니다.</string>
-    <string name="qr_detail_info3">입력된 테이블번호는 이 페이지에서 수정 가능합니다.</string>
-    <string name="qr_detail_info4">테이블번호가 중복되지 않도록 관리해주세요.</string>
-    <string name="qr_detail_info5">테이블번호를 영문과 숫자로 작성할 경우 QR코드 저장시 파일명으로 적용됩니다.\n단, 한글은 저장 파일명에 적용되지 않습니다.</string>
+    <string name="qr_detail_info1">The generated QR code cannot be altered, only deleted.</string>
+    <string name="qr_detail_info2">The deleted QR code cannot be reused.</string>
+    <string name="qr_detail_info3">The entered table number can be modified on this page.</string>
+    <string name="qr_detail_info4">Please manage to ensure that the table numbers are not duplicated.</string>
+    <string name="qr_detail_info5">If you write the table number in English and numbers, it will be applied as the file name when saving the QR code.</string>
 
-    <string name="use_status">사용여부</string>
-    <string name="qr_reserv">QR-예약</string>
-    <string name="reservation">예약</string>
+    <string name="use_status">On/Off</string>
+    <string name="qr_reserv">QR-Reservation</string>
+    <string name="reservation">Reservation</string>
     <string name="reserv">Res.</string>
-    <string name="qr_down_reserv">QR 사진첩 저장</string>
-    <string name="qr_copy_url_reserv">예약 URL 복사</string>
+    <string name="qr_down_reserv">Save QR Album</string>
+    <string name="qr_copy_url_reserv">Copy Res. URL</string>
 
-    <string name="qr_reserv_info1">예약 QR 선불결제만 가능</string>
-    <string name="qr_reserv_info3">PG 가입 완료 후 예약 기능이 활성화 됩니다.</string>
-    <string name="qr_reserv_info4">예약 QR코드는 테이블 수에 포함되지 않습니다.</string>
-    <string name="qr_reserv_info5">예약 테이블명은 변경이 불가능합니다.</string>
-    <string name="qr_reserv_info6">QR코드를 이미지로 저장 후 사용 가능합니다.</string>
-    <string name="qr_reserv_info7">예약 URL을 복사하여 외부로 전달하여 사용할 수 있습니다.</string>
-    <string name="qr_reserv_info8">예약 QR코드로 주문된 내역은 주문내역에 다른 색으로 표시됩니다.</string>
-    <string name="qr_reserv_info9">예약 시 다음 정보를 받을 수 있습니다.\n전화번호, 예약자명, 예약일, 예약시간, 요청사항</string>
+    <string name="qr_reserv_info1">Res. QR Prepay Only</string>
+    <string name="qr_reserv_info3">After completing PG registration, the reservation feature will be activated.</string>
+    <string name="qr_reserv_info4">The reservation QR code is not included in the table count.</string>
+    <string name="qr_reserv_info5">The reservation table name cannot be changed.</string>
+    <string name="qr_reserv_info6">You can save the QR code as an image for later use.</string>
+    <string name="qr_reserv_info7">You can copy the reservation URL and share it externally for use.</string>
+    <string name="qr_reserv_info8">Orders made via reservation QR codes are marked differently in the order history.</string>
+    <string name="qr_reserv_info9">When reserving, we collect the following information: phone number, reservation name, reservation date, reservation time, special requests.</string>
 
     <!-- 주문 완료 후 이벤트 -->
-    <string name="event_popup">주문완료 후 이벤트 안내</string>
-    <string name="event_popup_set">주문완료 후 이벤트 설정</string>
-    <string name="event_img_hint">이미지/사진 등록</string>
-    <string name="event_img_info">이미지 권장 규격 800×600(비율 4:3) / 최대 5MB\n이미지/사진 미등록 시 설명만 보여집니다.</string>
-    <string name="event_exp">이벤트 설명</string>
-    <string name="event_exp_hint">200자 이내로 등록해 주세요.\n예시) 네이버 영수증 리뷰 이벤트에 참여하시면 음료수를 무료로 드립니다.</string>
-    <string name="event_link">링크주소 등록</string>
-    <string name="event_link_hint">연동주소 입력</string>
-    <string name="event_link_info">링크주소를 입력하시면, [ 바로가기 ] 로 표시됩니다.\n단, QR오더에서만 링크주소가 활성화됩니다.</string>
-    <string name="event_preview">미리보기</string>
-    <string name="event_preview_info">QR오더 주문완료 후 이벤트 안내\n미리보기 화면입니다.</string>
-    <string name="event_goto">바로가기</string>
+    <string name="event_popup">After Ordering, Event Instr.</string>
+    <string name="event_popup_set">Event Settings after Order</string>
+    <string name="event_img_hint">Image/Photo\nRegistration</string>
+    <string name="event_img_info">Recommended: 800×600 (4:3) / Max : 5MB. Without image, only description displayed.</string>
+    <string name="event_exp">Event Description</string>
+    <string name="event_exp_hint">Please register within 400byte Ex)Participate in the Naver receipt review event and receive complimentary beverages.</string>
+    <string name="event_link">Link Registration</string>
+    <string name="event_link_hint">Please Enter Link Address</string>
+    <string name="event_link_info">When entering the link address, it will display as [Shortcut], but only active in QR orders.</string>
+    <string name="event_preview">Preview</string>
+    <string name="event_preview_info">After QR order completion,\nevent details appear on the preview screen.</string>
+    <string name="event_goto">Shortcut</string>
 
     <!-- 더보기 -->
-    <string name="more">더보기</string>
-    <string name="pinmenu_manual">핀메뉴 사용 설명서</string>
-    <string name="more_menu_ui">메뉴판 형태</string>
-    <string name="more_store_img">매장사진</string>
+    <string name="more">More</string>
+    <string name="pinmenu_manual">Pinmenu User Guide</string>
+    <string name="more_menu_ui">Mode Set</string>
+    <string name="more_store_img">Store Photo</string>
 
     <!--  메뉴판 형태 설정  -->
-    <string name="title_viewmode">고객용 메뉴판 형태</string>
-    <string name="viewmode_basic">기본형</string>
-    <string name="viewmode_pic">사진형</string>
-    <string name="viewmode_list">글자형</string>
-    <string name="viewmode_info">매장에서 사용될 주문용 메뉴판의\n디자인을 선택해 주세요.</string>
+    <string name="title_viewmode">Customer Menu Mode</string>
+    <string name="viewmode_basic">Basic Mode</string>
+    <string name="viewmode_pic">Picture Mode</string>
+    <string name="viewmode_list">Text Mode</string>
+    <string name="viewmode_info">Please select the design for the menu\nboard to be used in the store.</string>
 
     <!--  매장 대표 사진 설정  -->
-    <string name="store_img_exp">매장 사진/설명</string>
-    <string name="store_img_info">매장을 대표할 이미지(음식 사진이나 매장 사진)와 설명을 작성해 주세요.\n단, 고객용 메뉴판 형태를 글자형으로 선택 시에만 보여집니다.</string>
-    <string name="store_img_rep">매장 대표 사진</string>
+    <string name="store_img_exp">Store Photo/Description</string>
+    <string name="store_img_info">Please write a description of the store and upload representative images.\nYou can upload food photo or photo of the interior/exterior of the store.</string>
+    <string name="store_img_rep">Store Rep Photo</string>
     <string name="store_img_hint">Photo registration</string>
-    <string name="store_exp">매장 설명</string>
-    <string name="store_exp_reg_hint">매장 설명을 입력해 주세요.\n(최대 100자)</string>
+    <string name="store_exp">Store Description</string>
+    <string name="store_exp_reg_hint">Please enter store description.\n(Up to 200byte)</string>
 
     <!--  설정  -->
-    <string name="version_info">버전 정보</string>
+    <string name="version_info">Version info</string>
 
     <!-- 직원 호출 -->
-    <string name="call_emp">직원호출</string>
+    <string name="call_emp">Call</string>
 
     <!-- 주문 정보 -->
-    <string name="title_order">주문정보</string>
-    <string name="order_history">주문내역</string>
-    <string name="print">프 린 트</string>
+    <string name="title_order">Order Info</string>
+    <string name="order_history">Order Info</string>
+    <string name="print">Print</string>
     <string name="order_total" translatable="false">TOTAL</string>
-    <string name="complete">완료</string>
-    <string name="dialog_clear">주문/호출 정보는 3일간 보관되며,\n\'초기화\'버튼을 누르면\n모든 주문/호출 정보가 삭제됩니다.</string>
-    <string name="dialog_clear_warning">한번 초기화된 내역은 복원되지 않습니다.</string>
+    <string name="complete">Done</string>
 
-    <string name="table_no_kr">테이블번호</string>
-    <string name="order_no">주문번호</string>
+    <string name="dialog_clear">Order/call information is stored\nfor 3 days. Pressing the ‘Reset’ button\nwill delete all order/call information.</string>
+    <string name="dialog_clear_warning">Once reset, the data cannot be\nrestored.</string>
+
+    <string name="table_no_kr">Table No.</string>
+    <string name="order_no">Order No.</string>
 
     <!--  예약 정보  -->
-    <string name="reserv_no">예약번호</string>
-    <string name="reserv_paid">선결제</string>
-    <string name="reserv_tel">전화번호</string>
-    <string name="reserv_name">예약자명</string>
-    <string name="reserv_request">요청사항</string>
-    <string name="reserv_addr">배송지 주소</string>
-    <string name="reserv_date">%s 예약일시</string>
+    <string name="reserv_no">Reservation No.</string>
+    <string name="reserv_paid">Prepay</string>
+    <string name="reserv_tel">Phone Num</string>
+    <string name="reserv_name">Res. Name</string>
+    <string name="reserv_request">Request</string>
+    <string name="reserv_addr">Delivery Address</string>
+    <string name="reserv_date">%s Reservation Date</string>
 
     <!--  결제 내역  -->
-    <string name="payment_history">결제내역</string>
-    <string name="payment_cancel">결제취소</string>
-    <string name="payment_cancel_complete">취소완료</string>
-    <string name="pg_history">PG결제 내역</string>
-    <string name="pg_cancel">PG결제 취소</string>
-    <string name="btn_pg_cancel">결제취소</string>
-    <string name="pg_history_search_hint">금액(원)</string>
-    <string name="dialog_no_pg_info1">핀메뉴 QR코드 주문&amp;결제가 활성화되지 않았습니다.</string>
-    <string name="dialog_no_pg_info2">신청방법</string>
-    <string name="dialog_no_pg_info3">핀메뉴 웹사이트 ></string>
-    <string name="dialog_no_pg_info4">햄버거버튼 ></string>
-    <string name="dialog_no_pg_info5">PG(나이스페이먼츠) 신청/관리</string>
-    <string name="dialog_pg_cancel_info">결제취소가 진행되면 복구할 수 없습니다.\n(취소처리는 카드사에 따라 다를 수 있음)</string>
+    <string name="payment_history">Pmt. Hist.</string>
+    <string name="payment_cancel">Cancel</string>
+    <string name="payment_cancel_complete">Cancel\nCompleted</string>
+    <string name="pg_history">PG Payment History</string>
+    <string name="pg_cancel">PG Payment Cancel</string>
+    <string name="pg_history_search_hint">Amount($)</string>
+    <string name="dialog_no_pg_info1">The Pinmenu QR code ordering &amp; payment feature is not activated.</string>
+    <string name="dialog_no_pg_info2">Application method</string>
+    <string name="dialog_no_pg_info3">Pinmenu website ></string>
+    <string name="dialog_no_pg_info4">Hamburger button ></string>
+    <string name="dialog_no_pg_info5">PG Application/Management</string>
+    <string name="dialog_pg_cancel_info">Once the payment cancellation is processed, it cannot be reversed.\n(Cancellation procedures may vary depending on the credit card company)</string>
 
     <!-- 주문 결제 -->
-    <string name="dialog_complete">선택하신 %s정보를 완료처리 하시겠습니까?</string>
+    <string name="dialog_complete">Would you like to proceed with completing the selected %s?</string>
 
     <!--  타이틀  -->
-    <string name="title_login">핀메뉴 로그인</string>
-    <string name="title_master_login">핀메뉴 마스터 로그인</string>
-    <string name="title_signup">핀메뉴 회원가입</string>
-    <string name="title_udt_mbr">회원정보 수정</string>
-    <string name="title_reg_store">매장등록</string>
-    <string name="title_udt_store">매장 정보 수정</string>
-    <string name="title_cate">카테고리</string>
-    <string name="title_cate_add">카테고리입력</string>
-    <string name="title_cate_udt">카테고리수정</string>
+    <string name="title_login">Pinmenu Sign In</string>
+    <string name="title_master_login">Pinmenu Master Sign In</string>
+    <string name="title_signup">Pinmenu Sign Up</string>
+    <string name="title_udt_mbr">Modify User Info</string>
+    <string name="title_reg_store">Store Registration</string>
+    <string name="title_udt_store">Update Store Information</string>
+    <string name="title_cate">Category</string>
+    <string name="title_cate_add">Enter Category</string>
+    <string name="title_cate_udt">Modify Category</string>
 
     <!--  비어있는 목록  -->
-    <string name="no_order_list">주문내역이 없습니다.</string>
-    <string name="no_call_list">호출내역이 없습니다.</string>
-    <string name="no_store_list">등록된 매장이 없습니다.</string>
+    <string name="no_order_list">No Order List</string>
+    <string name="no_call_list">No Call List</string>
+    <string name="no_store_list">No Store</string>
 
     <!--  확인 다이얼로그  -->
-    <string name="dialog_logout">로그아웃 하시겠습니까?</string>
-    <string name="dialog_drop">탈퇴 시 등록한 모든 정보가 사라집니다.\n정말 탈퇴하시겠습니까?</string>
-    <string name="dialog_order_clear_title">주문내역 초기화</string>
-    <string name="dialog_call_clear_title">호출내역 초기화</string>
-    <string name="dialog_delete">한번 삭제된 내역은 복원되지 않습니다.\n그래도 삭제를 진행하시겠습니까?</string>
+    <string name="dialog_logout">Do you want to Log out?</string>
+    <string name="dialog_drop">Your account data will be deleted upon withdrawal.\nAre you sure you want to proceed with withdrawal?</string>
+    <string name="dialog_order_clear_title">Reset Order History</string>
+    <string name="dialog_call_clear_title">Reset Call History</string>
+    <string name="dialog_delete">Once deleted, history cannot be restored.\nDo you still want to proceed with the deletion?</string>
 
     <!--  알림 다이얼로그  -->
-    <string name="dialog_notice">알림</string>
+    <string name="dialog_notice">Notice</string>
     <string name="dialog_version" translatable="false">Ver %s</string>
-    <string name="dialog_no_printer">연결된 프린트 기기가 없습니다.</string>
-    <string name="dialog_check_conn">프린터 연결 상태를 확인해주세요.</string>
-    <string name="dialog_dont_show">다시보지않기</string>
-    <string name="dialog_no_business">본 기능은 비즈니스 상품 이용 고객에게 제공됩니다. 이용을 위해서는 비즈니스 상품으로 변경해주세요.</string>
-    <string name="dialog_disable_qr">이용 가능한 QR 갯수 초과</string>
+    <string name="dialog_no_printer">Printer not connecting.</string>
+    <string name="dialog_check_conn">Please check the connection of the printer.</string>
+    <string name="dialog_dont_show">Do not open it again.</string>
+    <string name="dialog_no_business">This feature is available to business product subscribers only. Please upgrade to a business product to access this feature.</string>
+    <string name="dialog_disable_qr">Number of QRs available exceeded</string>
 
     <!--  토스트 메세지  -->
-    <string name="msg_retry">다시 시도해주세요.</string>
-    <string name="msg_complete">완료되었습니다.</string>
-    <string name="msg_no_id">아이디를 입력해주세요.</string>
-    <string name="msg_no_pw">비밀번호를 입력해주세요.</string>
-    <string name="msg_no_now_pw">현재 비밀번호를 입력해주세요.</string>
-    <string name="msg_no_new_pw">새로운 비밀번호를 입력해주세요.</string>
-    <string name="msg_typemiss_pw">비밀번호는 8자리 이상 영문, 숫자만 입력해 주세요.</string>
-    <string name="msg_typemiss_id">이메일 형식이 아닙니다.</string>
-    <string name="msg_no_checked">아이디 중복체크클 해주세요.</string>
-    <string name="msg_agree_term1">이용약관에 동의해 주세요.</string>
-    <string name="msg_agree_term2">개인정보 취급방침에 동의해 주세요.</string>
-    <string name="msg_success_down">다운로드가 완료되었습니다.</string>
-    <string name="msg_fail_down">다운로드가 실패하였습니다.</string>
-    <string name="msg_find_pwd">임시 비밀번호가 이메일로 전송되었습니다.</string>
-    <string name="msg_copy">클립보드에 복사되었습니다.</string>
-    <string name="backpress">뒤로 가기 버튼을 한 번 더 누르시면 종료됩니다.</string>
+    <string name="msg_retry">Please try again.</string>
+    <string name="msg_complete">Done.</string>
+    <string name="msg_no_id">Please enter your ID</string>
+    <string name="msg_no_pw">Please enter your Password</string>
+    <string name="msg_no_now_pw">Please enter your current password.</string>
+    <string name="msg_no_new_pw">Please enter New Password.</string>
+    <string name="msg_typemiss_pw">Please enter 8 digits or more in English and numbers only.</string>
+    <string name="msg_typemiss_id">It is not in the form of an email.</string>
+    <string name="msg_no_checked">Please complete checking the availability of ID.</string>
+    <string name="msg_agree_term1">Please agree to the Terms of Service.</string>
+    <string name="msg_agree_term2">Please agree to the Privacy Policy.</string>
+    <string name="msg_success_down">Download Complete</string>
+    <string name="msg_fail_down">Download Failed</string>
+    <string name="msg_find_pwd">A temporary password has been emailed to you.</string>
+    <string name="msg_copy">Copied to Clipboard</string>
+    <string name="backpress">Press BACK again to exit</string>
 
-    <string name="msg_no_addr">주소를 입력해주세요.</string>
-    <string name="msg_check_addr">주소를 확인해주세요.</string>
-    <string name="msg_reg_store_first">매장 등록을 완료한 후 이용해주시기 바랍니다.</string>
-    <string name="msg_no_endtm">시간을 확인해주세요.</string>
-    <string name="msg_no_date">날짜를 확인해주세요.</string>
-    <string name="msg_no_img">이미지를 등록해주세요.</string>
-    <string name="msg_no_name">명칭을 입력해주세요.</string>
-    <string name="msg_no_item_name">목록명을 입력해주세요.</string>
-    <string name="msg_no_goods_name">상품명을 입력해주세요.</string>
-    <string name="msg_no_search_result">검색 결과가 없습니다.</string>
-    <string name="msg_no_table_no">테이블 번호를 입력해주세요.</string>
-    <string name="msg_preparing">준비 중입니다.</string>
-    <string name="msg_no_pay">결제 후 이용 가능합니다.</string>
-    <string name="msg_no_store">매장 등록 후 이용할 수 있습니다.</string>
-    <string name="msg_payment_cancel">결제가 취소되었습니다.</string>
-    <string name="msg_no_event_exp">이벤트 설명을 입력해 주세요.</string>
+    <string name="msg_no_addr">Please Enter the address</string>
+    <string name="msg_check_addr">Please Check the address</string>
+    <string name="msg_reg_store_first">You can use it after registering for the store.</string>
+    <string name="msg_no_endtm">Please check the time</string>
+    <string name="msg_no_date">Please check the date</string>
+    <string name="msg_no_img">Please register your image</string>
+    <string name="msg_no_name">Please enter the name.</string>
+    <string name="msg_no_item_name">Please enter a list name</string>
+    <string name="msg_no_goods_name">Please enter the product name</string>
+    <string name="msg_no_search_result">No search results.</string>
+    <string name="msg_no_table_no">Please Enter the table No.</string>
+    <string name="msg_preparing">Preparing</string>
+    <string name="msg_no_pay">You can use it after paying for the plan.</string>
+    <string name="msg_no_store">You can use it after registering for the store.</string>
+    <string name="msg_payment_cancel">Your payment has been canceled.</string>
+    <string name="msg_no_event_exp">Please enter event description</string>
 
     <!--  테스트 인쇄 문구  -->
-    <string name="print_test">오리지널 스마트 전자메뉴판 핀메뉴 테스트 인쇄 입니다. 1234567890 가나다라마바사아자차카타파하 ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="print_test">Original Smart Menu PinMenu Print TEST\n1234567890 가나다라마바사아자차카타파하 ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
 
     <!--  권한 다이얼로그  -->
-    <string name="pms_storage_title">외부 저장소 권한 요청</string>
-    <string name="pms_storage_content">원활한 서비스 이용을 위해서는 외부 저장소 권한이 필요합니다.</string>
-    <string name="pms_bluetooth_title">블루투스 권한 요청</string>
-    <string name="pms_bluetooth_content">원활한 서비스 이용을 위해서는 블루투스 권한이 필요합니다.</string>
-    <string name="pms_location_title">위치 권한 요청</string>
-    <string name="pms_location_content">원활한 서비스 이용을 위해서는 위치 권한이 필요합니다.</string>
-    <string name="pms_notification_title">알림 권한 요청</string>
-    <string name="pms_notification_content">원활한 서비스 이용을 위해서는 알림 권한이 필요합니다.</string>
+    <string name="pms_storage_title">External Storage Permission Request</string>
+    <string name="pms_storage_content">External Storage permissions are required to use the service.</string>
+    <string name="pms_bluetooth_title">Bluetooth Permission Request</string>
+    <string name="pms_bluetooth_content">"Bluetooth permission is required to use the service. "</string>
+    <string name="pms_location_title">Location Permission Request</string>
+    <string name="pms_location_content">Location permissions are required to use the service.</string>
+    <string name="pms_notification_title">Notification Permission Request</string>
+    <string name="pms_notification_content">Notification permissions are required to use the service.</string>
 </resources>

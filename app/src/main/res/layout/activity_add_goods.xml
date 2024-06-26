@@ -77,6 +77,8 @@
                 android:layout_width="110dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="36dp"
                 android:hint="@string/zero"
                 app:layout_constraintTop_toBottomOf="@+id/explain"
                 app:layout_constraintEnd_toStartOf="@id/tilde" />
@@ -100,6 +102,8 @@
                 android:id="@+id/cookingTimeMax"
                 android:layout_width="110dp"
                 android:layout_marginTop="10dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="36dp"
                 android:hint="@string/zero"
                 app:layout_constraintTop_toBottomOf="@+id/explain"
                 app:layout_constraintEnd_toEndOf="@+id/explain" />
@@ -123,6 +127,8 @@
                 android:id="@+id/price"
                 android:layout_width="0dp"
                 android:layout_marginTop="10dp"
+                android:paddingStart="36dp"
+                android:paddingEnd="15dp"
                 android:hint="@string/zero"
                 android:maxLength="11"
                 app:layout_constraintStart_toStartOf="@+id/cookingTimeMin"
@@ -131,8 +137,8 @@
             <TextView
                 style="@style/text17"
                 android:text="@string/won"
-                android:layout_marginEnd="15dp"
-                app:layout_constraintEnd_toEndOf="@+id/price"
+                android:layout_marginStart="15dp"
+                app:layout_constraintStart_toStartOf="@+id/price"
                 app:layout_constraintTop_toTopOf="@+id/price"
                 app:layout_constraintBottom_toBottomOf="@+id/price"/>
 
@@ -294,7 +300,7 @@
                 <TextView
                     style="@style/text17"
                     android:layout_marginEnd="10dp"
-                    android:text="@string/option_require" />
+                    android:text="@string/essential" />
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"
@@ -313,7 +319,7 @@
                 <TextView
                     style="@style/text17"
                     android:layout_marginEnd="10dp"
-                    android:text="@string/option_choice" />
+                    android:text="@string/choice" />
                 <ImageView
                     android:layout_width="17dp"
                     android:layout_height="17dp"

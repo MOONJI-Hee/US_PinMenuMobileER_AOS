@@ -54,6 +54,7 @@
             <TextView
                 style="@style/text17"
                 android:id="@+id/imgDefault"
+                android:gravity="center"
                 android:text="@string/event_img_hint"
                 android:textColor="@color/hint"/>
         </LinearLayout>
@@ -97,6 +98,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="55dp"
             android:paddingVertical="10dp"
+            android:lineSpacingMultiplier="1.2"
+            android:maxLength="400"
             android:hint="@string/event_exp_hint"
             android:minLines="4"
             android:maxLines="4"

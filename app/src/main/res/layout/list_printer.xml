@@ -5,8 +5,7 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="141dp"
-    android:paddingVertical="15dp"
-    android:paddingHorizontal="20dp">
+    android:paddingVertical="15dp">
 
     <ImageView
         android:id="@+id/ivPrinter"
@@ -14,7 +13,7 @@
         android:layout_height="70dp"
         android:src="@drawable/skl_ts400b"
         app:layout_constraintBottom_toTopOf="@+id/btnTest"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/btnTest"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
@@ -23,6 +22,7 @@
         style="@style/btn_small"
         android:layout_width="70dp"
         android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
         android:text="@string/test"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,17 +64,18 @@
         android:id="@+id/line"
         android:layout_width="2dp"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="15dp"
+        android:layout_marginHorizontal="10dp"
         android:background="@color/f9"
         app:layout_constraintEnd_toStartOf="@+id/btnConn"
         app:layout_constraintStart_toEndOf="@+id/nick"/>
 
     <TextView
-        style="@style/subtext"
+        style="@style/text15d"
         android:id="@+id/connNo"
         android:layout_marginBottom="22dp"
         android:text="@string/printer_not_conn"
         android:lineSpacingExtra="0dp"
+        android:gravity="center"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/btnConn"
         app:layout_constraintEnd_toEndOf="@+id/btnConn"
@@ -105,9 +106,12 @@
         tools:text="@string/good"/>
 
     <LinearLayout
-        style="@style/btn_small"
         android:id="@+id/btnConn"
-        android:layout_width="52dp"
+        android:layout_width="72dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="center"
+        android:background="@drawable/bg_r6_grd"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <ImageView
@@ -119,10 +123,11 @@
     <TextView
         style="@style/btn_cancel_small"
         android:id="@+id/btnClear"
-        android:layout_width="52dp"
+        android:layout_width="72dp"
         android:text="@string/clear"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@+id/btnConn"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

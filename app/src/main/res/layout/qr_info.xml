@@ -35,7 +35,7 @@
     android:text="@string/dot"
     android:layout_marginTop="10dp"
     app:layout_constraintStart_toStartOf="@+id/dot1"
-    app:layout_constraintTop_toBottomOf="@+id/dot1"/>
+    app:layout_constraintTop_toBottomOf="@+id/info1"/>
 
 <TextView
     style="@style/subtext"
@@ -43,7 +43,7 @@
     android:text="@string/dot"
     android:layout_marginTop="10dp"
     app:layout_constraintStart_toStartOf="@+id/dot2"
-    app:layout_constraintTop_toBottomOf="@+id/dot2"/>
+    app:layout_constraintTop_toBottomOf="@+id/info2"/>
 
 <TextView
     style="@style/subtext"
@@ -51,7 +51,7 @@
     android:text="@string/dot"
     android:layout_marginTop="10dp"
     app:layout_constraintStart_toStartOf="@+id/dot3"
-    app:layout_constraintTop_toBottomOf="@+id/dot3"/>
+    app:layout_constraintTop_toBottomOf="@+id/info3"/>
 
 <TextView
     style="@style/subtext"
@@ -59,34 +59,41 @@
     android:text="@string/dot"
     android:layout_marginTop="10dp"
     app:layout_constraintStart_toStartOf="@+id/dot4"
-    app:layout_constraintTop_toBottomOf="@+id/dot4"/>
+    app:layout_constraintTop_toBottomOf="@+id/info4"/>
 
 <TextView
     style="@style/subtext"
+    android:id="@+id/info1"
     android:text="@string/qr_detail_info1"
     app:layout_constraintStart_toEndOf="@+id/dot1"
     app:layout_constraintTop_toTopOf="@+id/dot1"/>
 
 <TextView
     style="@style/subtext"
+    android:id="@+id/info2"
     android:text="@string/qr_detail_info2"
     app:layout_constraintStart_toEndOf="@+id/dot2"
     app:layout_constraintTop_toTopOf="@+id/dot2"/>
 
 <TextView
     style="@style/subtext"
+    android:id="@+id/info3"
+    android:layout_width="0dp"
     android:text="@string/qr_detail_info3"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toEndOf="@+id/dot3"
     app:layout_constraintTop_toTopOf="@+id/dot3"/>
 
 <TextView
     style="@style/subtext"
+    android:id="@+id/info4"
     android:text="@string/qr_detail_info4"
     app:layout_constraintStart_toEndOf="@+id/dot4"
     app:layout_constraintTop_toTopOf="@+id/dot4"/>
 
 <TextView
     style="@style/subtext"
+    android:id="@+id/info5"
     android:text="@string/qr_detail_info5"
     android:layout_width="0dp"
     android:layout_marginBottom="20dp"

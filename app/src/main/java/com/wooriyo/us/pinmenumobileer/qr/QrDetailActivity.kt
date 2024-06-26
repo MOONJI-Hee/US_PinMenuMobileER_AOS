@@ -53,7 +53,7 @@ class QrDetailActivity : BaseActivity() {
         setContentView(binding.root)
 
         seq = intent.getIntExtra("seq", seq)
-        strSeq = if(seq == 0) "예약" else AppHelper.intToString(seq)
+        strSeq = if(seq == 0) "Res." else AppHelper.intToString(seq)
         binding.tvSeq.text = strSeq
 
         qrCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -74,7 +74,7 @@ class QrDetailActivity : BaseActivity() {
         }
 
         if(seq == 0) {
-            binding.etTableNo.setText(R.string.reservation)
+            binding.etTableNo.setText(R.string.reserv)
             binding.etTableNo.isEnabled = false
 
             binding.download.text = getString(R.string.qr_down_reserv)

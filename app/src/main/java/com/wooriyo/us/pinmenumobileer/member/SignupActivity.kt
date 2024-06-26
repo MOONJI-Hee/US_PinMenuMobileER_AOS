@@ -64,16 +64,16 @@ class SignupActivity : BaseActivity(), View.OnClickListener {
 
         when(v) {
             binding.terms1 -> {
-                title = "핀메뉴 이용약관"
-                url = "https://pinmenu.biz/policy/agreement.php"
+                title = "Pinmenu Terms"
+                url = "https://pinmenu.net/policy/agreement.php"
             }
             binding.terms2 -> {
-                title = "핀메뉴 개인정보 취급방침"
-                url = "https://pinmenu.biz/policy/app_service.php"
+                title = "Pinmenu Privacy Policy"
+                url = "https://pinmenu.net/policy/app_service.php"
             }
             binding.terms3 -> {
-                title = "핀메뉴 마케팅 활용정보"
-                url = "https://pinmenu.biz/policy/marketing.php"
+                title = "Pinmenu Marketing"
+                url = "https://pinmenu.net/policy/marketing.php"
             }
         }
 
@@ -117,7 +117,7 @@ class SignupActivity : BaseActivity(), View.OnClickListener {
                                 Toast.makeText(mActivity, R.string.msg_complete, Toast.LENGTH_SHORT).show()
 
                                 val useridx = result.useridx
-                                val memberDTO = MemberDTO(result.status, result.msg, useridx, userid, "")
+                                val memberDTO = MemberDTO(result.status, result.msg, useridx, userid)
 
                                 MyApplication.pref.setMbrDTO(memberDTO)
                                 MyApplication.pref.setUserIdx(memberDTO.useridx)
