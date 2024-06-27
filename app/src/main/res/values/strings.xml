@@ -107,6 +107,7 @@
     <!--  매장 등록 & 수정  -->
     <string name="store_name">Store Name</string>
     <string name="store_name_hint">Please enter the store name.</string>
+    <string name="store_name_hint2">Please enter the store name. (0ptional)</string>
     <string name="store_addr">Store Address</string>
     <string name="store_addr_hint">Please enter the address.</string>
     <string name="store_addr_info1">Events will be held based on the store address provided.\nPlease enter the store address accurately.</string>
