@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Pinmenu Admin (SmartPhone)</string>
+    <string name="app_name" translatable="false">Pinmenu Mgmt (SmartPhone)</string>
 
     <string name="login">Sign In</string>
     <string name="logout">Log Out</string>
