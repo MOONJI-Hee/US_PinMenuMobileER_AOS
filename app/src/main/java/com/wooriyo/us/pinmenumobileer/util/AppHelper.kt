@@ -91,8 +91,10 @@ class AppHelper {
         val nformat = NumberFormat.getInstance()
 
         // 천 단위 콤마 찍기
-        fun price(n: Int): String {
-            return nformat.format(n)
+        fun price(d: Double): String {
+            val nFormat = DecimalFormat("0.00")
+            return nFormat.format(d).toString()
+//            return nformat.format(n)
         }
 
         // 한자리 수 n > 0n 형식으로 변환하기 + 빈 문자열 > 00으로 변환

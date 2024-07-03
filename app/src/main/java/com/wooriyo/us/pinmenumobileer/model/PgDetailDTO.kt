@@ -6,7 +6,7 @@ data class PgDetailDTO(
     @SerializedName("idx") var idx: Int,
     @SerializedName("name") var name: String,
     @SerializedName("gea") var gea: Int,
-    @SerializedName("price") var price: Int,
+    @SerializedName("price") var price: Double,
     @SerializedName("cancel") var cancel: Int,
     @SerializedName("cardname") var cardname: String,
     @SerializedName("cardnum") var cardnum: String,

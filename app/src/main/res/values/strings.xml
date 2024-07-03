@@ -56,13 +56,14 @@
     <string name="date">Date</string>
     <string name="month">Month</string>
     <string name="day">Day</string>
+    <string name="min">m</string>
+
+    <string name="percent" translatable="false">%</string>
     <string name="tilde" translatable="false">~</string>
     <string name="colon" translatable="false">:</string>
     <string name="right_angle" translatable="false">\></string>
     <string name="zero" translatable="false">0</string>
     <string name="zero2" translatable="false">00</string>
-    <string name="min">m</string>
-
     <string name="zeroClock" translatable="false"><font color="#B4B4B4">00</font>:<font color="#B4B4B4">00</font></string>
 
     <string name="monday">Monday</string>
@@ -304,6 +305,13 @@
 
     <!--  설정  -->
     <string name="version_info">Version info</string>
+
+    <!--  팁 & 택스  -->
+    <string name="tiptax">Tip &amp; Tax</string>
+    <string name="tips">Tips</string>
+    <string name="tax">Tax</string>
+    <string name="tip_info">The asterisked tip entered in the second column is automatically selected and displayed on the bill.\nCustomers can change the tips they will pay by pressing the [Change] button.\nYou can adjust the percentage of tips yourself.\n Please enter four percentage options.\n You can activate tips by toggling On/Off.</string>
+    <string name="tax_info">Every January 1st, you must manually adjust the tax.\nTips are not calculated in the tax.</string>
 
     <!-- 직원 호출 -->
     <string name="call_emp">Call</string>

@@ -5,7 +5,6 @@ import com.wooriyo.us.pinmenumobileer.model.CallSetListDTO
 import com.wooriyo.us.pinmenumobileer.model.CateListDTO
 import com.wooriyo.us.pinmenumobileer.model.EventDTO
 import com.wooriyo.us.pinmenumobileer.model.GoodsListDTO
-import com.wooriyo.us.pinmenumobileer.model.KakaoResultDTO
 import com.wooriyo.us.pinmenumobileer.model.MemberDTO
 import com.wooriyo.us.pinmenumobileer.model.OrderListDTO
 import com.wooriyo.us.pinmenumobileer.model.PaySettingDTO
@@ -20,6 +19,7 @@ import com.wooriyo.us.pinmenumobileer.model.ReceiptDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
 import com.wooriyo.us.pinmenumobileer.model.StoreListDTO
 import com.wooriyo.us.pinmenumobileer.model.TableNoListDTO
+import com.wooriyo.us.pinmenumobileer.model.TipTaxDTO
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -195,6 +195,26 @@ interface Api {
         @Query("viewmode") viewmode: String // b : 기본, p: 3x3, l : 리스트
     ): Call<ResultDTO>
 
+    // 팁 & 택스 조회
+    @GET("m/getTipTax.php")
+    fun getTipTax(
+        @Query("useridx") useridx: Int,
+        @Query("storeidx") storeidx: Int
+    ): Call<TipTaxDTO>
+
+    // 팁 & 택스 설정
+    @GET("m/tiptax.php")
+    fun setTipTax(
+        @Query("useridx") useridx: Int,
+        @Query("storeidx") storeidx: Int,
+        @Query("tipuse") tipuse: String,
+        @Query("tip1") tip1: Int,
+        @Query("tip2") tip2: Int,
+        @Query("tip3") tip3: Int,
+        @Query("tip4") tip4: Int,
+        @Query("tax") tax: String
+    ): Call<ResultDTO>
+
     // 카테고리 목록 조희
     @GET("m/getcategory.php")
     fun getCateList(
@@ -258,7 +278,7 @@ interface Api {
         @Query("content") content : String,
         @Query("cooking_time_min") cooking_time_min : String,
         @Query("cooking_time_max") cooking_time_max : String,
-        @Query("price") price : Int,
+        @Query("price") price : Double,
         @Query("adDisplay") adDisplay : String,
         @Query("icon") icon : Int,
         @Query("boption") boption : String,
@@ -287,7 +307,7 @@ interface Api {
         @Query("content") content : String,
         @Query("cooking_time_min") cooking_time_min : String,
         @Query("cooking_time_max") cooking_time_max : String,
-        @Query("price") price : Int,
+        @Query("price") price : Double,
         @Query("icon") icon : Int,
         @Query("img1") img1: Int,       // 이미지 삭제 여부 1:삭제, 0: 유지
         @Query("img2") img2: Int,
@@ -756,12 +776,4 @@ interface Api {
         @Query("APPVS") APPVS: String,
         @Query("TYPE") type: Int        // 1: 모바일, 2: 태블릿
     ): Call<ResultDTO>
-
-    // 카카오 지도 관련 api
-    @GET("/v2/local/search/address.json")
-    fun kakaoSearch(
-        @Header("Authorization") key : String,
-        @Query("query") query : String
-    ): Call<KakaoResultDTO>
-
 }

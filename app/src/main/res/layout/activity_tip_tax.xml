@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".more.TipTaxActivity">
+
+    <TextView
+        style="@style/title"
+        android:id="@+id/title"
+        android:text="@string/tiptax"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintTop_toTopOf="@+id/title"
+        app:layout_constraintBottom_toBottomOf="@+id/title">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_back_white"/>
+    </LinearLayout>
+    
+    <TextView
+        style="@style/text17b"
+        android:text="@string/tips"
+        app:layout_constraintStart_toStartOf="@+id/prop1"
+        app:layout_constraintTop_toTopOf="@+id/useTip"
+        app:layout_constraintBottom_toBottomOf="@+id/useTip"/>
+
+    <CheckBox
+        style="@style/toggle"
+        android:id="@+id/useTip"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
+
+    <EditText
+        style="@style/edittext_tip_tax"
+        android:id="@+id/prop1"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="20dp"
+        android:imeOptions="actionNext"
+        android:enabled="false"
+        app:layout_constraintTop_toBottomOf="@+id/useTip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/prop2"/>
+
+    <EditText
+        style="@style/edittext_tip_tax"
+        android:id="@+id/prop2"
+        android:layout_marginHorizontal="10dp"
+        android:imeOptions="actionNext"
+        android:enabled="false"
+        app:layout_constraintTop_toTopOf="@+id/prop1"
+        app:layout_constraintStart_toEndOf="@+id/prop1"
+        app:layout_constraintEnd_toStartOf="@+id/prop3"/>
+
+    <EditText
+        style="@style/edittext_tip_tax"
+        android:id="@+id/prop3"
+        android:imeOptions="actionNext"
+        android:enabled="false"
+        app:layout_constraintTop_toTopOf="@+id/prop2"
+        app:layout_constraintStart_toEndOf="@+id/prop2"
+        app:layout_constraintEnd_toStartOf="@+id/prop4"/>
+
+    <EditText
+        style="@style/edittext_tip_tax"
+        android:id="@+id/prop4"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="20dp"
+        android:imeOptions="actionNext"
+        android:enabled="false"
+        app:layout_constraintTop_toTopOf="@+id/prop3"
+        app:layout_constraintStart_toEndOf="@+id/prop3"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        style="@style/text15"
+        android:text="@string/percent"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/prop1"
+        app:layout_constraintTop_toTopOf="@+id/prop1"
+        app:layout_constraintEnd_toEndOf="@+id/prop1"/>
+
+    <TextView
+        style="@style/text15"
+        android:text="@string/percent"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/prop2"
+        app:layout_constraintTop_toTopOf="@+id/prop2"
+        app:layout_constraintEnd_toEndOf="@+id/prop2"/>
+
+    <TextView
+        style="@style/text15"
+        android:text="@string/percent"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/prop3"
+        app:layout_constraintTop_toTopOf="@+id/prop3"
+        app:layout_constraintEnd_toEndOf="@+id/prop3"/>
+
+    <TextView
+        style="@style/text15"
+        android:text="@string/percent"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/prop4"
+        app:layout_constraintTop_toTopOf="@+id/prop4"
+        app:layout_constraintEnd_toEndOf="@+id/prop4"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_tip_tax_default"
+        app:layout_constraintTop_toTopOf="@+id/prop2"
+        app:layout_constraintEnd_toEndOf="@+id/prop2"
+        />
+
+    <TextView
+        style="@style/subtext"
+        android:id="@+id/tipInfo"
+        android:text="@string/tip_info"
+        android:layout_width="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/prop4"
+        app:layout_constraintTop_toBottomOf="@+id/prop1"
+        app:layout_constraintStart_toStartOf="@+id/prop1"/>
+
+    <TextView
+        style="@style/text17b"
+        android:id="@+id/tvTax"
+        android:text="@string/tax"
+        app:layout_constraintStart_toStartOf="@+id/prop1"
+        app:layout_constraintTop_toTopOf="@+id/tax"
+        app:layout_constraintBottom_toBottomOf="@+id/tax"/>
+
+    <EditText
+        style="@style/edittext_tip_tax"
+        android:id="@+id/tax"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:inputType="numberDecimal"
+        android:imeOptions="actionDone"
+        app:layout_constraintTop_toBottomOf="@+id/tipInfo"
+        app:layout_constraintStart_toEndOf="@+id/tvTax"
+        app:layout_constraintEnd_toEndOf="@+id/prop4"/>
+
+    <TextView
+        style="@style/text15"
+        android:text="@string/percent"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tax"
+        app:layout_constraintTop_toTopOf="@+id/tax"
+        app:layout_constraintEnd_toEndOf="@+id/tax"/>
+
+    <TextView
+        style="@style/subtext"
+        android:id="@+id/taxInfo"
+        android:text="@string/tax_info"
+        android:layout_width="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/tax"
+        app:layout_constraintTop_toBottomOf="@+id/tax"
+        app:layout_constraintStart_toStartOf="@+id/tvTax"/>
+
+    <TextView
+        style="@style/btn"
+        android:id="@+id/save"
+        android:text="@string/save"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="30dp"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

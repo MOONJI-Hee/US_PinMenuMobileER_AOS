@@ -16,6 +16,7 @@ import com.wooriyo.us.pinmenumobileer.listener.ItemClickListener
 import com.wooriyo.us.pinmenumobileer.more.SetCustomerInfoActivity
 import com.wooriyo.us.pinmenumobileer.more.SetMenuUiActivity
 import com.wooriyo.us.pinmenumobileer.more.SetStoreImgActivity
+import com.wooriyo.us.pinmenumobileer.more.TipTaxActivity
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
 
 class SelectStoreActivity : BaseActivity() {
@@ -60,6 +61,11 @@ class SelectStoreActivity : BaseActivity() {
                         MyApplication.store = storeList[position]
                         MyApplication.storeidx = storeList[position].idx
                         startActivity(Intent(mActivity, SetStoreImgActivity::class.java))
+                    }
+                    "tiptax" -> {
+                        MyApplication.store = storeList[position]
+                        MyApplication.storeidx = storeList[position].idx
+                        startActivity(Intent(mActivity, TipTaxActivity::class.java))
                     }
                 }
 

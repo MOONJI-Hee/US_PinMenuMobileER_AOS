@@ -8,7 +8,7 @@ data class PgDetailResultDTO(
     @SerializedName("tableNo") var tableNo: String,
     @SerializedName("cardname") var cardname: String,
     @SerializedName("cardnum") var cardnum: String,
-    @SerializedName("amt") var amt: Int,
+    @SerializedName("amt") var amt: Double,
     @SerializedName("tid") var tid: String,
     @SerializedName("pay_regdt") var pay_regdt: String,
     @SerializedName("pglist") var pgDetailList: ArrayList<PgDetailDTO>

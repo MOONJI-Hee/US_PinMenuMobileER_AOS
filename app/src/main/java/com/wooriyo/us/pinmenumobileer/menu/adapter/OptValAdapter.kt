@@ -71,7 +71,7 @@ class OptValAdapter(val dataSet: ArrayList<ValueDTO>): RecyclerView.Adapter<Recy
                 binding.value.text.clear()
 
             if(data.price.isNotEmpty() && data.price != "0") {
-                binding.price.setText(AppHelper.price(data.price.toInt()))
+                binding.price.setText(AppHelper.price(data.price.toDouble()))
             }else {
                 binding.price.text.clear()
             }
@@ -98,7 +98,7 @@ class OptValAdapter(val dataSet: ArrayList<ValueDTO>): RecyclerView.Adapter<Recy
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     if(!s.isNullOrEmpty() && s.toString() != result) {
-                        result = AppHelper.price(s.toString().replace(",", "").toInt())
+                        result = AppHelper.price(s.toString().replace(",", "").toDouble())
                         binding.price.setText(result)
                         binding.price.setSelection(result.length)
                     }

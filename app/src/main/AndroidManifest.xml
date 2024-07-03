@@ -22,7 +22,7 @@
         android:maxSdkVersion="29" />
 
     <application
-        android:name="com.wooriyo.us.pinmenumobileer.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -34,134 +34,137 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PinmenuMobileER">
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.more.SetMenuUiActivity"
+            android:name=".more.TipTaxActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.more.SetStoreImgActivity"
+            android:name=".more.SetMenuUiActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.more.SetActivity"
+            android:name=".more.SetStoreImgActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.qr.EventPreviewActivity"
+            android:name=".more.SetActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.qr.SetEventActivity"
+            android:name=".qr.EventPreviewActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.menu.AddOptActivity"
+            android:name=".qr.SetEventActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.menu.AddGoodsActivity"
+            android:name=".menu.AddOptActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.menu.SetGoodsActivity"
+            android:name=".menu.AddGoodsActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.menu.ChangeMenuSeqActivity"
+            android:name=".menu.SetGoodsActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.menu.ChangeCateSeqActivity"
+            android:name=".menu.ChangeMenuSeqActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.menu.AddCategoryActivity"
+            android:name=".menu.ChangeCateSeqActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.menu.SetCategoryActivity"
+            android:name=".menu.AddCategoryActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.pg.PgCancelActivity"
+            android:name=".menu.SetCategoryActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.pg.PgHistoryActivity"
+            android:name=".pg.PgCancelActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.more.SetCustomerInfoActivity"
+            android:name=".pg.PgHistoryActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.payment.SetPgInfoActivity"
+            android:name=".more.SetCustomerInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.common.WebViewActivity"
+            android:name=".payment.SetPgInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.qr.QrDetailActivity"
+            android:name=".common.WebViewActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.qr.QrAgreeActivity"
+            android:name=".qr.QrDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".qr.QrAgreeActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.member.MasterLoginActivity"
+            android:name=".member.MasterLoginActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.MainActivity"
+            android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.history.ByHistoryActivity"
+            android:name=".history.ByHistoryActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.payment.NicepayJoinWayActivity"
+            android:name=".payment.NicepayJoinWayActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.payment.NicepayInfoActivity"
+            android:name=".payment.NicepayInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.payment.QrActivity"
+            android:name=".payment.QrActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.pay.SelMenuActivity"
+            android:name=".pay.SelMenuActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.payment.SetNicepayActivity"
+            android:name=".payment.SetNicepayActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.payment.ReaderModelActivity"
+            android:name=".payment.ReaderModelActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.pay.PayCardActivity"
+            android:name=".pay.PayCardActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.printer.SelectCateActivity"
+            android:name=".printer.SelectCateActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.printer.SelectPrinterActivity"
+            android:name=".printer.SelectPrinterActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.printer.ContentSetActivity"
+            android:name=".printer.ContentSetActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.printer.DetailPrinterActivity"
+            android:name=".printer.DetailPrinterActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.common.SelectStoreActivity"
+            android:name=".common.SelectStoreActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.printer.SetConnActivity"
+            android:name=".printer.SetConnActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.printer.SupportPrinterActivity"
+            android:name=".printer.SupportPrinterActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.printer.NewConnActivity"
+            android:name=".printer.NewConnActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.store.RegStoreActivity"
+            android:name=".store.RegStoreActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.member.SignupActivity"
+            android:name=".member.SignupActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.member.FindPwdActivity"
+            android:name=".member.FindPwdActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.member.LoginActivity"
+            android:name=".member.LoginActivity"
             android:exported="false" />
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.member.StartActivity"
+            android:name=".member.StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -170,14 +173,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.wooriyo.us.pinmenumobileer.more.MemberSetActivity"
+            android:name=".more.MemberSetActivity"
             android:exported="false" />
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_noti" />
 
         <service
-            android:name="com.wooriyo.us.pinmenumobileer.fcm.MyFirebaseService"
+            android:name=".fcm.MyFirebaseService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

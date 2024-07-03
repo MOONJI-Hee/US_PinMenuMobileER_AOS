@@ -207,6 +207,21 @@
         <item name="android:background">@drawable/bg_r6w</item>
         <item name="android:includeFontPadding">false</item>
     </style>
+    <style name="edittext_tip_tax">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">33dp</item>
+        <item name="android:gravity">center_vertical|end</item>
+        <item name="maxLines">1</item>
+        <item name="android:hint">0</item>
+        <item name="android:inputType">number</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/hint</item>
+        <item name="android:background">@drawable/bg_edittext</item>
+    </style>
     <style name="thum">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>

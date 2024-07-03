@@ -75,7 +75,7 @@
                 android:src="@drawable/icon_more_photo"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/menuUi"
-                app:layout_constraintEnd_toStartOf="@+id/setting"/>
+                app:layout_constraintEnd_toStartOf="@+id/tiptax"/>
             <TextView
                 style="@style/text12d"
                 android:text="@string/more_store_img"
@@ -84,28 +84,35 @@
                 app:layout_constraintTop_toBottomOf="@+id/storeImg"/>
 
             <ImageView
+                android:id="@+id/tiptax"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/icon_more_tip_tax"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/storeImg"
+                app:layout_constraintEnd_toStartOf="@+id/setting"/>
+            <TextView
+                style="@style/text12d"
+                android:text="@string/tiptax"
+                app:layout_constraintStart_toStartOf="@+id/tiptax"
+                app:layout_constraintEnd_toEndOf="@id/tiptax"
+                app:layout_constraintTop_toBottomOf="@+id/tiptax"/>
+
+            <ImageView
                 android:id="@+id/setting"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_marginEnd="10dp"
                 android:src="@drawable/icon_more_set"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/storeImg"
-                app:layout_constraintEnd_toStartOf="@+id/empty"/>
+                app:layout_constraintStart_toEndOf="@+id/tiptax"
+                app:layout_constraintEnd_toEndOf="parent"/>
             <TextView
                 style="@style/text12d"
                 android:text="@string/setting"
                 app:layout_constraintStart_toStartOf="@+id/setting"
                 app:layout_constraintEnd_toEndOf="@id/setting"
                 app:layout_constraintTop_toBottomOf="@+id/setting"/>
-
-            <ImageView
-                android:id="@+id/empty"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/setting"
-                app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

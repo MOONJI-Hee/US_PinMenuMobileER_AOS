@@ -205,7 +205,7 @@ class AddGoodsActivity : BaseActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if(!s.isNullOrEmpty() && s.toString() != result) {
-                    result = AppHelper.price(s.toString().replace(",", "").toInt())
+                    result = AppHelper.price(s.toString().replace(",", "").toDouble())
                     binding.price.setText(result)
                     binding.price.setSelection(result.length)
                 }
@@ -424,7 +424,7 @@ class AddGoodsActivity : BaseActivity() {
             gd.content = explain.text.toString()
             gd.cooking_time_min = strCookTimeMin
             gd.cooking_time_max = strCookTimeMax
-            gd.price = strPrice.toInt()
+            gd.price = strPrice.toDouble()
 
             gd.boption = if(useOpt.isChecked) "Y" else "N"
             gd.adDisplay = if(useSleep.isChecked) "Y" else "N"

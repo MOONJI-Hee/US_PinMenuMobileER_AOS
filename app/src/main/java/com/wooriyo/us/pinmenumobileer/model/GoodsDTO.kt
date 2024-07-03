@@ -12,7 +12,7 @@ data class GoodsDTO (
     @SerializedName("category") var category : String,
     @SerializedName("cooking_time_min") var cooking_time_min: String,
     @SerializedName("cooking_time_max") var cooking_time_max: String,
-    @SerializedName("price") var price: Int,
+    @SerializedName("price") var price: Double,
     @SerializedName("photo") var img1 : String?="",
     @SerializedName("photo2") var img2 : String?="",
     @SerializedName("photo3") var img3 : String?="",
@@ -24,5 +24,5 @@ data class GoodsDTO (
     @SerializedName("boption") var boption : String,
     @SerializedName("stropt") var opt : ArrayList<OptionDTO>?
 ):Serializable {
-    constructor(category: String):this(0, 0,"", "", category, "0", "0", 0, "", "", "", null, null, null, "N", 1, "N", ArrayList<OptionDTO>())
+    constructor(category: String):this(0, 0,"", "", category, "0", "0", 0.00, "", "", "", null, null, null, "N", 1, "N", ArrayList<OptionDTO>())
 }
