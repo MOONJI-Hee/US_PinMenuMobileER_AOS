@@ -200,18 +200,18 @@ class AddGoodsActivity : BaseActivity() {
 
         binding.status.adapter = ArrayAdapter(mActivity, R.layout.spinner_menu_status, R.id.item, resources.getStringArray(R.array.menu_icon))
 
-        binding.price.addTextChangedListener(object: TextWatcher{
-            var result = ""
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(!s.isNullOrEmpty() && s.toString() != result) {
-                    result = AppHelper.price(s.toString().replace(",", "").toDouble())
-                    binding.price.setText(result)
-                    binding.price.setSelection(result.length)
-                }
-            }
-            override fun afterTextChanged(s: Editable?) {}
-        })
+//        binding.price.addTextChangedListener(object: TextWatcher{
+//            var result = ""
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                if(!s.isNullOrEmpty() && s.toString() != result) {
+//                    result = AppHelper.price(s.toString().replace(",", "").toDouble())
+//                    binding.price.setText(result)
+//                    binding.price.setSelection(result.length)
+//                }
+//            }
+//            override fun afterTextChanged(s: Editable?) {}
+//        })
 
         binding.back.setOnClickListener { finish() }
         binding.save.setOnClickListener { getMenu() }

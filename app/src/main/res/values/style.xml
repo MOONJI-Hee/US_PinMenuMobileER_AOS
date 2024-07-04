@@ -199,7 +199,7 @@
     <style name="edittext_menu_num">
         <item name="android:fontFamily">@font/sf_pro_dis_bold</item>
         <item name="android:layout_height">48dp</item>
-        <item name="android:inputType">number</item>
+        <item name="android:inputType">numberDecimal</item>
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/hint</item>

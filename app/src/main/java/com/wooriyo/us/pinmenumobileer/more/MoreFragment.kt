@@ -77,7 +77,6 @@ class MoreFragment : Fragment() {
                     1 -> {
                         MyApplication.store = storeList[0]
                         MyApplication.storeidx = storeList[0].idx
-//                        requireContext().startActivity(Intent(requireContext(), TipTaxActivity::class.java))
                         startActivity(Intent(context, TipTaxActivity::class.java))
                     }
                     else ->  {

@@ -74,6 +74,7 @@
                 android:layout_marginStart="10dp"
                 android:text="@string/check_id"
                 android:textSize="16sp"
+                android:lineSpacingExtra="-2dp"
                 android:visibility="visible"
                 app:layout_constraintTop_toTopOf="@+id/et_id"
                 app:layout_constraintBottom_toBottomOf="@+id/et_id"

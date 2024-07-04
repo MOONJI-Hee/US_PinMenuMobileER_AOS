@@ -370,7 +370,6 @@ class MainActivity : BaseActivity() {
                         MyApplication.storeidx = storeList[0].idx
 
                         startActivity(Intent(mActivity, SetCategoryActivity::class.java))
-//                    checkDeviceLimit(0)
                     }
                     else -> {
                         binding.ivMenu.setImageResource(R.drawable.icon_menuset_p)

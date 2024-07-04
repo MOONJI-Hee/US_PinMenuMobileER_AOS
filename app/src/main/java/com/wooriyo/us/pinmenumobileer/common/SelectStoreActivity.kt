@@ -31,10 +31,6 @@ class SelectStoreActivity : BaseActivity() {
 
         val storeAdapter = StoreAdapter(storeList)
 
-        if(type == "storeImg") {
-            storeAdapter.setIsFree(true)
-        }
-
         storeAdapter.setOnItemClickListener(object : ItemClickListener {
             override fun onItemClick(position: Int) {
                 super.onItemClick(position)

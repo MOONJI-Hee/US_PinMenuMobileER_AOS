@@ -389,7 +389,7 @@
 
     <!--  토스트 메세지  -->
     <string name="msg_retry">Please try again.</string>
-    <string name="msg_complete">Done.</string>
+    <string name="msg_complete">Success.</string>
     <string name="msg_no_id">Please enter your ID</string>
     <string name="msg_no_pw">Please enter your Password</string>
     <string name="msg_no_now_pw">Please enter your current password.</string>

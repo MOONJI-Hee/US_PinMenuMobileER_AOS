@@ -38,38 +38,25 @@ class SelectStoreFragment : Fragment() {
 
         binding.rvStore.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
-        if(type == "menu") {
-            val storeAdapter = MenuStoreAdapter(MyApplication.storeList)
-            storeAdapter.setOnItemClickListener(object : ItemClickListener {
-                override fun onItemClick(position: Int) {
-                    super.onItemClick(position)
-                    MyApplication.store = MyApplication.storeList[position]
-                    MyApplication.storeidx = MyApplication.storeList[position].idx
+        val storeAdapter = StoreAdapter(MyApplication.storeList)
 
-                    startActivity(Intent(context, SetCategoryActivity::class.java))
-                }
-            })
-            binding.rvStore.adapter = storeAdapter
-        }else {
-            val storeAdapter = StoreAdapter(MyApplication.storeList)
+        storeAdapter.setOnItemClickListener(object : ItemClickListener {
+            override fun onItemClick(position: Int) {
+                super.onItemClick(position)
+                when (type) {
+                    "menu"  ->  {
+                        MyApplication.store = MyApplication.storeList[position]
+                        MyApplication.storeidx = MyApplication.storeList[position].idx
 
-            if(type == "qr") {
-                storeAdapter.setIsFree(true)
-            }
-
-            storeAdapter.setOnItemClickListener(object : ItemClickListener {
-                override fun onItemClick(position: Int) {
-                    super.onItemClick(position)
-                    when (type) {
-                        "pay"   ->  (activity as MainActivity).insPaySetting(position)
-                        "print" ->  (activity as MainActivity).insPrintSetting(position)
-//                        "qr"    ->  (activity as MainActivity).checkQrAgree(position)
-                        "qr"    ->  (activity as MainActivity).goQr(position)
+                        startActivity(Intent(context, SetCategoryActivity::class.java))
                     }
+                    "pay"   ->  (activity as MainActivity).insPaySetting(position)
+                    "print" ->  (activity as MainActivity).insPrintSetting(position)
+                    "qr"    ->  (activity as MainActivity).goQr(position)
                 }
-            })
-            binding.rvStore.adapter = storeAdapter
-        }
+            }
+        })
+        binding.rvStore.adapter = storeAdapter
 
         return binding.root
     }
