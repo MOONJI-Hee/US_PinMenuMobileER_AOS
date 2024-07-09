@@ -116,16 +116,10 @@
             android:name=".payment.QrActivity"
             android:exported="false" />
         <activity
-            android:name=".pay.SelMenuActivity"
-            android:exported="false" />
-        <activity
             android:name=".payment.SetNicepayActivity"
             android:exported="false" />
         <activity
             android:name=".payment.ReaderModelActivity"
-            android:exported="false" />
-        <activity
-            android:name=".pay.PayCardActivity"
             android:exported="false" />
         <activity
             android:name=".printer.SelectCateActivity"

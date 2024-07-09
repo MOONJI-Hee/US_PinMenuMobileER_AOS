@@ -78,7 +78,19 @@ class ReservationAdapter(val dataSet: ArrayList<OrderHistoryDTO>): RecyclerView.
                 tableNo.text = data.tableNo
                 regdt.text = data.regdt
                 orderNo.text = data.ordcode
-                price.text = AppHelper.price(data.amount)
+
+                if(data.tipPer == -1) {
+                    tipProp.visibility = View.GONE
+                    tvPer.visibility = View.GONE
+                }else {
+                    tipProp.visibility = View.VISIBLE
+                    tvPer.visibility = View.VISIBLE
+                    tipProp.text = data.tipPer.toString()
+                }
+                tipPrice.text = AppHelper.price(data.tip)
+                taxPrice.text = AppHelper.price(data.tax)
+                subPrice.text = AppHelper.price(data.amount)
+                price.text = AppHelper.price(data.total_price)
 
                 if(data.rlist.isNotEmpty()) {
                     val rsv = data.rlist[0]

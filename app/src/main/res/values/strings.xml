@@ -306,12 +306,14 @@
     <!--  설정  -->
     <string name="version_info">Version info</string>
 
-    <!--  팁 & 택스  -->
+    <!--  Tip & Tax  -->
     <string name="tiptax">Tip &amp; Tax</string>
+    <string name="tip">Tip</string>
     <string name="tips">Tips</string>
     <string name="tax">Tax</string>
     <string name="tip_info">The asterisked tip entered in the second column is automatically selected and displayed on the bill.\nCustomers can change the tips they will pay by pressing the [Change] button.\nYou can adjust the percentage of tips yourself.\n Please enter four percentage options.\n You can activate tips by toggling On/Off.</string>
     <string name="tax_info">Every January 1st, you must manually adjust the tax.\nTips are not calculated in the tax.</string>
+    <string name="subtotal">Subtotal</string>
 
     <!-- 직원 호출 -->
     <string name="call_emp">Call</string>
