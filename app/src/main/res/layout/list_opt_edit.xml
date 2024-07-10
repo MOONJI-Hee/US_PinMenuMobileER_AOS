@@ -15,11 +15,13 @@
     <EditText
         style="@style/edittext"
         android:id="@+id/value"
-        android:layout_width="270dp"
+        android:layout_width="0dp"
+        android:layout_marginStart="14dp"
         android:hint="@string/opt_hint"
         android:imeOptions="actionNext"
         android:inputType="text"
         android:maxLines="1"
+        app:layout_constraintStart_toEndOf="@+id/num"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
     <Spinner
@@ -36,9 +38,8 @@
     <EditText
         style="@style/edittext"
         android:id="@+id/price"
-        android:layout_width="138dp"
+        android:layout_width="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="3dp"
         android:paddingStart="36dp"
         android:hint="@string/zero"
         android:maxLines="1"
@@ -59,12 +60,12 @@
         app:layout_constraintStart_toStartOf="@+id/price"/>
     <TextView
         style="@style/text15d"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
+        android:paddingStart="2dp"
         android:id="@+id/delete"
         android:textColor="#FF0000"
         android:gravity="center"
         android:text="@string/delete"
-        app:layout_constraintStart_toEndOf="@+id/price"
         app:layout_constraintTop_toTopOf="@+id/price"
         app:layout_constraintBottom_toBottomOf="@+id/price"
         app:layout_constraintEnd_toEndOf="parent"/>

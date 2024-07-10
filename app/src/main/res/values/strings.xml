@@ -240,8 +240,7 @@
     <string name="qr_post_pay_all">Enable All QR Code Post-pay</string>
     <string name="qr_post_pay_one">Enable QR Code Post-pay</string>
     <string name="qr_post_pay">Post-pay</string>
-    <string name="qr_cnt" translatable="false">QR-%s</string>
-    <string name="table_no" translatable="false">Table No.</string>
+    <string name="qr_cnt">QR-%s</string>
     <string name="table_no_hint">Enter Table No.</string>
     <string name="qr_setting_info1">QR order transmit order details after payment completion.\n(Excluding if post-pay option is enabled)</string>
     <string name="qr_setting_info2">After generating the QR on this page, you can save and modify the table number, and also delete the QR.</string>
@@ -328,7 +327,7 @@
     <string name="dialog_clear">Order/call information is stored\nfor 3 days. Pressing the ‘Reset’ button\nwill delete all order/call information.</string>
     <string name="dialog_clear_warning">Once reset, the data cannot be\nrestored.</string>
 
-    <string name="table_no_kr">Table No.</string>
+    <string name="table_no">Table No.</string>
     <string name="order_no">Order No.</string>
 
     <!--  예약 정보  -->
@@ -369,8 +368,8 @@
     <string name="title_cate_udt">Modify Category</string>
 
     <!--  비어있는 목록  -->
-    <string name="no_order_list">No Order List</string>
-    <string name="no_call_list">No Call List</string>
+    <string name="no_order_list">There is no order information</string>
+    <string name="no_call_list">There is no call information</string>
     <string name="no_store_list">No Store</string>
 
     <!--  확인 다이얼로그  -->

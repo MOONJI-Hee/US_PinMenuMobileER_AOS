@@ -53,6 +53,13 @@ class TipTaxActivity : BaseActivity() {
                         prop4.setText(result.tip4.toString())
                         tax.setText(result.tax)
                     }
+                }else {
+                    binding.run {
+                        prop1.setText("15")
+                        prop2.setText("20")
+                        prop3.setText("25")
+                        prop4.setText("30")
+                    }
                 }
             }
             override fun onFailure(call: Call<TipTaxDTO>, t: Throwable) {
