@@ -281,6 +281,89 @@ class AppHelper {
             return if(remoteDevices.isNotEmpty()) 1 else 0
         }
 
+        // 주문내역(상세내역) 영수증 형태 String으로 받기 - RTP325
+        fun getPrint(ord: OrderDTO) : String {
+            val oneLine = AppProperties.RT_ONE_LINE_BIG     // 23
+            val productLine = AppProperties.RT_PRODUCT_BIG  // 12
+            val qtyLine = AppProperties.RT_QTY_BIG          // 3
+            val amtLine = AppProperties.RT_AMT_BIG          // 6
+
+            val result: StringBuilder = StringBuilder()
+            val underline1 = StringBuilder()
+            val underline2 = StringBuilder()
+            val underline3 = StringBuilder()
+
+            val length = ord.name.length
+
+            if(length <= 12) {
+                result.append(ord.name)
+            }
+            if(ord.name.length <= 24){
+                underline1.append(ord.name.substring(0, ord.name.length -1))
+            }
+            if(ord.name){
+                underline2.append(ord.name.substring(0, ord.name.length -1))
+            }
+            if(){
+                underline3.append(ord.name.substring(0, ord.name.length -1))
+            }
+
+            if (MyApplication.store.fontsize == 1) {
+                space = if(ord.price >= 100000) 1
+                else if(ord.price >= 10000) 2
+                else if (ord.price >= 1000) 3
+                else if (ord.price >= 100) 6
+                else if (ord.price >= 10) 7
+                else if (ord.price >= 0) 8
+                else 1
+
+                if(ord.gea < 10) {
+                    space++
+                }
+
+            } else if (MyApplication.store.fontsize == 2) {
+                if (ord.gea < 10) {
+                    diff += 1
+                    space += 2
+                } else if (ord.gea < 100) {
+                    space += 1
+                }
+            }
+
+            for (i in 1..diff) {
+                result.append(" ")
+            }
+
+            result.append(ord.gea.toString())
+
+            for (i in 1..space) {
+                result.append(" ")
+            }
+
+//            var togo = ""
+//            when (ord.togotype) {
+//                1 -> togo = "신규"
+//                2 -> togo = "포장"
+//            }
+//            result.append(togo)
+
+            result.append(price(ord.price))
+
+            if (underline1.toString() != "")
+                result.append("\n$underline1")
+
+            if (underline2.toString() != "")
+                result.append("\n$underline2")
+
+            if(!ord.opt.isNullOrEmpty()) {
+                ord.opt.forEach {
+                    result.append("\n -$it")
+                }
+            }
+
+            return result.toString()
+        }
+
         // 주문내역(상세내역) 영수증 형태 String으로 받기 - 세우전자
         fun getPrint(ord: OrderDTO) : String {
             var one_line = AppProperties.ONE_LINE_BIG
