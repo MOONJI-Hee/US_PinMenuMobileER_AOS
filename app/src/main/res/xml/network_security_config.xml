@@ -3,7 +3,6 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">app.pinmenu.net</domain>
         <domain includeSubdomains="true">img.pinmenu.net</domain>
-        <domain includeSubdomains="true">3.137.162.70</domain>
         <domain includeSubdomains="true">app.pinmenu.biz</domain>
         <domain includeSubdomains="true">img.pinmenu.biz</domain>
     </domain-config>

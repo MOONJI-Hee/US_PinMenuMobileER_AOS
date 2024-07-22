@@ -133,6 +133,8 @@ class SetStoreImgActivity : BaseActivity() {
     }
 
     private fun save() {
+        binding.save.isEnabled = false
+        loadingDialog.show(supportFragmentManager)
         var body: MultipartBody.Part? = null
 
         if(imgUri != null) {
@@ -166,9 +168,12 @@ class SetStoreImgActivity : BaseActivity() {
         val exp = binding.etStoreExp.text.toString()
         val expBody = RequestBody.create(MediaType.parse("text/plain"), exp)
 
-        ApiClient.service.udtStoreImg(useridx, storeidx, body, delImg, expBody)
+        ApiClient.imgService.udtStoreImg(useridx, storeidx, body, delImg, expBody)
             .enqueue(object: retrofit2.Callback<ResultDTO>{
                 override fun onResponse(call: Call<ResultDTO>, response: Response<ResultDTO>) {
+                    binding.save.isEnabled = true
+                    loadingDialog.dismiss()
+
                     Log.d(TAG, "매장 대표 사진 등록 url : $response")
                     if(response.isSuccessful) {
                         val resultDTO = response.body() ?: return
@@ -185,6 +190,8 @@ class SetStoreImgActivity : BaseActivity() {
                     }
                 }
                 override fun onFailure(call: Call<ResultDTO>, t: Throwable) {
+                    binding.save.isEnabled = true
+                    loadingDialog.dismiss()
                     Toast.makeText(mActivity, R.string.msg_retry, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "매장 대표 사진 등록 실패 > $t")
                 }
