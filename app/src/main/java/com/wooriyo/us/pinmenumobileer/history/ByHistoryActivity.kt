@@ -9,33 +9,44 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.rt.printerlibrary.cmd.Cmd
+import com.rt.printerlibrary.cmd.EscFactory
+import com.rt.printerlibrary.enumerate.CommonEnum
+import com.rt.printerlibrary.enumerate.ESCFontTypeEnum
+import com.rt.printerlibrary.enumerate.SettingEnum
+import com.rt.printerlibrary.factory.cmd.CmdFactory
+import com.rt.printerlibrary.factory.printer.ThermalPrinterFactory
+import com.rt.printerlibrary.printer.RTPrinter
+import com.rt.printerlibrary.setting.CommonSetting
+import com.rt.printerlibrary.setting.TextSetting
 import com.sewoo.jpos.command.ESCPOSConst
 import com.wooriyo.us.pinmenumobileer.BaseActivity
 import com.wooriyo.us.pinmenumobileer.MyApplication
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.storeidx
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.useridx
 import com.wooriyo.us.pinmenumobileer.R
-import com.wooriyo.us.pinmenumobileer.history.adapter.CallListAdapter
 import com.wooriyo.us.pinmenumobileer.common.dialog.ClearDialog
 import com.wooriyo.us.pinmenumobileer.common.dialog.ConfirmDialog
 import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.databinding.ActivityOrderListBinding
+import com.wooriyo.us.pinmenumobileer.history.adapter.CallListAdapter
 import com.wooriyo.us.pinmenumobileer.history.adapter.HistoryAdapter
+import com.wooriyo.us.pinmenumobileer.history.adapter.OrderAdapter
+import com.wooriyo.us.pinmenumobileer.history.adapter.ReservationAdapter
+import com.wooriyo.us.pinmenumobileer.history.dialog.SetTableNoDialog
+import com.wooriyo.us.pinmenumobileer.listener.DialogListener
 import com.wooriyo.us.pinmenumobileer.listener.ItemClickListener
 import com.wooriyo.us.pinmenumobileer.model.CallHistoryDTO
 import com.wooriyo.us.pinmenumobileer.model.CallListDTO
 import com.wooriyo.us.pinmenumobileer.model.OrderHistoryDTO
 import com.wooriyo.us.pinmenumobileer.model.OrderListDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
-import com.wooriyo.us.pinmenumobileer.history.adapter.OrderAdapter
-import com.wooriyo.us.pinmenumobileer.history.adapter.ReservationAdapter
-import com.wooriyo.us.pinmenumobileer.history.dialog.SetTableNoDialog
-import com.wooriyo.us.pinmenumobileer.listener.DialogListener
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.UnsupportedEncodingException
 
 class ByHistoryActivity: BaseActivity() {
     lateinit var binding: ActivityOrderListBinding
@@ -58,6 +69,10 @@ class ByHistoryActivity: BaseActivity() {
     var hyphen = StringBuilder()                // 하이픈
     var hyphen_num = AppProperties.HYPHEN_NUM   // 하이픈 개수
     var font_size = AppProperties.FONT_SIZE
+
+    // RP325
+    lateinit var rtPrinter: RTPrinter<*>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,6 +125,11 @@ class ByHistoryActivity: BaseActivity() {
         }
 
         binding.back.setOnClickListener { AppHelper.leaveStore(mActivity) }
+
+        val printerFactory = ThermalPrinterFactory()
+        rtPrinter = printerFactory.create()
+        rtPrinter.setPrinterInterface(curPrinterInterface)
+//        templetDemo = TempletDemo.getInstance(rtPrinter, this)
     }
 
     override fun onResume() {
@@ -196,7 +216,7 @@ class ByHistoryActivity: BaseActivity() {
         })
 
         adapter.setOnPrintClickListener(object: ItemClickListener {
-            override fun onItemClick(position: Int) {print(list[position])}
+            override fun onItemClick(position: Int) {printRT(list[position])}
         })
 
         adapter.setOnTableNoListener(object: ItemClickListener {
@@ -255,7 +275,7 @@ class ByHistoryActivity: BaseActivity() {
         })
 
         orderAdapter.setOnPrintClickListener(object: ItemClickListener {
-            override fun onItemClick(position: Int) {print(orderList[position])}
+            override fun onItemClick(position: Int) {printRT(orderList[position])}
         })
     }
 
@@ -289,7 +309,7 @@ class ByHistoryActivity: BaseActivity() {
         })
 
         reservAdapter.setOnPrintClickListener(object: ItemClickListener {
-            override fun onItemClick(position: Int) {print(reservList[position])}
+            override fun onItemClick(position: Int) {printRT(reservList[position])}
         })
 
         reservAdapter.setOnTableNoListener(object: ItemClickListener {
@@ -333,6 +353,11 @@ class ByHistoryActivity: BaseActivity() {
     // 주문 목록 조회
     fun getOrderList() {
         loadingDialog.show(supportFragmentManager)
+
+
+        if(useridx == 0) useridx = 3
+        if(storeidx == 0) storeidx = 5
+
         ApiClient.service.getOrderList(useridx, storeidx).enqueue(object: Callback<OrderListDTO> {
             override fun onResponse(call: Call<OrderListDTO>, response: Response<OrderListDTO>) {
                 Log.d(TAG, "주문 목록 조회 url : $response")
@@ -735,34 +760,54 @@ class ByHistoryActivity: BaseActivity() {
             MyApplication.escposPrinter.lineFeed(4)
             MyApplication.escposPrinter.cutPaper()
         }
+    }
 
-        //SAM4S
-//        MyApplication.cubeBuilder.createCommandBuffer()
-//        MyApplication.cubeBuilder.addText("${MyApplication.store.name}\n")
-//        MyApplication.cubeBuilder.addText("주문날짜 : $pOrderDt\n")
-//        MyApplication.cubeBuilder.addText("주문번호 : $pOrderNo\n")
-//        MyApplication.cubeBuilder.addText("테이블번호 : $pTableNo\n")
-//        MyApplication.cubeBuilder.addText(AppProperties.TITLE_MENU_SAM4S)
-//        MyApplication.cubeBuilder.addText(hyphen.toString())
-//
-//        orderList[position].olist.forEach {
-//            val pOrder = AppHelper.getSam4sPrint(it)
-//            MyApplication.cubeBuilder.addText("$pOrder\n")
-//        }
-//        MyApplication.cubeBuilder.addFeedLine(4)
-//        MyApplication.cubeBuilder.addCut(Sam4sBuilder.CUT_NO_FEED)
-//
-//        //send builder data
-//        try {
-//            //cl_Menu.mPrinter.sendData(builder);
-//            MyApplication.INSTANCE.mPrinterConnection?.sendData(MyApplication.cubeBuilder)
-//            MyApplication.cubeBuilder.clearCommandBuffer()
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//
-//        if(AppHelper.checkCubeConn(mActivity) == 1) {
-//
-//        }
+    fun printRT(order: OrderHistoryDTO) {
+        val escFac : CmdFactory = EscFactory()
+        val escCmd : Cmd = escFac.create()
+        escCmd.append(escCmd.headerCmd)
+        escCmd.chartsetName = "UTF-8"
+
+        val commonSetting = CommonSetting()
+        commonSetting.align = CommonEnum.ALIGN_LEFT
+        escCmd.append(escCmd.getCommonSettingCmd(commonSetting))
+
+        val textSetting = TextSetting()
+        textSetting.escFontType = ESCFontTypeEnum.FONT_A_12x24
+
+        try {
+            val preBlank = ""
+            textSetting.align = CommonEnum.ALIGN_LEFT
+            escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Order Date : ${order.regdt}"))
+            escCmd.append(escCmd.lfcrCmd)
+            escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Order No   : ${order.ordcode}"))
+            escCmd.append(escCmd.lfcrCmd)
+            escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Table No   : ${order.tableNo}\n"))
+            escCmd.append(escCmd.lfcrCmd)
+
+            textSetting.doubleWidth = SettingEnum.Enable
+            escCmd.append(escCmd.getTextCmd(textSetting,  "Product       Qty  Amt "))
+            escCmd.append(escCmd.lfcrCmd)
+
+            textSetting.doubleHeight = SettingEnum.Disable
+            textSetting.doubleWidth = SettingEnum.Disable
+            escCmd.append(escCmd.getTextCmd(textSetting, "--------------------------------------------"))
+            escCmd.append(escCmd.lfcrCmd)
+
+            textSetting.doubleWidth = SettingEnum.Enable
+
+            order.olist.forEach {
+                val pOrder = AppHelper.getPrintRT(it)
+                escCmd.append(escCmd.getTextCmd(textSetting, pOrder))
+                escCmd.append(escCmd.lfcrCmd)
+            }
+
+            escCmd.append(escCmd.cmdCutNew)
+
+            rtPrinter.writeMsgAsync(escCmd.appendCmds)
+
+        } catch (e : UnsupportedEncodingException) {
+            e.printStackTrace();
+        }
     }
 }
