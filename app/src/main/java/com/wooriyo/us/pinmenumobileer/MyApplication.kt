@@ -13,6 +13,8 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.view.WindowManager
+import com.rt.printerlibrary.factory.printer.ThermalPrinterFactory
+import com.rt.printerlibrary.printer.RTPrinter
 import com.sam4s.printer.Sam4sBuilder
 import com.sewoo.jpos.printer.ESCPOSPrinter
 import com.sewoo.port.android.BluetoothPort
@@ -73,8 +75,8 @@ class MyApplication: Application() {
         var btThread: Thread? = null
         var connDev_sewoo = "00:00:00:00:00:00"
 
-        //SAM4S 프린터 관련
-        lateinit var cubeBuilder: Sam4sBuilder
+        // RP325
+        lateinit var rtPrinter: RTPrinter<*>
 
         var bidx = 0    //프린터 설정 시 부여되는 idx (기기별 매장 하나 당 한개씩 부여)
 
@@ -122,12 +124,8 @@ class MyApplication: Application() {
 
         escposPrinter = ESCPOSPrinter()
 
-        //SAM4S
-        mPrinterConnection = PrinterConnection(applicationContext, 0)
-        cubeBuilder = Sam4sBuilder("GCube-100", Sam4sBuilder.LANG_KO)
-        cubeBuilder.addTextSize(1, 1)
-        cubeBuilder.addFeedLine(1)
-        cubeBuilder.addTextStyle(false, false, false, Sam4sBuilder.COLOR_1)
+        val printerFactory = ThermalPrinterFactory()
+        rtPrinter = printerFactory.create()
 
         createNotificationChannel()
 

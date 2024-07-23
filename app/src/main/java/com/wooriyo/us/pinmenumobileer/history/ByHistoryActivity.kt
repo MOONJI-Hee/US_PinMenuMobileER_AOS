@@ -15,13 +15,12 @@ import com.rt.printerlibrary.enumerate.CommonEnum
 import com.rt.printerlibrary.enumerate.ESCFontTypeEnum
 import com.rt.printerlibrary.enumerate.SettingEnum
 import com.rt.printerlibrary.factory.cmd.CmdFactory
-import com.rt.printerlibrary.factory.printer.ThermalPrinterFactory
-import com.rt.printerlibrary.printer.RTPrinter
 import com.rt.printerlibrary.setting.CommonSetting
 import com.rt.printerlibrary.setting.TextSetting
 import com.sewoo.jpos.command.ESCPOSConst
 import com.wooriyo.us.pinmenumobileer.BaseActivity
 import com.wooriyo.us.pinmenumobileer.MyApplication
+import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.rtPrinter
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.storeidx
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.useridx
 import com.wooriyo.us.pinmenumobileer.R
@@ -69,10 +68,6 @@ class ByHistoryActivity: BaseActivity() {
     var hyphen = StringBuilder()                // 하이픈
     var hyphen_num = AppProperties.HYPHEN_NUM   // 하이픈 개수
     var font_size = AppProperties.FONT_SIZE
-
-    // RP325
-    lateinit var rtPrinter: RTPrinter<*>
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,9 +121,6 @@ class ByHistoryActivity: BaseActivity() {
 
         binding.back.setOnClickListener { AppHelper.leaveStore(mActivity) }
 
-        val printerFactory = ThermalPrinterFactory()
-        rtPrinter = printerFactory.create()
-        rtPrinter.setPrinterInterface(curPrinterInterface)
 //        templetDemo = TempletDemo.getInstance(rtPrinter, this)
     }
 
@@ -763,17 +755,26 @@ class ByHistoryActivity: BaseActivity() {
     }
 
     fun printRT(order: OrderHistoryDTO) {
+        Log.d(TAG, "printRT 시작")
         val escFac : CmdFactory = EscFactory()
         val escCmd : Cmd = escFac.create()
         escCmd.append(escCmd.headerCmd)
         escCmd.chartsetName = "UTF-8"
 
+        Log.d(TAG, "printRT 1111")
+
         val commonSetting = CommonSetting()
         commonSetting.align = CommonEnum.ALIGN_LEFT
         escCmd.append(escCmd.getCommonSettingCmd(commonSetting))
 
+        Log.d(TAG, "printRT 2222")
+
+
         val textSetting = TextSetting()
         textSetting.escFontType = ESCFontTypeEnum.FONT_A_12x24
+
+        Log.d(TAG, "printRT 3333")
+
 
         try {
             val preBlank = ""
@@ -804,10 +805,18 @@ class ByHistoryActivity: BaseActivity() {
 
             escCmd.append(escCmd.cmdCutNew)
 
+            Log.d(TAG, "printRT 444")
+
+
             rtPrinter.writeMsgAsync(escCmd.appendCmds)
 
+            Log.d(TAG, "printRT 5555")
+
+
         } catch (e : UnsupportedEncodingException) {
-            e.printStackTrace();
+            e.printStackTrace()
+            Log.d(TAG, "Exception > $e")
+
         }
     }
 }

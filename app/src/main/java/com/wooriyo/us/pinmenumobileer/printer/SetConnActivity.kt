@@ -25,7 +25,6 @@ import com.wooriyo.us.pinmenumobileer.databinding.ActivitySetConnBinding
 import com.wooriyo.us.pinmenumobileer.listener.DialogListener
 import com.wooriyo.us.pinmenumobileer.listener.ItemClickListener
 import com.wooriyo.us.pinmenumobileer.model.PrintContentDTO
-import com.wooriyo.us.pinmenumobileer.printer.adapter.Sam4sAdapter
 import com.wooriyo.us.pinmenumobileer.printer.adapter.SewooAdapter
 import com.wooriyo.us.pinmenumobileer.printer.dialog.SetNickDialog
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
@@ -40,9 +39,8 @@ class SetConnActivity : BaseActivity() {
     lateinit var binding: ActivitySetConnBinding
 
     lateinit var cubeList : ArrayList<SocketInfo>
-    lateinit var sam4sAdapter: Sam4sAdapter
 
-//    val printerList = ArrayList<PrintDTO>()
+    //    val printerList = ArrayList<PrintDTO>()
 //    val printerAdapter = PrinterAdapter(printerList)
 
     val sewooAdapter = SewooAdapter(remoteDevices)
@@ -59,12 +57,6 @@ class SetConnActivity : BaseActivity() {
 //        }else {
 //            (intent.getParcelableArrayListExtra("cubeList") ?: ArrayList<SocketInfo>())
 //        }
-
-        this.cubeList = AppHelper.cubePrinterList
-
-        Log.d(TAG, "cubeList 들어왔니??? >> $cubeList")
-
-        sam4sAdapter = Sam4sAdapter(cubeList)
 
         // 디바이스, 프린터 정보 조회
         getPrintSetting()
@@ -161,20 +153,11 @@ class SetConnActivity : BaseActivity() {
             }
         })
 
-        sam4sAdapter.setConnClickListener(object: ItemClickListener {
-            override fun onItemClick(position: Int) {
-                AppHelper.connectCube(mActivity, cubeList[position])
-            }
-        })
-
 //        binding.rvPrinter.layoutManager = LinearLayoutManager(mActivity, RecyclerView.VERTICAL, false)
 //        binding.rvPrinter.adapter = printerAdapter
 
         binding.rvSewoo.layoutManager = LinearLayoutManager(mActivity, RecyclerView.VERTICAL, false)
         binding.rvSewoo.adapter = sewooAdapter
-
-        binding.rvSam4s.layoutManager = LinearLayoutManager(mActivity, RecyclerView.VERTICAL, false)
-        binding.rvSam4s.adapter = sam4sAdapter
 
         val nickDialog = SetNickDialog("", 1, "안드로이드 스마트폰")
         nickDialog.setOnNickChangeListener(object : DialogListener {

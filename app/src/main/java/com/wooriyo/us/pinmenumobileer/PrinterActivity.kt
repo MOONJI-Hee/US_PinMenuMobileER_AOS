@@ -1,6 +1,5 @@
 package com.wooriyo.us.pinmenumobileer
 
-import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothClass
 import android.bluetooth.BluetoothDevice
@@ -13,12 +12,26 @@ import android.util.Log
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Toast
+import com.rt.printerlibrary.bean.BluetoothEdrConfigBean
+import com.rt.printerlibrary.cmd.EscFactory
+import com.rt.printerlibrary.connect.PrinterInterface
+import com.rt.printerlibrary.enumerate.CommonEnum
+import com.rt.printerlibrary.enumerate.ESCFontTypeEnum
+import com.rt.printerlibrary.enumerate.SettingEnum
+import com.rt.printerlibrary.factory.cmd.CmdFactory
+import com.rt.printerlibrary.factory.connect.BluetoothFactory
+import com.rt.printerlibrary.factory.connect.PIFactory
+import com.rt.printerlibrary.observer.PrinterObserver
+import com.rt.printerlibrary.observer.PrinterObserverManager
+import com.rt.printerlibrary.setting.CommonSetting
+import com.rt.printerlibrary.setting.TextSetting
+import com.rt.printerlibrary.utils.FuncUtils
+import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.rtPrinter
 import com.wooriyo.us.pinmenumobileer.databinding.ActivityPrinterBinding
-import com.wooriyo.us.pinmenumobileer.history.ByHistoryActivity
-import com.wooriyo.us.pinmenumobileer.history.adapter.HistoryAdapter
 import java.io.IOException
+import java.io.UnsupportedEncodingException
 
-class PrinterActivity : BaseActivity(), OnClickListener {
+class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
     lateinit var binding: ActivityPrinterBinding
     lateinit var thread: Thread
     lateinit var pairedDevices : List<BluetoothDevice>
@@ -57,6 +70,9 @@ class PrinterActivity : BaseActivity(), OnClickListener {
 
         binding.search.setOnClickListener(this@PrinterActivity)
         binding.connect.setOnClickListener(this@PrinterActivity)
+
+
+        PrinterObserverManager.getInstance().add(this)
     }
 
     override fun onClick(p0: View?) {
@@ -118,18 +134,23 @@ class PrinterActivity : BaseActivity(), OnClickListener {
                 }
             }
             binding.connect -> {
-                loadingDialog.show(supportFragmentManager)
+//                loadingDialog.show(supportFragmentManager)
 
                 registerReceiver(object : BroadcastReceiver(){
                     override fun onReceive(context: Context?, intent: Intent?) {
+
                         loadingDialog.dismiss()
                         Toast.makeText(mActivity, "BluetoothConnect Success", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(mActivity, ByHistoryActivity::class.java))
+
+//                        startActivity(Intent(mActivity, ByHistoryActivity::class.java))
                     }
                 }, IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED))
 
                 if(foundDevices.isNotEmpty())
                     connDevice(foundDevices[0])
+            }
+            binding.print -> {
+                print()
             }
         }
     }
@@ -154,9 +175,101 @@ class PrinterActivity : BaseActivity(), OnClickListener {
         Log.d("AppHelper", "connDvc >> $connDvc")
 
         try {
-            MyApplication.bluetoothPort.connect(connDvc)
+            val bluetoothEdrConfigBean = BluetoothEdrConfigBean(connDvc)
+
+            val piFactory: PIFactory = BluetoothFactory()
+            val printerInterface = piFactory.create()
+
+            printerInterface.configObject = bluetoothEdrConfigBean
+            rtPrinter.printerInterface = printerInterface
+            try {
+                rtPrinter.printerInterface
+                rtPrinter.connect(bluetoothEdrConfigBean)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+
+//            MyApplication.bluetoothPort.connect(connDvc)
         } catch (e: IOException) {
             e.printStackTrace()
         }
+    }
+
+    fun print() {
+        val escFac: CmdFactory = EscFactory()
+        val escCmd = escFac.create()
+        escCmd.append(escCmd.headerCmd) //初始化
+        escCmd.chartsetName = "UTF-8"
+        val commonSetting = CommonSetting()
+        commonSetting.align = CommonEnum.ALIGN_LEFT
+        escCmd.append(escCmd.getCommonSettingCmd(commonSetting))
+        val textSetting = TextSetting()
+        textSetting.escFontType = ESCFontTypeEnum.FONT_D_8x16
+        try {
+            val preBlank = ""
+            textSetting.align = CommonEnum.ALIGN_LEFT
+            escCmd.append(
+                escCmd.getTextCmd(
+                    textSetting,
+                    preBlank + "Order Date : 2024.07.19 10:50"
+                )
+            )
+            escCmd.append(escCmd.lfcrCmd)
+            escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Order No   : A08"))
+            escCmd.append(escCmd.lfcrCmd)
+            escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Table No   : 001\n"))
+            escCmd.append(escCmd.lfcrCmd)
+            textSetting.doubleWidth = SettingEnum.Enable //倍宽
+            escCmd.append(escCmd.getTextCmd(textSetting, "Product       Qty  Amt "))
+            escCmd.append(escCmd.lfcrCmd)
+            textSetting.doubleHeight = SettingEnum.Disable //倍高
+            textSetting.doubleWidth = SettingEnum.Disable //倍宽
+            escCmd.append(
+                escCmd.getTextCmd(
+                    textSetting,
+                    "$preBlank--------------------------------------------"
+                )
+            )
+            escCmd.append(escCmd.lfcrCmd)
+            textSetting.doubleWidth = SettingEnum.Enable //倍宽
+            escCmd.append(escCmd.getTextCmd(textSetting, "Rice Noddle   1    9.45 \r"))
+            escCmd.append(escCmd.getTextCmd(textSetting, "- Extra Meat"))
+            escCmd.append(escCmd.lfcrCmd)
+            escCmd.append(escCmd.cmdCutNew) //切刀指令
+            rtPrinter.writeMsgAsync(escCmd.appendCmds)
+        } catch (e: UnsupportedEncodingException) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun printerObserverCallback(printerInterface: PrinterInterface<*>, state: Int) {
+        Log.i(TAG, "printerObserverCallback:state= $state")
+        runOnUiThread {
+            when (state) {
+                CommonEnum.CONNECT_STATE_SUCCESS -> {
+                    loadingDialog.dismiss()
+                    Toast.makeText(mActivity, "BluetoothConnect Success", Toast.LENGTH_SHORT).show()
+
+
+//                        startActivity(Intent(mActivity, ByHistoryActivity::class.java))
+
+                    rtPrinter.setPrinterInterface(printerInterface)
+                    //  BaseApplication.getInstance().setRtPrinter(rtPrinter);
+
+//                    esc80TempPrint_test()
+                }
+
+                CommonEnum.CONNECT_STATE_INTERRUPTED -> {
+
+                }
+
+                else -> {}
+            }
+        }
+    }
+
+    override fun printerReadMsgCallback(p0: PrinterInterface<*>?, p1: ByteArray?) {
+        Log.i(TAG, "printerReadMsgCallback")
     }
 }
