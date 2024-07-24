@@ -13,6 +13,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Toast
 import com.rt.printerlibrary.bean.BluetoothEdrConfigBean
+import com.rt.printerlibrary.bean.LableSizeBean
 import com.rt.printerlibrary.cmd.EscFactory
 import com.rt.printerlibrary.connect.PrinterInterface
 import com.rt.printerlibrary.enumerate.CommonEnum
@@ -21,11 +22,15 @@ import com.rt.printerlibrary.enumerate.SettingEnum
 import com.rt.printerlibrary.factory.cmd.CmdFactory
 import com.rt.printerlibrary.factory.connect.BluetoothFactory
 import com.rt.printerlibrary.factory.connect.PIFactory
+import com.rt.printerlibrary.factory.printer.PrinterFactory
 import com.rt.printerlibrary.observer.PrinterObserver
 import com.rt.printerlibrary.observer.PrinterObserverManager
+import com.rt.printerlibrary.printer.RTPrinter
+import com.rt.printerlibrary.printer.ThermalPrinter
 import com.rt.printerlibrary.setting.CommonSetting
 import com.rt.printerlibrary.setting.TextSetting
 import com.rt.printerlibrary.utils.FuncUtils
+import com.rt.printerlibrary.utils.PrintStatusCmd
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.rtPrinter
 import com.wooriyo.us.pinmenumobileer.databinding.ActivityPrinterBinding
 import java.io.IOException
@@ -43,17 +48,17 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
     var mBluetoothReceiver : BroadcastReceiver ?= null
     var mBluetoothIntentFilter : IntentFilter ?= null
 
+    var printerFactory: PrinterFactory? = null
+    val printStatusCmd: PrintStatusCmd = PrintStatusCmd.cmd_print_100402
+    var curPrinterInterface: PrinterInterface<*> ?= null
+    var configObj : Any ?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPrinterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Log.d(TAG, "111111111111")
-
-
         thread = Thread(Runnable{
-            Log.d(TAG, "2222222222")
-
             val reVal = getPairedDevice()
             if(reVal == 1) {
                 val list = StringBuffer()
@@ -61,7 +66,6 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
                     list.append("${it.name} ${it.address} ${it.uuids}\n")
                 }
                 binding.list.text = list
-
             }else {
                 binding.list.text = "없다!!!!!!"
             }
@@ -70,9 +74,16 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
 
         binding.search.setOnClickListener(this@PrinterActivity)
         binding.connect.setOnClickListener(this@PrinterActivity)
+        binding.print.setOnClickListener(this@PrinterActivity)
 
 
+        // init
+//        MyApplication.INSTANCE.setCurrentCmdType(BaseEnum.CMD_ESC)
+//        printerFactory = UniversalPrinterFactory()
+//        rtPrinter = printerFactory!!.create()
         PrinterObserverManager.getInstance().add(this)
+
+        rtPrinter.setPrinterInterface(curPrinterInterface)
     }
 
     override fun onClick(p0: View?) {
@@ -110,14 +121,19 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
                                         context.unregisterReceiver(mBluetoothReceiver)
                                         loadingDialog.dismiss()
                                         binding.search.isEnabled = true
-//                    mRegistered = false
+
                                         val list = StringBuffer()
                                         if(foundDevices.isNotEmpty()){
                                             foundDevices.forEach{
                                                 list.append("${it.name} ${it.address} ${it.uuids}\n")
                                             }
                                             binding.list.text = list
+
+                                            configObj = BluetoothEdrConfigBean(foundDevices[0])
+//                                            isConfigPrintEnable(configObj)
                                         }
+
+
                                     }
                                 }
                             }
@@ -134,26 +150,63 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
                 }
             }
             binding.connect -> {
-//                loadingDialog.show(supportFragmentManager)
+                loadingDialog.show(supportFragmentManager)
 
-                registerReceiver(object : BroadcastReceiver(){
-                    override fun onReceive(context: Context?, intent: Intent?) {
+//                TimeRecordUtils.record("RT连接start：", System.currentTimeMillis());
+                val bluetoothEdrConfigBean : BluetoothEdrConfigBean = configObj as BluetoothEdrConfigBean
+                connectBluetooth(bluetoothEdrConfigBean);
 
-                        loadingDialog.dismiss()
-                        Toast.makeText(mActivity, "BluetoothConnect Success", Toast.LENGTH_SHORT).show()
 
-//                        startActivity(Intent(mActivity, ByHistoryActivity::class.java))
-                    }
-                }, IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED))
 
-                if(foundDevices.isNotEmpty())
-                    connDevice(foundDevices[0])
+//                registerReceiver(object : BroadcastReceiver(){
+//                    override fun onReceive(context: Context?, intent: Intent?) {
+//
+//                        loadingDialog.dismiss()
+//                        Toast.makeText(mActivity, "BluetoothConnect Success", Toast.LENGTH_SHORT).show()
+//
+////                        startActivity(Intent(mActivity, ByHistoryActivity::class.java))
+//                    }
+//                }, IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED))
+
+//                if(foundDevices.isNotEmpty())
+//                    connDevice(foundDevices[0])
+
+//                if(foundDevices.isNotEmpty()) {
+//                    val connDvc = foundDevices[0]
+//
+//                    try {
+//                        MyApplication.bluetoothPort.connect(connDvc)
+//                    } catch (e: IOException) {
+//                        loadingDialog.dismiss()
+//                        e.printStackTrace()
+//                        Log.d(TAG, "Connect FAil > $e")
+//                    }
+//                }else {
+//                    loadingDialog.dismiss()
+//                    Log.d(TAG, "FoundDevices Empty!!")
+//                }
             }
             binding.print -> {
                 print()
             }
         }
     }
+
+fun connectBluetooth(bluetoothEdrConfigBean: BluetoothEdrConfigBean) {
+    val piFactory: PIFactory = BluetoothFactory()
+    val printerInterface = piFactory.create() as PrinterInterface
+//    printerInterface.configObject = bluetoothEdrConfigBean
+    printerInterface.configObject = configObj
+    rtPrinter.setPrinterInterface(printerInterface)
+    try {
+        (rtPrinter as ThermalPrinter ).connect(configObj)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        Log.d(TAG, "Connect Error > $e")
+    }
+}
+
+
     fun getPairedDevice() : Int {
         Log.d(TAG, "getPairedDevice 시작")
 
@@ -173,27 +226,27 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
 
     fun connDevice(connDvc: BluetoothDevice) {
         Log.d("AppHelper", "connDvc >> $connDvc")
-
-        try {
-            val bluetoothEdrConfigBean = BluetoothEdrConfigBean(connDvc)
-
-            val piFactory: PIFactory = BluetoothFactory()
-            val printerInterface = piFactory.create()
-
-            printerInterface.configObject = bluetoothEdrConfigBean
-            rtPrinter.printerInterface = printerInterface
-            try {
-                rtPrinter.printerInterface
-                rtPrinter.connect(bluetoothEdrConfigBean)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-
-//            MyApplication.bluetoothPort.connect(connDvc)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+//
+//        try {
+//            val bluetoothEdrConfigBean = BluetoothEdrConfigBean(connDvc)
+//
+//            val piFactory: PIFactory = BluetoothFactory()
+//            val printerInterface = piFactory.create()
+//
+//            printerInterface.configObject = bluetoothEdrConfigBean
+//            rtPrinter.printerInterface = printerInterface
+//            try {
+//                rtPrinter.printerInterface
+//                rtPrinter.connect(bluetoothEdrConfigBean)
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//
+//
+////            MyApplication.bluetoothPort.connect(connDvc)
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//        }
     }
 
     fun print() {
@@ -201,9 +254,12 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
         val escCmd = escFac.create()
         escCmd.append(escCmd.headerCmd) //初始化
         escCmd.chartsetName = "UTF-8"
+
         val commonSetting = CommonSetting()
+        commonSetting.lableSizeBean = LableSizeBean(60, 40)
         commonSetting.align = CommonEnum.ALIGN_LEFT
         escCmd.append(escCmd.getCommonSettingCmd(commonSetting))
+
         val textSetting = TextSetting()
         textSetting.escFontType = ESCFontTypeEnum.FONT_D_8x16
         try {
@@ -240,6 +296,7 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
             rtPrinter.writeMsgAsync(escCmd.appendCmds)
         } catch (e: UnsupportedEncodingException) {
             e.printStackTrace()
+            Log.d(TAG, "Print Error >> $e")
         }
     }
 
@@ -251,25 +308,30 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
                     loadingDialog.dismiss()
                     Toast.makeText(mActivity, "BluetoothConnect Success", Toast.LENGTH_SHORT).show()
 
-
-//                        startActivity(Intent(mActivity, ByHistoryActivity::class.java))
-
+                    curPrinterInterface = printerInterface
+//                    printerInterfaceArrayList.add(printerInterface)
                     rtPrinter.setPrinterInterface(printerInterface)
                     //  BaseApplication.getInstance().setRtPrinter(rtPrinter);
-
-//                    esc80TempPrint_test()
+//                        setPrinterStatusListener();//StatusListener()
                 }
 
                 CommonEnum.CONNECT_STATE_INTERRUPTED -> {
-
+                    if (printerInterface != null && printerInterface.getConfigObject() != null) {
+                        Toast.makeText(mActivity, "${printerInterface.getConfigObject()} Disconnect", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(mActivity, "Disconnect", Toast.LENGTH_SHORT).show()
+                    }
+                    curPrinterInterface = null;
+//                    printerInterfaceArrayList.remove(printerInterface);//多连接-从已连接列表中移除
+                    //  BaseApplication.getInstance().setRtPrinter(null);
                 }
 
-                else -> {}
+                else -> { }
             }
         }
     }
 
     override fun printerReadMsgCallback(p0: PrinterInterface<*>?, p1: ByteArray?) {
-        Log.i(TAG, "printerReadMsgCallback")
+        Log.i(TAG, "printerReadMsgCallback: " + FuncUtils.ByteArrToHex(p1))
     }
 }

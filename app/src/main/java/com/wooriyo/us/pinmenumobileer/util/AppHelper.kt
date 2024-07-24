@@ -597,40 +597,5 @@ class AppHelper {
             }
             scheduler?.shutdown()
         }
-
-        fun connectCube(context: Context, info: SocketInfo) {
-            MyApplication.INSTANCE.getPrinterConnection()?.ClosePrinter()
-            val connection = EthernetConnection(context)
-//            connection.setSocketInfo(info)
-            connection.setName(info.address)
-            connection.setAdress(info.address)
-            connection.setPort(info.port)
-            connection.OpenPrinter()
-
-            Log.d("AppHelper", "Printer Status >> ${connection.getPrinterStatus()}")
-            Log.d("AppHelper", "Printer IsConnected >> ${connection.IsConnected()}")
-
-            MyApplication.INSTANCE.setPrinterConnection(connection)
-//            checkCubeConn()
-        }
-
-        // GCUBE 연결되었는지 확인, 상태 return
-        fun checkCubeConn(context: Context): Int {
-            val cube = MyApplication.INSTANCE.getPrinterConnection()
-            val connection = EthernetConnection(context)
-
-            connection.OpenPrinter()
-
-            if (connection.IsConnected()) {
-                Log.d("AppHelper", "연결됨 들어옴")
-            }
-
-            val status = connection.getPrinterStatus()?:"Null Error"
-            val name = connection.getPrinterName()?:""
-            Log.d("AppHelper", "Printer Status >> $status")
-            Log.d("AppHelper", "Printer name >> $name")
-
-            return if (status == "Printer Ready") 1 else 0
-        }
     }
 }
