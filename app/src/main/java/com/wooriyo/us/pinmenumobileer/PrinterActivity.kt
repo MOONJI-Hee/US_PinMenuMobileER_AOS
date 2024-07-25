@@ -63,7 +63,7 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
             if(reVal == 1) {
                 val list = StringBuffer()
                 pairedDevices.forEach{
-                    list.append("${it.name} ${it.address} ${it.uuids}\n")
+                    list.append("${it.name} ${it.address} ${it.uuids}  ${it.alias}   ${it.bluetoothClass.majorDeviceClass}   ${it.type}  ${it.bluetoothClass}\n")
                 }
                 binding.list.text = list
             }else {
