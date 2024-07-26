@@ -39,32 +39,32 @@ import retrofit2.Response
 
 class MainActivity : BaseActivity() {
     lateinit var binding: ActivityMainBinding
-
-    var isMain = true
-
     lateinit var thread: Thread
 
-    @RequiresApi(33)
-    val pms_noti : String = Manifest.permission.POST_NOTIFICATIONS
+    private val turnOnBluetoothResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if(it.resultCode == RESULT_OK) { checkBluetooth() }
+    }
 
     private val permissions = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
 
-    private val permissions_bt = arrayOf(
-        Manifest.permission.BLUETOOTH_CONNECT,
-        Manifest.permission.BLUETOOTH_SCAN
+    @RequiresApi(Build.VERSION_CODES.S)
+    private val permissionsBt = arrayOf(
+        Manifest.permission.BLUETOOTH_SCAN,
+        Manifest.permission.BLUETOOTH_CONNECT
     )
+
+    @RequiresApi(33)
+    val pms_noti : String = Manifest.permission.POST_NOTIFICATIONS
+
+    var isMain = true
 
     val goQrAgree = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
 //        if (it.resultCode == RESULT_OK) {
 //            goQr()
 //        }
-    }
-
-    private val turnOnBluetoothResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if(it.resultCode == RESULT_OK) { checkBluetooth() }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -144,80 +144,6 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    // 위치 권한 확인하기
-    fun checkPermissions() {
-        val deniedPms = ArrayList<String>()
-
-        for (pms in permissions) {
-            if(ActivityCompat.checkSelfPermission(mActivity, pms) != PackageManager.PERMISSION_GRANTED) {
-                if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity, pms)) {
-                    AlertDialog.Builder(mActivity)
-                        .setTitle(R.string.pms_location_content)
-                        .setMessage(R.string.pms_location_content)
-                        .setPositiveButton(R.string.confirm) { dialog, _ ->
-                            dialog.dismiss()
-                            getLocationPms()
-                        }
-                        .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss()}
-                        .show()
-                    return
-                }else {
-                    deniedPms.add(pms)
-                }
-            }
-        }
-
-        if(deniedPms.isEmpty()) {
-            if (MyApplication.osver >= Build.VERSION_CODES.S)
-                checkBluetoothPermission()
-            else
-                checkBluetooth()
-        }else {
-            getLocationPms()
-        }
-    }
-
-    //권한 받아오기
-    fun getLocationPms() {
-        ActivityCompat.requestPermissions(mActivity, permissions, AppProperties.REQUEST_LOCATION)
-    }
-
-    fun checkBluetoothPermission() {
-        val deniedPms = ArrayList<String>()
-
-        for (pms in permissions_bt) {
-            if(ActivityCompat.checkSelfPermission(mActivity, pms) != PackageManager.PERMISSION_GRANTED) {
-                if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity, pms)) {
-                    AlertDialog.Builder(mActivity)
-                        .setTitle(R.string.pms_bluetooth_title)
-                        .setMessage(R.string.pms_bluetooth_content)
-                        .setPositiveButton(R.string.confirm) { dialog, _ ->
-                            getBluetoothPms()
-                            dialog.dismiss()
-                            return@setPositiveButton
-                        }
-                        .setNegativeButton(R.string.cancel) { dialog, _ ->
-                            dialog.dismiss()
-                            return@setNegativeButton
-                        }
-                        .show()
-                    return
-                }else
-                    deniedPms.add(pms)
-            }
-        }
-
-        if(deniedPms.isEmpty() || deniedPms.size == 0) {
-            checkBluetooth()
-        }else {
-            getBluetoothPms()
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.S)
-    fun getBluetoothPms() {
-        ActivityCompat.requestPermissions(mActivity, permissions_bt, AppProperties.REQUEST_ENABLE_BT)
-    }
 
     // SDK 33 이상에서 알림 권한 확인
     @RequiresApi(33)
