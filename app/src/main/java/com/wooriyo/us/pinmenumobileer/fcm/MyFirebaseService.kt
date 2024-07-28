@@ -9,6 +9,14 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.rt.printerlibrary.cmd.Cmd
+import com.rt.printerlibrary.cmd.EscFactory
+import com.rt.printerlibrary.enumerate.CommonEnum
+import com.rt.printerlibrary.enumerate.ESCFontTypeEnum
+import com.rt.printerlibrary.enumerate.SettingEnum
+import com.rt.printerlibrary.factory.cmd.CmdFactory
+import com.rt.printerlibrary.setting.CommonSetting
+import com.rt.printerlibrary.setting.TextSetting
 import com.sewoo.jpos.command.ESCPOSConst
 import com.wooriyo.us.pinmenumobileer.BaseActivity.Companion.currentActivity
 import com.wooriyo.us.pinmenumobileer.MainActivity
@@ -28,6 +36,7 @@ import com.wooriyo.us.pinmenumobileer.util.ApiClient
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
 import retrofit2.Call
 import retrofit2.Response
+import java.io.UnsupportedEncodingException
 
 
 class MyFirebaseService: FirebaseMessagingService() {
@@ -96,72 +105,54 @@ class MyFirebaseService: FirebaseMessagingService() {
                                     hyphen.append("-")
                                 }
 
-                                escposPrinter.printAndroidFont(
-                                    result.storenm,
-                                    AppProperties.FONT_WIDTH,
-                                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                                escposPrinter.printAndroidFont("주문날짜 : $pOrderDt",
-                                    AppProperties.FONT_WIDTH,
-                                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                                escposPrinter.printAndroidFont("주문번호 : $pOrderNo",
-                                    AppProperties.FONT_WIDTH,
-                                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                                escposPrinter.printAndroidFont("테이블번호 : $pTableNo",
-                                    AppProperties.FONT_WIDTH,
-                                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                                escposPrinter.printAndroidFont(
-                                    AppProperties.TITLE_MENU,
-                                    AppProperties.FONT_WIDTH, AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                                escposPrinter.printAndroidFont(hyphen.toString(),
-                                    AppProperties.FONT_WIDTH, font_size, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                                Log.d(TAG, "printRT 시작")
+                                val escFac : CmdFactory = EscFactory()
+                                val escCmd : Cmd = escFac.create()
+                                escCmd.append(escCmd.headerCmd)
+                                escCmd.chartsetName = "UTF-8"
 
-                                result.orderdata.forEach {
-                                    val pOrder = AppHelper.getPrint(it)
-                                    escposPrinter.printAndroidFont(pOrder,
-                                        AppProperties.FONT_WIDTH, font_size, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                                }
+                                val commonSetting = CommonSetting()
+                                commonSetting.align = CommonEnum.ALIGN_LEFT
+                                escCmd.append(escCmd.getCommonSettingCmd(commonSetting))
 
-                                if(result.reserType > 0 && result.rlist.isNotEmpty()) {
-                                    val reserv = result.rlist[0]
+                                val textSetting = TextSetting()
+                                textSetting.escFontType = ESCFontTypeEnum.FONT_A_12x24
 
-                                    escposPrinter.lineFeed(2)
+                                try {
+                                    val preBlank = ""
+                                    textSetting.align = CommonEnum.ALIGN_LEFT
+                                    escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Order Date : $pOrderDt"))
+                                    escCmd.append(escCmd.lfcrCmd)
+                                    escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Order No   : $pOrderNo"))
+                                    escCmd.append(escCmd.lfcrCmd)
+                                    escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Table No   : $pTableNo\n"))
+                                    escCmd.append(escCmd.lfcrCmd)
 
-                                    escposPrinter.printAndroidFont("전화번호",
-                                        AppProperties.FONT_WIDTH,
-                                        20, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                                    escposPrinter.printAndroidFont(reserv.tel,
-                                        AppProperties.FONT_WIDTH,
-                                        33, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                                    escposPrinter.printAndroidFont("예약자명",
-                                        AppProperties.FONT_WIDTH,
-                                        20, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                                    escposPrinter.printAndroidFont(reserv.name,
-                                        AppProperties.FONT_WIDTH,
-                                        33, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                                    escposPrinter.printAndroidFont("요청사항",
-                                        AppProperties.FONT_WIDTH,
-                                        20, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                                    escposPrinter.printAndroidFont(reserv.memo,
-                                        AppProperties.FONT_WIDTH,
-                                        33, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                                    textSetting.doubleWidth = SettingEnum.Enable
+                                    escCmd.append(escCmd.getTextCmd(textSetting,  "Product       Qty  Amt "))
+                                    escCmd.append(escCmd.lfcrCmd)
 
-                                    var str = ""
-                                    when(result.reserType) {
-                                        1 -> str = "매장"
-                                        2 -> str = "포장"
+                                    textSetting.doubleHeight = SettingEnum.Disable
+                                    textSetting.doubleWidth = SettingEnum.Disable
+                                    escCmd.append(escCmd.getTextCmd(textSetting, "--------------------------------------------"))
+                                    escCmd.append(escCmd.lfcrCmd)
+
+                                    textSetting.doubleWidth = SettingEnum.Enable
+
+                                    result.orderdata.forEach {
+                                        val pOrder = AppHelper.getPrintRT(it)
+                                        escCmd.append(escCmd.getTextCmd(textSetting, pOrder))
+                                        escCmd.append(escCmd.lfcrCmd)
                                     }
-                                    escposPrinter.printAndroidFont(
-                                        String.format(getString(R.string.reserv_date), str),
-                                        AppProperties.FONT_WIDTH,
-                                        20, ESCPOSConst.LK_ALIGNMENT_LEFT)
 
-                                    escposPrinter.printAndroidFont(reserv.reserdt,
-                                        AppProperties.FONT_WIDTH,
-                                        33, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                                    escCmd.append(escCmd.cmdCutNew)
+
+                                    MyApplication.rtPrinter.writeMsgAsync(escCmd.appendCmds)
+
+                                } catch (e : UnsupportedEncodingException) {
+                                    e.printStackTrace()
+                                    Log.d(TAG, "Exception > $e")
                                 }
-
-                                escposPrinter.lineFeed(4)
-                                escposPrinter.cutPaper()
                             }else {
                                 Log.d(TAG, "프린트 연결 안됨")
                             }

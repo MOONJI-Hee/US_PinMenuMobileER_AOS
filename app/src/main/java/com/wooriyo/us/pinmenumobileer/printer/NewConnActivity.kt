@@ -31,9 +31,6 @@ import java.io.IOException
 class NewConnActivity : BaseActivity() {
     lateinit var binding: ActivityNewConnBinding
 
-//    val TAG = "NewConnActivity"
-//    val mActivity = this@NewConnActivity
-
     var printerNick = ""
     var printerModel = ""
     var printType = 0

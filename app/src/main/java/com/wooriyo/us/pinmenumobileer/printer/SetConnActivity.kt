@@ -52,12 +52,6 @@ class SetConnActivity : BaseActivity() {
         binding = ActivitySetConnBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        cubeList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//            (intent.getParcelableArrayListExtra("cubeList", SocketInfo::class.java) ?: ArrayList<SocketInfo>())
-//        }else {
-//            (intent.getParcelableArrayListExtra("cubeList") ?: ArrayList<SocketInfo>())
-//        }
-
         // 디바이스, 프린터 정보 조회
         getPrintSetting()
 
@@ -169,8 +163,9 @@ class SetConnActivity : BaseActivity() {
         binding.back.setOnClickListener { finish() }
         binding.phoneNick.setOnClickListener { nickDialog.show(supportFragmentManager, "SetNickDialog") }
         binding.plus.setOnClickListener {
-//            bluetoothAdapter.startDiscovery()
-            startActivity(Intent(mActivity, NewConnActivity::class.java))
+            loadingDialog.show(supportFragmentManager)
+            bluetoothAdapter.startDiscovery()
+//            startActivity(Intent(mActivity, NewConnActivity::class.java))
         }
     }
 
