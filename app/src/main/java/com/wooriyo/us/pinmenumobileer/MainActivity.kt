@@ -111,8 +111,7 @@ class MainActivity : BaseActivity() {
             icMain.setOnClickListener { goMain() }
             icMenu.setOnClickListener { setNavi(it.id) }
             icQr.setOnClickListener { setNavi(it.id) }
-//            icPrint.setOnClickListener { setNavi(it.id) }
-            icPrint.setOnClickListener { Toast.makeText(mActivity, R.string.msg_preparing, Toast.LENGTH_SHORT).show() }
+            icPrint.setOnClickListener { setNavi(it.id) }
             icMore.setOnClickListener { setNavi(it.id) }
         }
     }
@@ -125,9 +124,9 @@ class MainActivity : BaseActivity() {
         when(requestCode) {
             AppProperties.REQUEST_ENABLE_BT -> {
                 checkBluetoothPermission()
-//                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    checkBluetooth()
-//                }
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    checkBluetooth()
+                }
             }
             AppProperties.REQUEST_LOCATION -> {
                 grantResults.forEach {

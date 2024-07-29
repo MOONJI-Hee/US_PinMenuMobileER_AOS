@@ -92,7 +92,7 @@ class MyFirebaseService: FirebaseMessagingService() {
 
                     when(result.status) {
                         1 -> {
-                            if(MyApplication.bluetoothPort.isConnected) {
+//                            if(MyApplication.bluetoothPort.isConnected) {
                                 val pOrderDt = result.regdt
                                 val pTableNo = result.tableNo
                                 val pOrderNo = ordCode
@@ -153,9 +153,9 @@ class MyFirebaseService: FirebaseMessagingService() {
                                     e.printStackTrace()
                                     Log.d(TAG, "Exception > $e")
                                 }
-                            }else {
-                                Log.d(TAG, "프린트 연결 안됨")
-                            }
+//                            }else {
+//                                Log.d(TAG, "프린트 연결 안됨")
+//                            }
                         }
                         else -> Toast.makeText(applicationContext, result.msg, Toast.LENGTH_SHORT).show()
                     }

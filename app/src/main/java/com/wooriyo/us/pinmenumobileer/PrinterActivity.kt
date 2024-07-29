@@ -33,6 +33,7 @@ import com.rt.printerlibrary.utils.FuncUtils
 import com.rt.printerlibrary.utils.PrintStatusCmd
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.rtPrinter
 import com.wooriyo.us.pinmenumobileer.databinding.ActivityPrinterBinding
+import com.wooriyo.us.pinmenumobileer.history.ByHistoryActivity
 import java.io.IOException
 import java.io.UnsupportedEncodingException
 
@@ -63,7 +64,7 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
             if(reVal == 1) {
                 val list = StringBuffer()
                 pairedDevices.forEach{
-                    list.append("${it.name} ${it.address} ${it.uuids}  ${it.alias}   ${it.bluetoothClass.majorDeviceClass}   ${it.type}  ${it.bluetoothClass}\n")
+                    list.append("${it.name} / ${it.address} / ${it.uuids} / ${it.alias} / ${it.bluetoothClass.majorDeviceClass} / ${it.type} / ${it.bluetoothClass}\n")
                 }
                 binding.list.text = list
             }else {
@@ -187,7 +188,10 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
 //                }
             }
             binding.print -> {
-                print()
+                        startActivity(Intent(mActivity, ByHistoryActivity::class.java))
+
+
+//                print()
             }
         }
     }

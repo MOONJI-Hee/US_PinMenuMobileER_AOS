@@ -14,8 +14,6 @@ class PrinterMenuFragment : Fragment() {
     lateinit var binding: FragmentPrinterMenuBinding
     val TAG = "PrinterMenuFragment"
 
-    var cubeList : ArrayList<*> ?= null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as MainActivity).thread = Thread(Runnable{

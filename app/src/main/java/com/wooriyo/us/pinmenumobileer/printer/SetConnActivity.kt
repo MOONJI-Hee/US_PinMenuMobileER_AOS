@@ -10,7 +10,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sam4s.io.ethernet.SocketInfo
 import com.sewoo.request.android.RequestHandler
 import com.wooriyo.us.pinmenumobileer.BaseActivity
 import com.wooriyo.us.pinmenumobileer.MyApplication
@@ -25,7 +24,7 @@ import com.wooriyo.us.pinmenumobileer.databinding.ActivitySetConnBinding
 import com.wooriyo.us.pinmenumobileer.listener.DialogListener
 import com.wooriyo.us.pinmenumobileer.listener.ItemClickListener
 import com.wooriyo.us.pinmenumobileer.model.PrintContentDTO
-import com.wooriyo.us.pinmenumobileer.printer.adapter.SewooAdapter
+import com.wooriyo.us.pinmenumobileer.printer.adapter.PrinterAdapter
 import com.wooriyo.us.pinmenumobileer.printer.dialog.SetNickDialog
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
@@ -33,17 +32,11 @@ import com.wooriyo.us.pinmenumobileer.util.AppHelper.Companion.connDevice
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.collections.ArrayList
 
 class SetConnActivity : BaseActivity() {
     lateinit var binding: ActivitySetConnBinding
 
-    lateinit var cubeList : ArrayList<SocketInfo>
-
-    //    val printerList = ArrayList<PrintDTO>()
-//    val printerAdapter = PrinterAdapter(printerList)
-
-    val sewooAdapter = SewooAdapter(remoteDevices)
+    val printerAdapter = PrinterAdapter(remoteDevices)
 
     var connPos = -1
 
@@ -83,7 +76,7 @@ class SetConnActivity : BaseActivity() {
                         }
                     }
 
-                    sewooAdapter.notifyDataSetChanged()
+                    printerAdapter.notifyDataSetChanged()
                     val retVal = AppHelper.connDevice(0)
 
                     if (retVal == 0) { // Connection success.
@@ -100,7 +93,7 @@ class SetConnActivity : BaseActivity() {
 //        registerReceiver(connectDevice, IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED))
 
         // 연결 프린트 리사이클러뷰
-        sewooAdapter.setConnClickListener(object : ItemClickListener {
+        printerAdapter.setConnClickListener(object : ItemClickListener {
             override fun onItemClick(position: Int) {
                 var status = ""
 
@@ -124,7 +117,7 @@ class SetConnActivity : BaseActivity() {
 
                         val prePos = connPos
                         connPos = position
-                        sewooAdapter.notifyItemChanged(position)
+                        printerAdapter.notifyItemChanged(position)
 
 //                        if (prePos != connPos)
 //                            printerAdapter.notifyItemChanged(prePos)
@@ -138,10 +131,10 @@ class SetConnActivity : BaseActivity() {
                 }
                 val prePos = connPos
                 connPos = position
-                sewooAdapter.notifyItemChanged(position)
+                printerAdapter.notifyItemChanged(position)
 
                 if (prePos != connPos)
-                    sewooAdapter.notifyItemChanged(prePos)
+                    printerAdapter.notifyItemChanged(prePos)
 
 //                setPrintConnStatus(position, status)
             }
@@ -151,7 +144,7 @@ class SetConnActivity : BaseActivity() {
 //        binding.rvPrinter.adapter = printerAdapter
 
         binding.rvSewoo.layoutManager = LinearLayoutManager(mActivity, RecyclerView.VERTICAL, false)
-        binding.rvSewoo.adapter = sewooAdapter
+        binding.rvSewoo.adapter = printerAdapter
 
         val nickDialog = SetNickDialog("", 1, "안드로이드 스마트폰")
         nickDialog.setOnNickChangeListener(object : DialogListener {

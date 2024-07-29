@@ -307,10 +307,15 @@ class AppHelper {
                 total++
             }
 
+            val diff1 = productLine - (result.toString().length)
+            for(i in 1..diff1) {
+                result.append(" ")
+            }
+
             result.append(" ")
 
-            val diff = qtyLine - (ord.gea.toString().length)
-            for(i in 1..diff) {
+            val diff2 = qtyLine - (ord.gea.toString().length)
+            for(i in 1..diff2) {
                 result.append(" ")
             }
 
@@ -318,8 +323,8 @@ class AppHelper {
 
             result.append(" ")
 
-            val diff2 = amtLine - (price(ord.price).length)
-            for(i in 1..diff2) {
+            val diff3 = amtLine - (price(ord.price).length)
+            for(i in 1..diff3) {
                 result.append(" ")
             }
 
@@ -333,7 +338,7 @@ class AppHelper {
 
             if(!ord.opt.isNullOrEmpty()) {
                 ord.opt.forEach {
-                    result.append("\r -$it")
+                    result.append("\n -$it")
                 }
             }
 

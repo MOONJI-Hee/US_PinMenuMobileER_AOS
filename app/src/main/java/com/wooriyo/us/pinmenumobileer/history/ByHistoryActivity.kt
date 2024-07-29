@@ -347,8 +347,8 @@ class ByHistoryActivity: BaseActivity() {
         loadingDialog.show(supportFragmentManager)
 
 
-        if(useridx == 0) useridx = 3
-        if(storeidx == 0) storeidx = 5
+        if(useridx == 0) useridx = 24
+        if(storeidx == 0) storeidx = 28
 
         ApiClient.service.getOrderList(useridx, storeidx).enqueue(object: Callback<OrderListDTO> {
             override fun onResponse(call: Call<OrderListDTO>, response: Response<OrderListDTO>) {

@@ -35,7 +35,8 @@
         android:theme="@style/Theme.PinmenuMobileER">
         <activity
             android:name=".PrinterActivity"
-            android:exported="true" />
+            android:exported="true" >
+        </activity>
         <activity
             android:name=".more.TipTaxActivity"
             android:exported="false" />
