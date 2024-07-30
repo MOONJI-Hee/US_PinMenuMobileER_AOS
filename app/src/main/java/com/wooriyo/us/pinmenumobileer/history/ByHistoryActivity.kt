@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rt.printerlibrary.cmd.Cmd
 import com.rt.printerlibrary.cmd.EscFactory
 import com.rt.printerlibrary.enumerate.CommonEnum
+import com.rt.printerlibrary.enumerate.CommonEnum.FontStyle
+import com.rt.printerlibrary.enumerate.CpclFontTypeEnum
 import com.rt.printerlibrary.enumerate.ESCFontTypeEnum
 import com.rt.printerlibrary.enumerate.SettingEnum
 import com.rt.printerlibrary.factory.cmd.CmdFactory
@@ -42,10 +44,10 @@ import com.wooriyo.us.pinmenumobileer.model.OrderListDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
+import com.wooriyo.us.pinmenumobileer.util.AppHelper.Companion.printRT
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.UnsupportedEncodingException
 
 class ByHistoryActivity: BaseActivity() {
     lateinit var binding: ActivityOrderListBinding
@@ -64,19 +66,10 @@ class ByHistoryActivity: BaseActivity() {
 
     var selText: TextView?= null
 
-    // 프린트 관련 변수
-    var hyphen = StringBuilder()                // 하이픈
-    var hyphen_num = AppProperties.HYPHEN_NUM   // 하이픈 개수
-    var font_size = AppProperties.FONT_SIZE
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        for (i in 1..hyphen_num) {
-            hyphen.append("-")
-        }
 
         selectTab(binding.tvOrder)
 
@@ -208,7 +201,7 @@ class ByHistoryActivity: BaseActivity() {
         })
 
         adapter.setOnPrintClickListener(object: ItemClickListener {
-            override fun onItemClick(position: Int) {printRT(list[position])}
+            override fun onItemClick(position: Int) {printRT(list[position], mActivity)}
         })
 
         adapter.setOnTableNoListener(object: ItemClickListener {
@@ -267,7 +260,7 @@ class ByHistoryActivity: BaseActivity() {
         })
 
         orderAdapter.setOnPrintClickListener(object: ItemClickListener {
-            override fun onItemClick(position: Int) {printRT(orderList[position])}
+            override fun onItemClick(position: Int) {printRT(orderList[position], mActivity)}
         })
     }
 
@@ -301,7 +294,7 @@ class ByHistoryActivity: BaseActivity() {
         })
 
         reservAdapter.setOnPrintClickListener(object: ItemClickListener {
-            override fun onItemClick(position: Int) {printRT(reservList[position])}
+            override fun onItemClick(position: Int) {printRT(reservList[position], mActivity)}
         })
 
         reservAdapter.setOnTableNoListener(object: ItemClickListener {
@@ -675,148 +668,5 @@ class ByHistoryActivity: BaseActivity() {
                     Log.d(TAG, "예약 확인 실패 > ${call.request()}")
                 }
             })
-    }
-
-    // 주문 프린트
-    fun print(order: OrderHistoryDTO) {
-        val pOrderDt = order.regdt
-        val pTableNo = order.tableNo
-        val pOrderNo = order.ordcode
-
-        if(MyApplication.bluetoothPort.isConnected){
-            MyApplication.escposPrinter.printAndroidFont(
-                MyApplication.store.name,
-                AppProperties.FONT_WIDTH,
-                AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            MyApplication.escposPrinter.printAndroidFont("주문날짜 : $pOrderDt",
-                AppProperties.FONT_WIDTH,
-                AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            MyApplication.escposPrinter.printAndroidFont("주문번호 : $pOrderNo",
-                AppProperties.FONT_WIDTH,
-                AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            MyApplication.escposPrinter.printAndroidFont("테이블번호 : $pTableNo",
-                AppProperties.FONT_WIDTH,
-                AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            MyApplication.escposPrinter.printAndroidFont(
-                AppProperties.TITLE_MENU,
-                AppProperties.FONT_WIDTH,
-                AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            MyApplication.escposPrinter.printAndroidFont(hyphen.toString(),
-                AppProperties.FONT_WIDTH, font_size, ESCPOSConst.LK_ALIGNMENT_LEFT)
-
-            order.olist.forEach {
-                val pOrder = AppHelper.getPrint(it)
-                MyApplication.escposPrinter.printAndroidFont(pOrder,
-                    AppProperties.FONT_WIDTH, font_size, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            }
-
-            if(order.reserType > 0 && order.rlist.isNotEmpty()) {
-                val reserv = order.rlist[0]
-
-                MyApplication.escposPrinter.lineFeed(2)
-
-                MyApplication.escposPrinter.printAndroidFont("전화번호",
-                    AppProperties.FONT_WIDTH,
-                    20, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                MyApplication.escposPrinter.printAndroidFont(reserv.tel,
-                    AppProperties.FONT_WIDTH,
-                    33, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                MyApplication.escposPrinter.printAndroidFont("예약자명",
-                    AppProperties.FONT_WIDTH,
-                    20, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                MyApplication.escposPrinter.printAndroidFont(reserv.name,
-                    AppProperties.FONT_WIDTH,
-                    33, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                MyApplication.escposPrinter.printAndroidFont("요청사항",
-                    AppProperties.FONT_WIDTH,
-                    20, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                MyApplication.escposPrinter.printAndroidFont(reserv.memo,
-                    AppProperties.FONT_WIDTH,
-                    33, ESCPOSConst.LK_ALIGNMENT_LEFT)
-
-                var str = ""
-                when(order.reserType) {
-                    1 -> str = "매장"
-                    2 -> str = "포장"
-                }
-                MyApplication.escposPrinter.printAndroidFont(
-                    String.format(getString(R.string.reserv_date), str),
-                    AppProperties.FONT_WIDTH,
-                    20, ESCPOSConst.LK_ALIGNMENT_LEFT)
-
-                MyApplication.escposPrinter.printAndroidFont(reserv.reserdt,
-                    AppProperties.FONT_WIDTH,
-                    33, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            }
-
-            MyApplication.escposPrinter.lineFeed(4)
-            MyApplication.escposPrinter.cutPaper()
-        }
-    }
-
-    fun printRT(order: OrderHistoryDTO) {
-        Log.d(TAG, "printRT 시작")
-        val escFac : CmdFactory = EscFactory()
-        val escCmd : Cmd = escFac.create()
-        escCmd.append(escCmd.headerCmd)
-        escCmd.chartsetName = "UTF-8"
-
-        Log.d(TAG, "printRT 1111")
-
-        val commonSetting = CommonSetting()
-        commonSetting.align = CommonEnum.ALIGN_LEFT
-        escCmd.append(escCmd.getCommonSettingCmd(commonSetting))
-
-        Log.d(TAG, "printRT 2222")
-
-
-        val textSetting = TextSetting()
-        textSetting.escFontType = ESCFontTypeEnum.FONT_A_12x24
-
-        Log.d(TAG, "printRT 3333")
-
-
-        try {
-            val preBlank = ""
-            textSetting.align = CommonEnum.ALIGN_LEFT
-            escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Order Date : ${order.regdt}"))
-            escCmd.append(escCmd.lfcrCmd)
-            escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Order No   : ${order.ordcode}"))
-            escCmd.append(escCmd.lfcrCmd)
-            escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Table No   : ${order.tableNo}\n"))
-            escCmd.append(escCmd.lfcrCmd)
-
-            textSetting.doubleWidth = SettingEnum.Enable
-            escCmd.append(escCmd.getTextCmd(textSetting,  "Product       Qty  Amt "))
-            escCmd.append(escCmd.lfcrCmd)
-
-            textSetting.doubleHeight = SettingEnum.Disable
-            textSetting.doubleWidth = SettingEnum.Disable
-            escCmd.append(escCmd.getTextCmd(textSetting, "--------------------------------------------"))
-            escCmd.append(escCmd.lfcrCmd)
-
-            textSetting.doubleWidth = SettingEnum.Enable
-
-            order.olist.forEach {
-                val pOrder = AppHelper.getPrintRT(it)
-                escCmd.append(escCmd.getTextCmd(textSetting, pOrder))
-                escCmd.append(escCmd.lfcrCmd)
-            }
-
-            escCmd.append(escCmd.cmdCutNew)
-
-            Log.d(TAG, "printRT 444")
-
-
-            rtPrinter.writeMsgAsync(escCmd.appendCmds)
-
-            Log.d(TAG, "printRT 5555")
-
-
-        } catch (e : UnsupportedEncodingException) {
-            e.printStackTrace()
-            Log.d(TAG, "Exception > $e")
-
-        }
     }
 }

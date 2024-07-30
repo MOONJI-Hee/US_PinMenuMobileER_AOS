@@ -44,17 +44,14 @@ class PrinterMenuFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        AppHelper.searchCube(requireContext())
     }
 
     override fun onPause() {
         super.onPause()
-        AppHelper.stopSearchCube()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        AppHelper.destroySearchCube()
     }
 
     companion object {

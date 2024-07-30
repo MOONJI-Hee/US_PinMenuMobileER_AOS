@@ -58,20 +58,21 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
 //            BluetoothDevice type > 1
 
             var img = 0
+            var model = ""
 
             when(data.address.substring(0, 8)) {
                 "60:6E:41" -> {
+                    model = "RONGTA RP325"
                     img = R.drawable.rp325
-                    binding.model.text = "RONGTA RP325 [${data.address}]"
                 }
                 "00:13:7B" -> {
+                    model = "SEWOO SKL-TS400B"
                     img = R.drawable.skl_ts400b
-                    binding.model.text = "세우테크 SKL-TS400B [${data.address}]"
                 }
             }
 
             binding.ivPrinter.setImageResource(img)
-
+            binding.model.text = "$model\n[${data.address}]"
             binding.nick.text = data.alias.toString()
 
             // 연결 상태에 따라 우측 버튼 및 뷰 변경
@@ -112,7 +113,9 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
 
             binding.layout.setOnClickListener {
                 val intent = Intent(context, DetailPrinterActivity::class.java)
-                intent.putExtra("sewoo", data)
+                intent.putExtra("device", data)
+                intent.putExtra("model", model)
+                intent.putExtra("img", img)
                 context.startActivity(intent)
             }
 
@@ -121,8 +124,7 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
             }
 
             binding.btnClear.setOnClickListener {
-                // 프린터 연결 해제
-
+                // TODO 프린터 연결 해제
             }
         }
     }

@@ -29,17 +29,13 @@
         app:layout_constraintTop_toBottomOf="@+id/ivPrinter" />
 
     <TextView
-        style="@style/text17b"
+        style="@style/text15b"
         android:id="@+id/model"
         android:layout_width="0dp"
         android:layout_marginHorizontal="15dp"
-        android:maxLines="1"
-        android:ellipsize="marquee"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:scrollHorizontally="true"
+        android:maxLines="2"
+        android:marqueeRepeatLimit="marquee_forever"
         app:layout_constraintTop_toTopOf="@+id/ivPrinter"
-        app:layout_constraintBottom_toTopOf="@+id/tv_nick"
         app:layout_constraintStart_toEndOf="@+id/ivPrinter"
         app:layout_constraintEnd_toStartOf="@+id/line"
         tools:text="세우테크 SKL_TS400B" />

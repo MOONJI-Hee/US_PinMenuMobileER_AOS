@@ -47,7 +47,7 @@ class AppProperties {
                 const val RT_ONE_LINE_SMALL = 44   // 작은 글자 (default) 한 줄 개수 - 공백, 하이픈, 소문자, 대문자 모두 동일)
                 const val RT_ONE_LINE_BIG = 23     // 큰 글자 (넓이 두배) 한 줄 개수 - 공백, 하이픈, 소문자, 대문자 모두 동일)
 
-                const val RT_PRODUCT_BIG = 12      // 큰 글자 기준, 상품명 칸에 들어갈 글자 개수
+                const val RT_PRODUCT_BIG = 19      // 큰 글자 기준, 상품명 칸에 들어갈 글자 개수
                 const val RT_QTY_BIG = 3           // 큰 글자 기준, 수량 칸에 들어갈 글자 개수
                 const val RT_AMT_BIG = 6           // 큰 글자 기준, 가격 칸에 들어갈 글자 개수 (vvAMTv) (000.00) (#00.00) (##0.00)
 

@@ -153,39 +153,21 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
             binding.connect -> {
                 loadingDialog.show(supportFragmentManager)
 
-//                TimeRecordUtils.record("RT连接start：", System.currentTimeMillis());
-                val bluetoothEdrConfigBean : BluetoothEdrConfigBean = configObj as BluetoothEdrConfigBean
-                connectBluetooth(bluetoothEdrConfigBean);
+//                val bluetoothEdrConfigBean : BluetoothEdrConfigBean = configObj as BluetoothEdrConfigBean
+//                connectBluetooth(bluetoothEdrConfigBean)
+                val piFactory: PIFactory = BluetoothFactory()
+                val printerInterface = piFactory.create() as PrinterInterface
+                configObj = BluetoothEdrConfigBean(foundDevices[0])
+                printerInterface.configObject = configObj
+                rtPrinter.setPrinterInterface(printerInterface)
+                try {
+                    (rtPrinter as ThermalPrinter ).connect(configObj)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.d(TAG, "Connect Error > $e")
+                }
 
 
-
-//                registerReceiver(object : BroadcastReceiver(){
-//                    override fun onReceive(context: Context?, intent: Intent?) {
-//
-//                        loadingDialog.dismiss()
-//                        Toast.makeText(mActivity, "BluetoothConnect Success", Toast.LENGTH_SHORT).show()
-//
-////                        startActivity(Intent(mActivity, ByHistoryActivity::class.java))
-//                    }
-//                }, IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED))
-
-//                if(foundDevices.isNotEmpty())
-//                    connDevice(foundDevices[0])
-
-//                if(foundDevices.isNotEmpty()) {
-//                    val connDvc = foundDevices[0]
-//
-//                    try {
-//                        MyApplication.bluetoothPort.connect(connDvc)
-//                    } catch (e: IOException) {
-//                        loadingDialog.dismiss()
-//                        e.printStackTrace()
-//                        Log.d(TAG, "Connect FAil > $e")
-//                    }
-//                }else {
-//                    loadingDialog.dismiss()
-//                    Log.d(TAG, "FoundDevices Empty!!")
-//                }
             }
             binding.print -> {
                         startActivity(Intent(mActivity, ByHistoryActivity::class.java))
@@ -195,21 +177,6 @@ class PrinterActivity : BaseActivity(), OnClickListener, PrinterObserver {
             }
         }
     }
-
-fun connectBluetooth(bluetoothEdrConfigBean: BluetoothEdrConfigBean) {
-    val piFactory: PIFactory = BluetoothFactory()
-    val printerInterface = piFactory.create() as PrinterInterface
-//    printerInterface.configObject = bluetoothEdrConfigBean
-    printerInterface.configObject = configObj
-    rtPrinter.setPrinterInterface(printerInterface)
-    try {
-        (rtPrinter as ThermalPrinter ).connect(configObj)
-    } catch (e: Exception) {
-        e.printStackTrace()
-        Log.d(TAG, "Connect Error > $e")
-    }
-}
-
 
     fun getPairedDevice() : Int {
         Log.d(TAG, "getPairedDevice 시작")

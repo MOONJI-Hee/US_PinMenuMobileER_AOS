@@ -14,8 +14,15 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.INPUT_METHOD_SERVICE
 import androidx.recyclerview.widget.RecyclerView
-import com.sam4s.io.ethernet.SocketInfo
-import com.sam4s.printer.Sam4sFinder
+import com.rt.printerlibrary.cmd.Cmd
+import com.rt.printerlibrary.cmd.EscFactory
+import com.rt.printerlibrary.enumerate.CommonEnum
+import com.rt.printerlibrary.enumerate.ESCFontTypeEnum
+import com.rt.printerlibrary.enumerate.SettingEnum
+import com.rt.printerlibrary.factory.cmd.CmdFactory
+import com.rt.printerlibrary.setting.CommonSetting
+import com.rt.printerlibrary.setting.TextSetting
+import com.sewoo.jpos.command.ESCPOSConst
 import com.wooriyo.us.pinmenumobileer.MyApplication
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.appver
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.bluetoothAdapter
@@ -25,12 +32,13 @@ import com.wooriyo.us.pinmenumobileer.R
 import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.BT_PRINTER
 import com.wooriyo.us.pinmenumobileer.model.OrderDTO
+import com.wooriyo.us.pinmenumobileer.model.OrderHistoryDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
-import com.wooriyo.us.pinmenumobileer.printer.sam4s.EthernetConnection
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import java.io.UnsupportedEncodingException
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.time.LocalDate
@@ -281,12 +289,115 @@ class AppHelper {
             return if(remoteDevices.isNotEmpty()) 1 else 0
         }
 
+        fun printRT(order: OrderHistoryDTO, context: Context) {
+            val escFac : CmdFactory = EscFactory()
+            val escCmd : Cmd = escFac.create()
+//        escCmd.append(escCmd.headerCmd)
+            escCmd.chartsetName = "UTF-8"
+
+            val commonSetting = CommonSetting()
+//        commonSetting.align = CommonEnum.ALIGN_LEFT
+//        escCmd.append(escCmd.getCommonSettingCmd(commonSetting))
+
+            val defaultText = TextSetting().apply {
+                align = CommonEnum.ALIGN_LEFT
+                doubleHeight = SettingEnum.Enable
+            }
+
+            val smallText = TextSetting().apply {
+                escFontType = ESCFontTypeEnum.FONT_A_12x24
+                align = CommonEnum.ALIGN_LEFT
+                isEscSmallCharactor = SettingEnum.Enable
+            }
+
+            val textSetting = TextSetting().apply {
+                escFontType = ESCFontTypeEnum.FONT_A_12x24
+                align = CommonEnum.ALIGN_LEFT
+                doubleWidth = SettingEnum.Enable
+            }
+
+            try {
+                escCmd.append(escCmd.getTextCmd(textSetting, MyApplication.store.name))
+                escCmd.append(escCmd.lfcrCmd)
+                escCmd.append(escCmd.getTextCmd(textSetting, "Order Date : ${order.regdt}"))
+                escCmd.append(escCmd.lfcrCmd)
+                escCmd.append(escCmd.getTextCmd(textSetting, "Order No   : ${order.ordcode}"))
+                escCmd.append(escCmd.lfcrCmd)
+                escCmd.append(escCmd.getTextCmd(textSetting, "Table No   : ${order.tableNo}\n"))
+                escCmd.append(escCmd.lfcrCmd)
+
+                escCmd.append(escCmd.getTextCmd(textSetting,  "Product             Qty"))
+                escCmd.append(escCmd.lfcrCmd)
+
+                escCmd.append(escCmd.getTextCmd(defaultText, "--------------------------------------------"))
+                escCmd.append(escCmd.lfcrCmd)
+
+                order.olist.forEach {
+                    val pOrder = AppHelper.getPrintRT(it)
+                    escCmd.append(escCmd.getTextCmd(textSetting, pOrder))
+                    escCmd.append(escCmd.lfcrCmd)
+                }
+
+                if(order.reserType > 0 && order.rlist.isNotEmpty()) {
+                    val reserv = order.rlist[0]
+
+                    escCmd.append(escCmd.lfcrCmd)
+
+                    escCmd.append(escCmd.getTextCmd(smallText, "Phone Num"))
+                    escCmd.append(escCmd.lfcrCmd)
+
+                    escCmd.append(escCmd.getTextCmd(textSetting, reserv.tel))
+                    escCmd.append(escCmd.lfcrCmd)
+
+                    escCmd.append(escCmd.getTextCmd(smallText, "Res. Name"))
+                    escCmd.append(escCmd.lfcrCmd)
+
+                    escCmd.append(escCmd.getTextCmd(textSetting, reserv.name))
+                    escCmd.append(escCmd.lfcrCmd)
+
+                    if(reserv.memo.isNotEmpty()) {
+                        escCmd.append(escCmd.getTextCmd(smallText, "Request"))
+                        escCmd.append(escCmd.lfcrCmd)
+
+                        escCmd.append(escCmd.getTextCmd(textSetting, reserv.memo))
+                        escCmd.append(escCmd.lfcrCmd)
+                    }
+
+                    var str = ""
+                    when(order.reserType) {
+                        1 -> str = "Store"
+                        2 -> str = "To-go"
+                    }
+
+                    escCmd.append(escCmd.getTextCmd(smallText, String.format(context.getString(R.string.reserv_date), str)))
+                    escCmd.append(escCmd.lfcrCmd)
+
+                    escCmd.append(escCmd.getTextCmd(textSetting, reserv.reserdt))
+                    escCmd.append(escCmd.lfcrCmd)
+                }else if(order.paytype == 3) {
+                    escCmd.append(escCmd.getTextCmd(defaultText, "--------------------------------------------"))
+                    escCmd.append(escCmd.lfcrCmd)
+                    escCmd.append(escCmd.getTextCmd(defaultText, "Complete payment"))
+                    escCmd.append(escCmd.lfcrCmd)
+                }
+
+                escCmd.append(escCmd.cmdCutNew)
+
+                MyApplication.rtPrinter.writeMsgAsync(escCmd.appendCmds)
+
+            } catch (e : UnsupportedEncodingException) {
+                e.printStackTrace()
+                Log.d("AppHelper", "Exception > $e")
+
+            }
+        }
+
         // 주문내역(상세내역) 영수증 형태 String으로 받기 - RTP325
         fun getPrintRT(ord: OrderDTO) : String {
             val oneLine = AppProperties.RT_ONE_LINE_BIG     // 23
-            val productLine = AppProperties.RT_PRODUCT_BIG  // 12
+            val productLine = AppProperties.RT_PRODUCT_BIG  // 19
             val qtyLine = AppProperties.RT_QTY_BIG          // 3
-            val amtLine = AppProperties.RT_AMT_BIG          // 6
+//            val amtLine = AppProperties.RT_AMT_BIG          // 6
 
             val result: StringBuilder = StringBuilder()
             val underline1 = StringBuilder()
@@ -314,21 +425,11 @@ class AppHelper {
 
             result.append(" ")
 
-            val diff2 = qtyLine - (ord.gea.toString().length)
-            for(i in 1..diff2) {
-                result.append(" ")
-            }
+            if (ord.gea < 100) result.append(" ")
 
             result.append(ord.gea)
 
-            result.append(" ")
-
-            val diff3 = amtLine - (price(ord.price).length)
-            for(i in 1..diff3) {
-                result.append(" ")
-            }
-
-            result.append(price(ord.price))
+            if(ord.gea < 10) result.append(" ")
 
             if (underline1.toString() != "")
                 result.append("\r$underline1")
@@ -343,6 +444,89 @@ class AppHelper {
             }
 
             return result.toString()
+        }
+
+        // 주문 프린트
+        fun print(order: OrderHistoryDTO, context: Context) {
+            val hyphen = StringBuilder()                // 하이픈
+
+            for (i in 1..AppProperties.HYPHEN_NUM) {
+                hyphen.append("-")
+            }
+
+            val pOrderDt = order.regdt
+            val pTableNo = order.tableNo
+            val pOrderNo = order.ordcode
+
+            if(MyApplication.bluetoothPort.isConnected){
+                MyApplication.escposPrinter.printAndroidFont(
+                    MyApplication.store.name,
+                    AppProperties.FONT_WIDTH,
+                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                MyApplication.escposPrinter.printAndroidFont("Order Date : $pOrderDt",
+                    AppProperties.FONT_WIDTH,
+                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                MyApplication.escposPrinter.printAndroidFont("Order No : $pOrderNo",
+                    AppProperties.FONT_WIDTH,
+                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                MyApplication.escposPrinter.printAndroidFont("Table No : $pTableNo",
+                    AppProperties.FONT_WIDTH,
+                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                MyApplication.escposPrinter.printAndroidFont(
+                    AppProperties.TITLE_MENU,
+                    AppProperties.FONT_WIDTH,
+                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                MyApplication.escposPrinter.printAndroidFont(hyphen.toString(),
+                    AppProperties.FONT_WIDTH, AppProperties.FONT_SIZE, ESCPOSConst.LK_ALIGNMENT_LEFT)
+
+                order.olist.forEach {
+                    val pOrder = getPrint(it)
+                    MyApplication.escposPrinter.printAndroidFont(pOrder,
+                        AppProperties.FONT_WIDTH, AppProperties.FONT_SIZE, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                }
+
+                if(order.reserType > 0 && order.rlist.isNotEmpty()) {
+                    val reserv = order.rlist[0]
+
+                    MyApplication.escposPrinter.lineFeed(2)
+
+                    MyApplication.escposPrinter.printAndroidFont("Phone Num",
+                        AppProperties.FONT_WIDTH,
+                        20, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                    MyApplication.escposPrinter.printAndroidFont(reserv.tel,
+                        AppProperties.FONT_WIDTH,
+                        33, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                    MyApplication.escposPrinter.printAndroidFont("Res. Name",
+                        AppProperties.FONT_WIDTH,
+                        20, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                    MyApplication.escposPrinter.printAndroidFont(reserv.name,
+                        AppProperties.FONT_WIDTH,
+                        33, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                    MyApplication.escposPrinter.printAndroidFont("Request",
+                        AppProperties.FONT_WIDTH,
+                        20, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                    MyApplication.escposPrinter.printAndroidFont(reserv.memo,
+                        AppProperties.FONT_WIDTH,
+                        33, ESCPOSConst.LK_ALIGNMENT_LEFT)
+
+                    var str = ""
+                    when(order.reserType) {
+                        1 -> str = "Store"
+                        2 -> str = "To-go"
+                    }
+                    MyApplication.escposPrinter.printAndroidFont(
+                        String.format(context.getString(R.string.reserv_date), str),
+                        AppProperties.FONT_WIDTH,
+                        20, ESCPOSConst.LK_ALIGNMENT_LEFT)
+
+                    MyApplication.escposPrinter.printAndroidFont(reserv.reserdt,
+                        AppProperties.FONT_WIDTH,
+                        33, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                }
+
+                MyApplication.escposPrinter.lineFeed(4)
+                MyApplication.escposPrinter.cutPaper()
+            }
         }
 
         // 주문내역(상세내역) 영수증 형태 String으로 받기 - 세우전자
@@ -455,152 +639,5 @@ class AppHelper {
             return 1.0
         }
 
-        // 주문내역(상세내역) 영수증 형태 String으로 받기 - SAM4S
-//        fun getSam4sPrint(ord: OrderDTO) : String {
-//            var hangul_size = AppProperties.HANGUL_SIZE_SAM4S
-//            var one_line = AppProperties.ONE_LINE_SAM4S
-//            var space = AppProperties.SPACE_SAM4S
-//
-//            var total = 0.0
-//
-//            val result: StringBuilder = StringBuilder()
-//            val underline1 = StringBuilder()
-//            val underline2 = StringBuilder()
-//
-//            ord.name.forEach {
-//                if(total + hangul_size <= one_line)
-//                    result.append(it)
-//                else if(total + hangul_size <= (one_line * 2))
-//                    underline1.append(it)
-//                else
-//                    underline2.append(it)
-//
-//                if(it == ' ') {
-//                    total++
-//                }else
-//                    total += hangul_size
-//            }
-//
-//            val mlength = result.toString().length
-//            val mHangul = result.toString().replace(" ", "").length
-//            val mSpace = mlength - mHangul
-//            val mLine = mHangul * hangul_size + mSpace
-//
-//            val diff = one_line - mLine + 1
-//
-//            if (ord.gea >= 100) {
-//                space = 0
-//            }else if(ord.gea >= 10) {
-//                space = 1
-//            }
-//
-//            for(i in 1..diff) {
-//                result.append(" ")
-//            }
-//            result.append(ord.gea.toString())
-//
-//            for (i in 1..space) {
-//                result.append(" ")
-//            }
-//
-//            var togo = ""
-//            when(ord.togotype) {
-//                1-> togo = "신규"
-//                2-> togo = "포장"
-//            }
-//            result.append(togo)
-//
-//            if(underline1.toString() != "")
-//                result.append("\n$underline1")
-//
-//            if(underline2.toString() != "")
-//                result.append("\n$underline2")
-//
-//            return result.toString()
-//        }
-
-        // SAM4S 프린터기 관련 메소드
-        val finder: Sam4sFinder = Sam4sFinder()
-
-        var scheduler:ScheduledExecutorService ?= null
-        var future: ScheduledFuture<*>? = null
-
-        val cubePrinterList = ArrayList<SocketInfo>()
-
-        // 같은 ip내 GCUBE 프린터 검색
-        fun searchCube(context: Context) {
-            if (future != null) {
-                future!!.cancel(false)
-                while (!future!!.isDone) {
-                    try {
-                        Thread.sleep(500)
-                    } catch (e: java.lang.Exception) {
-                        break
-                    }
-                }
-                future = null
-            }
-            scheduler = Executors.newSingleThreadScheduledExecutor()
-            scheduler.let {
-                finder.startSearch(context, Sam4sFinder.DEVTYPE_ETHERNET)
-                future = it?.scheduleWithFixedDelay(
-                    Runnable {
-                        val list = getCubeList()
-
-                        if(list != null && list.size > 0) {
-                            cubePrinterList.clear()
-                            list.forEach { cube -> cubePrinterList.add(cube as SocketInfo) }
-//                            connectCube(context, cubeList[0] as SocketInfo)
-                        }
-                    }, 0, 500, TimeUnit.MILLISECONDS )
-            }
-        }
-
-        fun getCubeList() : ArrayList<*>? {
-            val list = finder.devices
-
-            if(list != null && list.size > 0) {
-                Log.d("AppeHelper", "device 찾음")
-                Log.d("AppeHelper", "프린터 왜 정보 안나와.. >>>> ${(list[0] as SocketInfo).address}")
-                Log.d("AppeHelper", "프린터 왜 정보 안나와.. >>>> ${(list[0] as SocketInfo).port}")
-
-                stopSearchCube()
-
-                return list
-            }else {
-                return null
-            }
-        }
-
-        fun stopSearchCube() {
-            Log.d("AppHelper", "Stop Search 들어옴")
-            if (future != null) {
-                future!!.cancel(false)
-                while (!future!!.isDone) {
-                    try {
-                        Thread.sleep(500)
-                    } catch (e: java.lang.Exception) {
-                        break
-                    }
-                }
-                future = null
-            }
-            finder.stopSearch()
-        }
-
-        fun destroySearchCube() {
-            if(future != null) {
-                future!!.cancel(false)
-                while(!future!!.isDone()) {
-                    try {
-                        Thread.sleep(500)
-                    } catch (e: Exception) {
-                        break
-                    }
-                }
-                future = null
-            }
-            scheduler?.shutdown()
-        }
     }
 }

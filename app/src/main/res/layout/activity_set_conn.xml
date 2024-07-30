@@ -74,7 +74,7 @@
         style="@style/text17m"
         android:id="@+id/tvAble"
         android:layout_height="48dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="23dp"
         android:gravity="center_vertical"
         android:text="@string/printer_available"
         app:layout_constraintStart_toStartOf="@+id/imgPhone"
@@ -101,14 +101,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvSewoo"
+                    android:id="@+id/rvPrinter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvSam4s"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_marginTop="10dp"/>
                 <LinearLayout
                     style="@style/btn_sub"
                     android:id="@+id/plus"
