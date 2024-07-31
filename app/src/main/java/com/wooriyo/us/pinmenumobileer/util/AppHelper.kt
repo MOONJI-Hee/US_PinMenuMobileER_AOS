@@ -338,9 +338,17 @@ class AppHelper {
                     escCmd.append(escCmd.lfcrCmd)
                 }
 
+                if(order.paytype == 3) {
+                    escCmd.append(escCmd.getTextCmd(defaultText, "--------------------------------------------"))
+                    escCmd.append(escCmd.lfcrCmd)
+                    escCmd.append(escCmd.getTextCmd(defaultText, "Complete payment"))
+                    escCmd.append(escCmd.lfcrCmd)
+                }
+
                 if(order.reserType > 0 && order.rlist.isNotEmpty()) {
                     val reserv = order.rlist[0]
 
+                    escCmd.append(escCmd.getTextCmd(defaultText, "--------------------------------------------"))
                     escCmd.append(escCmd.lfcrCmd)
 
                     escCmd.append(escCmd.getTextCmd(smallText, "Phone Num"))
@@ -373,11 +381,6 @@ class AppHelper {
                     escCmd.append(escCmd.lfcrCmd)
 
                     escCmd.append(escCmd.getTextCmd(textSetting, reserv.reserdt))
-                    escCmd.append(escCmd.lfcrCmd)
-                }else if(order.paytype == 3) {
-                    escCmd.append(escCmd.getTextCmd(defaultText, "--------------------------------------------"))
-                    escCmd.append(escCmd.lfcrCmd)
-                    escCmd.append(escCmd.getTextCmd(defaultText, "Complete payment"))
                     escCmd.append(escCmd.lfcrCmd)
                 }
 

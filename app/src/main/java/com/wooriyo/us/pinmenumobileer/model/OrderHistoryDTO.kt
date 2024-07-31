@@ -4,8 +4,11 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class OrderHistoryDTO(
+    @SerializedName("status") var status: Int,
+    @SerializedName("msg") var msg: String,
     @SerializedName("ordidx") var idx : Int,                        // 주문 idx
     @SerializedName("storeidx") var storeidx : Int,                 // 매장 idx
+    @SerializedName("storenm") var storenm : String,
     @SerializedName("tableNo") var tableNo : String,                // 테이블 번호
     @SerializedName("ordcode") var ordcode : String,                // 주문 번호 (매일 갱신)
     @SerializedName("ordcode_key") var ordcode_key : String,        // 주문 코드

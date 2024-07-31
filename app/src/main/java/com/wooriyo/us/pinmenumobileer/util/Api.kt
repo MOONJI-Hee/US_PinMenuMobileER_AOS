@@ -1,11 +1,13 @@
 package com.wooriyo.us.pinmenumobileer.util
 
+import androidx.room.Index.Order
 import com.wooriyo.us.pinmenumobileer.model.CallListDTO
 import com.wooriyo.us.pinmenumobileer.model.CallSetListDTO
 import com.wooriyo.us.pinmenumobileer.model.CateListDTO
 import com.wooriyo.us.pinmenumobileer.model.EventDTO
 import com.wooriyo.us.pinmenumobileer.model.GoodsListDTO
 import com.wooriyo.us.pinmenumobileer.model.MemberDTO
+import com.wooriyo.us.pinmenumobileer.model.OrderHistoryDTO
 import com.wooriyo.us.pinmenumobileer.model.OrderListDTO
 import com.wooriyo.us.pinmenumobileer.model.PaySettingDTO
 import com.wooriyo.us.pinmenumobileer.model.PgDetailResultDTO
@@ -358,7 +360,7 @@ interface Api {
     @GET("m/get.receipt.php")
     fun getReceipt(
         @Query("ordcode") ordcode: String,  // 주문 코드
-    ): Call<ReceiptDTO>
+    ): Call<OrderHistoryDTO>
 
     // 주문 완료
     @GET("m/udtCompletedOrder.php")
@@ -758,7 +760,8 @@ interface Api {
     fun getPgDetail(
         @Query("useridx") useridx: Int,
         @Query("storeidx") storeidx: Int,
-        @Query("ordcode") ordcode: String
+        @Query("ordcode") ordcode: String,
+        @Query("tid") tid: String,
     ): Call<PgDetailResultDTO>
 
     // pg 결제 취소

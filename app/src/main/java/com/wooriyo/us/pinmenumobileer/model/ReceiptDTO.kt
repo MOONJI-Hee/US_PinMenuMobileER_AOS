@@ -10,5 +10,6 @@ data class ReceiptDTO (
     @SerializedName("reserdata") var rlist : ArrayList<ReservationDTO>,     // 예약 정보
     @SerializedName("regdt") var regdt : String,                            // 등록일시 (주문일시)
     @SerializedName("tableNo") var tableNo : String,                        // 테이블 번호
+    @SerializedName("paytype") var paytype : Int,                           // 3: 큐알 결제 완료, 0: 그 외
     @SerializedName("storenm") var storenm : String
 )

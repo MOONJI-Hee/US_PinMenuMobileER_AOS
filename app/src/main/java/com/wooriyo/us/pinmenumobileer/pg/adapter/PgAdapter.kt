@@ -48,6 +48,7 @@ class PgAdapter(val dataSet: ArrayList<PgDetailDTO>): RecyclerView.Adapter<PgAda
                 btnCancel.setOnClickListener {
                     val intent = Intent(context, PgCancelActivity::class.java)
                     intent.putExtra("ordcode", data.ordcode_key)
+                    intent.putExtra("tid", data.tid)
                     context.startActivity(intent)
                 }
             }

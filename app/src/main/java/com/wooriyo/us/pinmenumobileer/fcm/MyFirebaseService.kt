@@ -30,6 +30,7 @@ import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.NOTIFICATIO
 import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.NOTIFICATION_ID_ORDER
 import com.wooriyo.us.pinmenumobileer.history.ByHistoryActivity
 import com.wooriyo.us.pinmenumobileer.member.StartActivity
+import com.wooriyo.us.pinmenumobileer.model.OrderHistoryDTO
 import com.wooriyo.us.pinmenumobileer.model.ReceiptDTO
 import com.wooriyo.us.pinmenumobileer.store.StoreListFragment
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
@@ -83,8 +84,8 @@ class MyFirebaseService: FirebaseMessagingService() {
             val ordCode_key = message.data["moredata"]
             val ordCode = message.data["moredata_ordcode"]
 
-            ApiClient.service.getReceipt(ordCode_key.toString()).enqueue(object : retrofit2.Callback<ReceiptDTO>{
-                override fun onResponse(call: Call<ReceiptDTO>, response: Response<ReceiptDTO>) {
+            ApiClient.service.getReceipt(ordCode_key.toString()).enqueue(object : retrofit2.Callback<OrderHistoryDTO>{
+                override fun onResponse(call: Call<OrderHistoryDTO>, response: Response<OrderHistoryDTO>) {
                     Log.d(TAG, "단건 주문 조회 URL : $response")
                     if(!response.isSuccessful) return
 
@@ -92,76 +93,20 @@ class MyFirebaseService: FirebaseMessagingService() {
 
                     when(result.status) {
                         1 -> {
-//                            if(MyApplication.bluetoothPort.isConnected) {
-                                val pOrderDt = result.regdt
-                                val pTableNo = result.tableNo
-                                val pOrderNo = ordCode
+                            result.ordcode = ordCode ?: ""
 
-                                val hyphen_num = AppProperties.HYPHEN_NUM_BIG
-                                val font_size = AppProperties.FONT_BIG
-
-                                val hyphen = StringBuilder()    // 하이픈
-                                for (i in 1..hyphen_num) {
-                                    hyphen.append("-")
-                                }
-
-                                Log.d(TAG, "printRT 시작")
-                                val escFac : CmdFactory = EscFactory()
-                                val escCmd : Cmd = escFac.create()
-                                escCmd.append(escCmd.headerCmd)
-                                escCmd.chartsetName = "UTF-8"
-
-                                val commonSetting = CommonSetting()
-                                commonSetting.align = CommonEnum.ALIGN_LEFT
-                                escCmd.append(escCmd.getCommonSettingCmd(commonSetting))
-
-                                val textSetting = TextSetting()
-                                textSetting.escFontType = ESCFontTypeEnum.FONT_A_12x24
-
-                                try {
-                                    val preBlank = ""
-                                    textSetting.align = CommonEnum.ALIGN_LEFT
-                                    escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Order Date : $pOrderDt"))
-                                    escCmd.append(escCmd.lfcrCmd)
-                                    escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Order No   : $pOrderNo"))
-                                    escCmd.append(escCmd.lfcrCmd)
-                                    escCmd.append(escCmd.getTextCmd(textSetting, preBlank + "Table No   : $pTableNo\n"))
-                                    escCmd.append(escCmd.lfcrCmd)
-
-                                    textSetting.doubleWidth = SettingEnum.Enable
-                                    escCmd.append(escCmd.getTextCmd(textSetting,  "Product       Qty  Amt "))
-                                    escCmd.append(escCmd.lfcrCmd)
-
-                                    textSetting.doubleHeight = SettingEnum.Disable
-                                    textSetting.doubleWidth = SettingEnum.Disable
-                                    escCmd.append(escCmd.getTextCmd(textSetting, "--------------------------------------------"))
-                                    escCmd.append(escCmd.lfcrCmd)
-
-                                    textSetting.doubleWidth = SettingEnum.Enable
-
-                                    result.orderdata.forEach {
-                                        val pOrder = AppHelper.getPrintRT(it)
-                                        escCmd.append(escCmd.getTextCmd(textSetting, pOrder))
-                                        escCmd.append(escCmd.lfcrCmd)
-                                    }
-
-                                    escCmd.append(escCmd.cmdCutNew)
-
-                                    MyApplication.rtPrinter.writeMsgAsync(escCmd.appendCmds)
-
-                                } catch (e : UnsupportedEncodingException) {
-                                    e.printStackTrace()
-                                    Log.d(TAG, "Exception > $e")
-                                }
-//                            }else {
-//                                Log.d(TAG, "프린트 연결 안됨")
-//                            }
+                            if (MyApplication.rtPrinter.getPrinterInterface() != null) {
+                                AppHelper.printRT(result, applicationContext)
+                            }
+                            if(MyApplication.bluetoothPort.isConnected) {
+                                AppHelper.print(result, applicationContext)
+                            }
                         }
                         else -> Toast.makeText(applicationContext, result.msg, Toast.LENGTH_SHORT).show()
                     }
                 }
 
-                override fun onFailure(call: Call<ReceiptDTO>, t: Throwable) {
+                override fun onFailure(call: Call<OrderHistoryDTO>, t: Throwable) {
                     Toast.makeText(applicationContext, R.string.msg_retry, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "단건 주문 조회 오류 >> $t")
                     Log.d(TAG, "단건 주문 조회 오류 >> ${call.request()}")
