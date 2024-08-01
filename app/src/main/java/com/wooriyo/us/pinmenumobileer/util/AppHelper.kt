@@ -290,6 +290,12 @@ class AppHelper {
         }
 
         fun printRT(order: OrderHistoryDTO, context: Context) {
+            val hyphen = StringBuilder()
+
+            for (i in 1..48) {
+                hyphen.append("-")
+            }
+
             val escFac : CmdFactory = EscFactory()
             val escCmd : Cmd = escFac.create()
 //        escCmd.append(escCmd.headerCmd)
@@ -301,7 +307,6 @@ class AppHelper {
 
             val defaultText = TextSetting().apply {
                 align = CommonEnum.ALIGN_LEFT
-                doubleHeight = SettingEnum.Enable
             }
 
             val smallText = TextSetting().apply {
@@ -329,7 +334,7 @@ class AppHelper {
                 escCmd.append(escCmd.getTextCmd(textSetting,  "Product             Qty"))
                 escCmd.append(escCmd.lfcrCmd)
 
-                escCmd.append(escCmd.getTextCmd(defaultText, "---------------------------------------------"))
+                escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
                 escCmd.append(escCmd.lfcrCmd)
 
                 order.olist.forEach {
@@ -339,16 +344,18 @@ class AppHelper {
                 }
 
                 if(order.paytype == 3) {
-                    escCmd.append(escCmd.getTextCmd(defaultText, "---------------------------------------------"))
+                    escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
                     escCmd.append(escCmd.lfcrCmd)
+                    defaultText.doubleHeight = SettingEnum.Enable
                     escCmd.append(escCmd.getTextCmd(defaultText, "Complete payment"))
+                    defaultText.doubleHeight = SettingEnum.Disable
                     escCmd.append(escCmd.lfcrCmd)
                 }
 
                 if(order.reserType > 0 && order.rlist.isNotEmpty()) {
                     val reserv = order.rlist[0]
 
-                    escCmd.append(escCmd.getTextCmd(defaultText, "---------------------------------------------"))
+                    escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
                     escCmd.append(escCmd.lfcrCmd)
 
                     escCmd.append(escCmd.getTextCmd(smallText, "Phone Num"))
