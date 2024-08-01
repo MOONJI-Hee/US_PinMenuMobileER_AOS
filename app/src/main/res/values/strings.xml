@@ -332,6 +332,8 @@
 
     <!--  예약 정보  -->
     <string name="reserv_no">Reservation No.</string>
+<!--    <string name="reserv_store">Dine</string>-->
+<!--    <string name="reserv_togo">포장</string>-->
     <string name="reserv_paid">Prepay</string>
     <string name="reserv_tel">Phone Num</string>
     <string name="reserv_name">Res. Name</string>
@@ -351,7 +353,7 @@
     <string name="dialog_no_pg_info3">Pinmenu website ></string>
     <string name="dialog_no_pg_info4">Hamburger button ></string>
     <string name="dialog_no_pg_info5">PG Application/Management</string>
-    <string name="dialog_pg_cancel_info">Once the payment cancellation is processed, it cannot be reversed.\n(Cancellation procedures may vary depending on the credit card company)</string>
+    <string name="dialog_pg_cancel_info">Once the payment cancellation is processed,\nit cannot be reversed.\n(Cancellation procedures may vary depending on\nthe credit card company)</string>
 
     <!-- 주문 결제 -->
     <string name="dialog_complete">Would you like to proceed with completing the selected %s?</string>

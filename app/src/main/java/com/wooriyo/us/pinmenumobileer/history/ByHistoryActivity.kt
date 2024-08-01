@@ -113,8 +113,6 @@ class ByHistoryActivity: BaseActivity() {
         }
 
         binding.back.setOnClickListener { AppHelper.leaveStore(mActivity) }
-
-//        templetDemo = TempletDemo.getInstance(rtPrinter, this)
     }
 
     override fun onResume() {

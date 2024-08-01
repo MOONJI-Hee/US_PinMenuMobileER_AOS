@@ -761,7 +761,7 @@ interface Api {
         @Query("useridx") useridx: Int,
         @Query("storeidx") storeidx: Int,
         @Query("ordcode") ordcode: String,
-        @Query("tid") tid: String,
+        @Query("tid") tid: String
     ): Call<PgDetailResultDTO>
 
     // pg 결제 취소

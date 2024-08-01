@@ -63,7 +63,7 @@ class PgCancelActivity : BaseActivity() {
                         goodsAdapter.notifyDataSetChanged()
 
                         binding.run {
-                            cardInfo.text = "${result.cardname} ${result.cardnum}"
+                            cardInfo.text = "${result.cardname}(${result.cardnum})"
                             price.text = AppHelper.price(result.amt)
                             regdt.text = result.pay_regdt
                             tableNo.text = result.tableNo
@@ -83,9 +83,12 @@ class PgCancelActivity : BaseActivity() {
     }
 
     fun pgCancel() {
+        loadingDialog.show(supportFragmentManager)
         ApiClient.service.cancelPG(MyApplication.useridx, MyApplication.storeidx, tid).enqueue(object : Callback<ResultDTO>{
             override fun onResponse(call: Call<ResultDTO>, response: Response<ResultDTO>) {
                 Log.d(TAG, "결제취소 URL >> $response")
+                loadingDialog.dismiss()
+
                 if (!response.isSuccessful) return
 
                 val result = response.body() ?: return
@@ -99,6 +102,7 @@ class PgCancelActivity : BaseActivity() {
             }
 
             override fun onFailure(call: Call<ResultDTO>, t: Throwable) {
+                loadingDialog.dismiss()
                 Toast.makeText(mActivity, R.string.msg_retry, Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "결제취소 오류 >> $t")
                 Log.d(TAG, "결제취소 오류 >> ${call.request()}")
