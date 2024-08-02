@@ -94,13 +94,7 @@ class MyFirebaseService: FirebaseMessagingService() {
                     when(result.status) {
                         1 -> {
                             result.ordcode = ordCode ?: ""
-
-                            if (MyApplication.rtPrinter.getPrinterInterface() != null) {
-                                AppHelper.printRT(result, applicationContext)
-                            }
-                            if(MyApplication.bluetoothPort.isConnected) {
-                                AppHelper.print(result, applicationContext)
-                            }
+                            AppHelper.print(result, applicationContext)
                         }
                         else -> Toast.makeText(applicationContext, result.msg, Toast.LENGTH_SHORT).show()
                     }

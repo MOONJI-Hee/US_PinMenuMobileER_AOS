@@ -1,6 +1,7 @@
 package com.wooriyo.us.pinmenumobileer.printer.adapter
 
 import android.bluetooth.BluetoothDevice
+import android.content.ClipData.Item
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.rt.printerlibrary.enumerate.ConnectStateEnum
 import com.sewoo.jpos.command.ESCPOSConst
 import com.wooriyo.us.pinmenumobileer.MyApplication
 import com.wooriyo.us.pinmenumobileer.R
@@ -17,18 +19,24 @@ import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.databinding.ListPrinterBinding
 import com.wooriyo.us.pinmenumobileer.listener.ItemClickListener
 import com.wooriyo.us.pinmenumobileer.printer.DetailPrinterActivity
+import com.wooriyo.us.pinmenumobileer.util.PrinterHelper
 import java.io.IOException
 
 class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adapter<PrinterAdapter.ViewHolder>() {
-    lateinit var itemClickListener: ItemClickListener
+    private lateinit var connRPClickListener: ItemClickListener
+    private lateinit var connSewooClickListener: ItemClickListener
 
-    fun setConnClickListener(itemClickListener: ItemClickListener) {
-        this.itemClickListener = itemClickListener
+    fun setConnRPClickListener(connRPClickListener: ItemClickListener) {
+        this.connRPClickListener = connRPClickListener
+    }
+
+    fun setConnSewooClickListener(connSewooClickListener: ItemClickListener) {
+        this.connSewooClickListener = connSewooClickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ListPrinterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, parent.context, itemClickListener)
+        return ViewHolder(binding, parent.context, connRPClickListener, connSewooClickListener)
     }
 
     override fun getItemCount(): Int {
@@ -39,7 +47,7 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
         holder.bind(dataSet[position])
     }
 
-    class ViewHolder(val binding: ListPrinterBinding, val context: Context, val itemClickListener: ItemClickListener): RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: ListPrinterBinding, val context: Context, val connRPClickListener: ItemClickListener, val connSewooClickListener: ItemClickListener): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: BluetoothDevice) {
             Log.d("Sewoo Adapter",  "BluetoothDevice bontState > ${data.bondState}")
             Log.d("Sewoo Adapter",  "BluetoothDevice uuids > ${data.uuids}")
@@ -49,26 +57,16 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
             Log.d("Sewoo Adapter",  "BluetoothDevice alias > ${data.alias}")
             Log.d("Sewoo Adapter",  "BluetoothDevice type > ${data.type}")
 
-//            BluetoothDevice bontState > 12
-//            BluetoothDevice uuids > [Landroid.os.ParcelUuid;@1f48c94
-//            BluetoothDevice bluetoothClass > 680
-//            BluetoothDevice address > 00:13:7B:40:01:25
-//            BluetoothDevice name > POS Printer
-//            BluetoothDevice alias > POS Printer
-//            BluetoothDevice type > 1
-
             var img = 0
             var model = ""
+            val isSewoo = PrinterHelper.checkSewoo(data)
 
-            when(data.address.substring(0, 8)) {
-                "60:6E:41" -> {
-                    model = "RONGTA RP325"
-                    img = R.drawable.rp325
-                }
-                "00:13:7B" -> {
-                    model = "SEWOO SKL-TS400B"
-                    img = R.drawable.skl_ts400b
-                }
+            if (isSewoo) {
+                model = "SEWOO SKL-TS400B"
+                img = R.drawable.skl_ts400b
+            }else {
+                model = "RONGTA RP325"
+                img = R.drawable.rp325
             }
 
             binding.ivPrinter.setImageResource(img)
@@ -76,7 +74,13 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
             binding.nick.text = data.alias.toString()
 
             // 연결 상태에 따라 우측 버튼 및 뷰 변경
-            if(MyApplication.bluetoothPort.isConnected && MyApplication.connDev_sewoo == data.address) {
+            val connStatus = if(isSewoo) {
+                MyApplication.bluetoothPort.isConnected && MyApplication.connDev_sewoo == data.address
+            }else {
+                MyApplication.rtPrinter.getPrinterInterface() != null && MyApplication.rtPrinter.connectState == ConnectStateEnum.Connected && MyApplication.rtPrinter.printerInterface.configObject as BluetoothDevice == data
+            }
+
+            if(connStatus) {
                 binding.btnConn.visibility = View.INVISIBLE
                 binding.connNo.visibility = View.INVISIBLE
                 binding.btnClear.visibility = View.VISIBLE
@@ -120,7 +124,11 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
             }
 
             binding.btnConn.setOnClickListener {
-                itemClickListener.onItemClick(adapterPosition)
+                Log.d("PrinterAdapter", "isSewoo >>> $isSewoo")
+                if(isSewoo)
+                    connSewooClickListener.onItemClick(adapterPosition)
+                else
+                    connRPClickListener.onItemClick(adapterPosition)
             }
 
             binding.btnClear.setOnClickListener {

@@ -1,6 +1,7 @@
 package com.wooriyo.us.pinmenumobileer.util
 
 import android.app.Activity
+import android.bluetooth.BluetoothClass
 import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.graphics.Outline
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rt.printerlibrary.cmd.Cmd
 import com.rt.printerlibrary.cmd.EscFactory
 import com.rt.printerlibrary.enumerate.CommonEnum
+import com.rt.printerlibrary.enumerate.ConnectStateEnum
 import com.rt.printerlibrary.enumerate.ESCFontTypeEnum
 import com.rt.printerlibrary.enumerate.SettingEnum
 import com.rt.printerlibrary.factory.cmd.CmdFactory
@@ -27,10 +29,10 @@ import com.wooriyo.us.pinmenumobileer.MyApplication
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.appver
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.bluetoothAdapter
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.connDev_sewoo
+import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.pairedDevices
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.remoteDevices
 import com.wooriyo.us.pinmenumobileer.R
 import com.wooriyo.us.pinmenumobileer.config.AppProperties
-import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.BT_PRINTER
 import com.wooriyo.us.pinmenumobileer.model.OrderDTO
 import com.wooriyo.us.pinmenumobileer.model.OrderHistoryDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
@@ -243,11 +245,9 @@ class AppHelper {
 
         // 블루투스 연결
         fun connDevice(position: Int): Int {
+            Log.d("AppHelper", "세우테크 프린터 커넥트 시작")
+
             var retVal: Int = -1
-
-            Log.d("AppHelper", "블루투스 기기 커넥트")
-            Log.d("AppHelper", "remote 기기 > $remoteDevices")
-
             if(remoteDevices.isNotEmpty()) {
                 val connDvc = remoteDevices[position]
                 Log.d("AppHelper", "connDvc >> $connDvc")
@@ -269,24 +269,32 @@ class AppHelper {
         // 페어링 된 기기 찾기
         fun getPairedDevice() : Int {
             Log.d("AppHelper", "getPairedDevice 시작")
+            pairedDevices.clear()
             remoteDevices.clear()
 
-            val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
-            pairedDevices?.forEach { device ->
-//            val deviceName = device.name
-                val deviceHardwareAddress = device.address // MAC address
-
-                if(MyApplication.bluetoothPort.isValidAddress(deviceHardwareAddress)) {
+            val foundDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
+            foundDevices?.forEach { device ->
+                if(MyApplication.bluetoothPort.isValidAddress(device.address)) {
                     val deviceNum = device.bluetoothClass.majorDeviceClass
 
-                    if(deviceNum == BT_PRINTER) {
+                    if(deviceNum == BluetoothClass.Device.Major.IMAGING) {
+                        pairedDevices.add(device)
                         remoteDevices.add(device)
                     }
                 }
             }
-            Log.d("AppHelper", "페어링된 기기 목록 >>$remoteDevices")
+            Log.d("AppHelper", "페어링된 기기 목록 >> $pairedDevices")
 
-            return if(remoteDevices.isNotEmpty()) 1 else 0
+            return if(pairedDevices.isNotEmpty()) 1 else 0
+        }
+
+        fun print(order: OrderHistoryDTO, context: Context) {
+            if (MyApplication.rtPrinter.getPrinterInterface() != null && MyApplication.rtPrinter.connectState == ConnectStateEnum.Connected) {
+                printRT(order, context)
+            }
+            if(MyApplication.bluetoothPort.isConnected) {
+                printSewoo(order, context)
+            }
         }
 
         fun printRT(order: OrderHistoryDTO, context: Context) {
@@ -457,7 +465,7 @@ class AppHelper {
         }
 
         // 주문 프린트
-        fun print(order: OrderHistoryDTO, context: Context) {
+        fun printSewoo(order: OrderHistoryDTO, context: Context) {
             val hyphen = StringBuilder()                // 하이픈
 
             for (i in 1..AppProperties.HYPHEN_NUM) {
@@ -490,7 +498,7 @@ class AppHelper {
                     AppProperties.FONT_WIDTH, AppProperties.FONT_SIZE, ESCPOSConst.LK_ALIGNMENT_LEFT)
 
                 order.olist.forEach {
-                    val pOrder = getPrint(it)
+                    val pOrder = getPrintSewoo(it)
                     MyApplication.escposPrinter.printAndroidFont(pOrder,
                         AppProperties.FONT_WIDTH, AppProperties.FONT_SIZE, ESCPOSConst.LK_ALIGNMENT_LEFT)
                 }
@@ -540,7 +548,7 @@ class AppHelper {
         }
 
         // 주문내역(상세내역) 영수증 형태 String으로 받기 - 세우전자
-        fun getPrint(ord: OrderDTO) : String {
+        fun getPrintSewoo(ord: OrderDTO) : String {
             var one_line = AppProperties.ONE_LINE_BIG
             var space = AppProperties.SPACE
 

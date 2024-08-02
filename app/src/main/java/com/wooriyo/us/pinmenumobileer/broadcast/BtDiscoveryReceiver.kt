@@ -1,5 +1,6 @@
 package com.wooriyo.us.pinmenumobileer.broadcast
 
+import android.bluetooth.BluetoothClass
 import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -8,7 +9,6 @@ import android.widget.Toast
 import com.sewoo.request.android.RequestHandler
 import com.wooriyo.us.pinmenumobileer.MyApplication
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.remoteDevices
-import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.BT_PRINTER
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
 
 class BtDiscoveryReceiver: BroadcastReceiver() {
@@ -20,7 +20,7 @@ class BtDiscoveryReceiver: BroadcastReceiver() {
         val remoteDevice = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
         if (remoteDevice != null) {
             val devNum = remoteDevice.bluetoothClass.majorDeviceClass
-            if (devNum != BT_PRINTER) return
+            if (devNum != BluetoothClass.Device.Major.IMAGING) return
 
             if (MyApplication.bluetoothPort.isValidAddress(remoteDevice.address)) {
                 for (i in remoteDevices.indices) {

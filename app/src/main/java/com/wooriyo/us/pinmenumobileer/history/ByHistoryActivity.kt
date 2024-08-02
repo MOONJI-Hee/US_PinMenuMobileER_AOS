@@ -9,26 +9,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rt.printerlibrary.cmd.Cmd
-import com.rt.printerlibrary.cmd.EscFactory
-import com.rt.printerlibrary.enumerate.CommonEnum
-import com.rt.printerlibrary.enumerate.CommonEnum.FontStyle
-import com.rt.printerlibrary.enumerate.CpclFontTypeEnum
-import com.rt.printerlibrary.enumerate.ESCFontTypeEnum
-import com.rt.printerlibrary.enumerate.SettingEnum
-import com.rt.printerlibrary.factory.cmd.CmdFactory
-import com.rt.printerlibrary.setting.CommonSetting
-import com.rt.printerlibrary.setting.TextSetting
-import com.sewoo.jpos.command.ESCPOSConst
 import com.wooriyo.us.pinmenumobileer.BaseActivity
-import com.wooriyo.us.pinmenumobileer.MyApplication
-import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.rtPrinter
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.storeidx
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.useridx
 import com.wooriyo.us.pinmenumobileer.R
 import com.wooriyo.us.pinmenumobileer.common.dialog.ClearDialog
 import com.wooriyo.us.pinmenumobileer.common.dialog.ConfirmDialog
-import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.databinding.ActivityOrderListBinding
 import com.wooriyo.us.pinmenumobileer.history.adapter.CallListAdapter
 import com.wooriyo.us.pinmenumobileer.history.adapter.HistoryAdapter
@@ -44,7 +30,7 @@ import com.wooriyo.us.pinmenumobileer.model.OrderListDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
-import com.wooriyo.us.pinmenumobileer.util.AppHelper.Companion.printRT
+import com.wooriyo.us.pinmenumobileer.util.AppHelper.Companion.print
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -199,7 +185,7 @@ class ByHistoryActivity: BaseActivity() {
         })
 
         adapter.setOnPrintClickListener(object: ItemClickListener {
-            override fun onItemClick(position: Int) {printRT(list[position], mActivity)}
+            override fun onItemClick(position: Int) {print(list[position], mActivity)}
         })
 
         adapter.setOnTableNoListener(object: ItemClickListener {
@@ -258,7 +244,7 @@ class ByHistoryActivity: BaseActivity() {
         })
 
         orderAdapter.setOnPrintClickListener(object: ItemClickListener {
-            override fun onItemClick(position: Int) {printRT(orderList[position], mActivity)}
+            override fun onItemClick(position: Int) {print(orderList[position], mActivity)}
         })
     }
 
@@ -292,7 +278,7 @@ class ByHistoryActivity: BaseActivity() {
         })
 
         reservAdapter.setOnPrintClickListener(object: ItemClickListener {
-            override fun onItemClick(position: Int) {printRT(reservList[position], mActivity)}
+            override fun onItemClick(position: Int) {print(reservList[position], mActivity)}
         })
 
         reservAdapter.setOnTableNoListener(object: ItemClickListener {
@@ -336,10 +322,6 @@ class ByHistoryActivity: BaseActivity() {
     // 주문 목록 조회
     fun getOrderList() {
         loadingDialog.show(supportFragmentManager)
-
-
-        if(useridx == 0) useridx = 24
-        if(storeidx == 0) storeidx = 28
 
         ApiClient.service.getOrderList(useridx, storeidx).enqueue(object: Callback<OrderListDTO> {
             override fun onResponse(call: Call<OrderListDTO>, response: Response<OrderListDTO>) {

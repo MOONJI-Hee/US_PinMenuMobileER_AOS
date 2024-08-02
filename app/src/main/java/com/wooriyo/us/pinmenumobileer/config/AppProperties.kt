@@ -38,9 +38,6 @@ class AppProperties {
                 const val REQUEST_NOTIFICATION = 2
                 const val REQUEST_STORAGE = 3
 
-                // 세우 프린터 관련
-                const val BT_PRINTER = 1536
-
                 //프린트 관련
 
                 /** RT 붙은 변수 > 미국판 프린터(RP325)용 변수 **/

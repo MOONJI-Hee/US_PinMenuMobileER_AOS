@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.sewoo.request.android.RequestHandler
+import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.pairedDevices
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.pref
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.storeList
 import com.wooriyo.us.pinmenumobileer.common.SelectStoreFragment
@@ -61,34 +62,41 @@ class MainActivity : BaseActivity() {
 
     var isMain = true
 
-    val goQrAgree = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//        if (it.resultCode == RESULT_OK) {
-//            goQr()
-//        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         thread = Thread(Runnable{
-            val reVal = AppHelper.getPairedDevice()
-            if(reVal == 1) {
-                val rtnVal = AppHelper.connDevice(0)
+            if(AppHelper.getPairedDevice() == 1) {
+                val connectedPrinter = pref.getConnectedPrinter()
+                if(connectedPrinter.equals("")) return@Runnable
 
-                if (rtnVal == 0) { // Connection success.
-                    val rh = RequestHandler()
-                    MyApplication.btThread = Thread(rh)
-                    MyApplication.btThread!!.start()
-                } else // Connection failed.
-                    Log.d("AppHelper", "블루투스 연결 실패~!")
+                pairedDevices.forEach{
+                    if(it.address == connectedPrinter.getString("address")
+                        && it.uuids.toString() == connectedPrinter.getString("uuids")) {
+
+                    }
+                }
             }
+
+
+
+//            if(reVal == 1) {
+//                val rtnVal = AppHelper.connDevice(0)
+//
+//                if (rtnVal == 0) { // Connection success.
+//                    val rh = RequestHandler()
+//                    MyApplication.btThread = Thread(rh)
+//                    MyApplication.btThread!!.start()
+//                } else // Connection failed.
+//                    Log.d("AppHelper", "블루투스 연결 실패~!")
+//            }
         })
 
         val type : Int = intent.getIntExtra("type", 0)
 
-        if(type == null || type == 0) {
+        if(type == 0) {
             goMain()
         }
 //        else if(type == 1) {
