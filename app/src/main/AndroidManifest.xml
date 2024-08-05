@@ -34,9 +34,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PinmenuMobileER">
         <activity
-            android:name=".PrinterActivity"
-            android:exported="true" >
-        </activity>
+            android:name=".PrinterActivity" />
         <activity
             android:name=".more.TipTaxActivity"
             android:exported="false" />

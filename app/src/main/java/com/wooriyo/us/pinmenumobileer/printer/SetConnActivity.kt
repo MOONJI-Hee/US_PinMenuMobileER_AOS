@@ -25,12 +25,11 @@ import com.wooriyo.us.pinmenumobileer.BaseActivity
 import com.wooriyo.us.pinmenumobileer.MyApplication
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.androidId
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.bluetoothAdapter
-import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.pref
+import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.bluetoothPort
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.remoteDevices
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.storeidx
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.useridx
 import com.wooriyo.us.pinmenumobileer.R
-import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.databinding.ActivitySetConnBinding
 import com.wooriyo.us.pinmenumobileer.listener.DialogListener
 import com.wooriyo.us.pinmenumobileer.listener.ItemClickListener
@@ -38,11 +37,10 @@ import com.wooriyo.us.pinmenumobileer.model.PrintContentDTO
 import com.wooriyo.us.pinmenumobileer.printer.adapter.PrinterAdapter
 import com.wooriyo.us.pinmenumobileer.printer.dialog.SetNickDialog
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
-import com.wooriyo.us.pinmenumobileer.util.AppHelper
-import com.wooriyo.us.pinmenumobileer.util.AppHelper.Companion.connDevice
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 class SetConnActivity : BaseActivity(), PrinterObserver {
     lateinit var binding: ActivitySetConnBinding
@@ -60,56 +58,6 @@ class SetConnActivity : BaseActivity(), PrinterObserver {
 
         // 프린터 RecyclerView Adapter
         printerAdapter = PrinterAdapter(remoteDevices)
-        printerAdapter.setConnRPClickListener(object : ItemClickListener {
-            override fun onItemClick(position: Int) {
-                loadingDialog.show(supportFragmentManager)
-                connPos = position
-
-                val configObj = BluetoothEdrConfigBean(remoteDevices[position])
-                val bluetoothEdrConfigBean = configObj as BluetoothEdrConfigBean
-
-                val piFactory: PIFactory = BluetoothFactory()
-                val printerInterface = piFactory.create() as PrinterInterface
-
-                printerInterface.configObject = bluetoothEdrConfigBean
-                MyApplication.rtPrinter.setPrinterInterface(printerInterface)
-
-                connPos = position
-                try {
-                    (MyApplication.rtPrinter as ThermalPrinter ).connect(bluetoothEdrConfigBean)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    Log.d(TAG, "RP325 Connect Error > $e")
-                    Toast.makeText(mActivity, "Bluetooth Connection Fail", Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
-        printerAdapter.setConnSewooClickListener(object : ItemClickListener {
-            override fun onItemClick(position: Int) {
-                loadingDialog.show(supportFragmentManager)
-                val retVal = connDevice(position)
-
-                when (retVal) {
-                    0 -> {
-                        val rh = RequestHandler()
-                        MyApplication.btThread = Thread(rh)
-                        MyApplication.btThread!!.start()
-
-                        val prePos = connPos
-                        connPos = position
-                        printerAdapter.notifyItemChanged(position)
-                        if (prePos != connPos)
-                            printerAdapter.notifyItemChanged(prePos)
-                    }
-                    -2 -> {
-//                        AppHelper.searchDevice()
-                    }
-                    else -> {
-                        Toast.makeText(mActivity, "Bluetooth Connection Fail", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        })
         binding.rvPrinter.layoutManager = LinearLayoutManager(mActivity, RecyclerView.VERTICAL, false)
         binding.rvPrinter.adapter = printerAdapter
 
@@ -128,7 +76,7 @@ class SetConnActivity : BaseActivity(), PrinterObserver {
                     val devNum = remoteDevice.bluetoothClass.majorDeviceClass
                     if (devNum != BluetoothClass.Device.Major.IMAGING) return
 
-                    if (MyApplication.bluetoothPort.isValidAddress(remoteDevice.address)) {
+                    if (bluetoothPort.isValidAddress(remoteDevice.address)) {
                         for (i in remoteDevices.indices) {
                             btDev = remoteDevices.elementAt(i)
                             if (remoteDevice.address == btDev.address) {
@@ -142,20 +90,41 @@ class SetConnActivity : BaseActivity(), PrinterObserver {
                     }
 
                     printerAdapter.notifyDataSetChanged()
-                    val retVal = AppHelper.connDevice(0)
 
-                    if (retVal == 0) { // Connection success.
-                        val rh = RequestHandler()
-                        MyApplication.btThread = Thread(rh)
-                        MyApplication.btThread!!.start()
-                    } else // Connection failed.
-                        Toast.makeText(context, "블루투스 연결 실패", Toast.LENGTH_SHORT).show()
                 }else
                     Toast.makeText(context, "검색된 블루투스 기기가 없습니다.", Toast.LENGTH_SHORT).show()
             }
         }, IntentFilter(BluetoothDevice.ACTION_FOUND))
-//        registerReceiver(connectDevice, IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED))
-//        registerReceiver(connectDevice, IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED))
+
+        val connectDevice = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val action = intent.action
+                if (BluetoothDevice.ACTION_ACL_CONNECTED == action) {
+                    Toast.makeText(mActivity, "Bluetooth Connection Success", Toast.LENGTH_SHORT).show()
+
+                    MyApplication.pref.setConnectedPrinter(remoteDevices[connPos])
+                    printerAdapter.notifyItemChanged(connPos)
+
+                } else if (BluetoothDevice.ACTION_ACL_DISCONNECTED == action) {
+                    try {
+                        if (bluetoothPort.isConnected) bluetoothPort.disconnect()
+                    } catch (e: IOException) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace()
+                    } catch (e: InterruptedException) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace()
+                    }
+                    if (MyApplication.btThread != null && MyApplication.btThread!!.isAlive) {
+                        MyApplication.btThread!!.interrupt()
+                        MyApplication.btThread = null
+                    }
+                    Toast.makeText(getApplicationContext(), "BlueTooth Disconnect", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        registerReceiver(connectDevice, IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED))
+        registerReceiver(connectDevice, IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED))
 
         val nickDialog = SetNickDialog(binding.phoneNick.text.toString(), 1, "안드로이드 스마트폰")
         nickDialog.setOnNickChangeListener(object : DialogListener {
@@ -169,7 +138,6 @@ class SetConnActivity : BaseActivity(), PrinterObserver {
         binding.plus.setOnClickListener {
             loadingDialog.show(supportFragmentManager)
             bluetoothAdapter.startDiscovery()
-//            startActivity(Intent(mActivity, NewConnActivity::class.java))
         }
 
         PrinterObserverManager.getInstance().add(this)

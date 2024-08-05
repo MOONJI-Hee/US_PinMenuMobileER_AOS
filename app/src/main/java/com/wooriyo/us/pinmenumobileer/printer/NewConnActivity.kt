@@ -127,16 +127,7 @@ class NewConnActivity : BaseActivity() {
             choosePrinterModel.launch(intent)
         }
         binding.btnRetry.setOnClickListener {
-            val rtnVal = AppHelper.connDevice(0)
 
-            if (rtnVal == 0) { // Connection success.
-                val rh = RequestHandler()
-                MyApplication.btThread = Thread(rh)
-                MyApplication.btThread!!.start()
-
-//                setPrintConnStatus("Y")
-            } else // Connection failed.
-                Toast.makeText(mActivity, "블루투스 연결 실패", Toast.LENGTH_SHORT).show()
         }
     }
 

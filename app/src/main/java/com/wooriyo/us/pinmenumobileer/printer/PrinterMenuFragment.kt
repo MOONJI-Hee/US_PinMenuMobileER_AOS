@@ -16,9 +16,9 @@ class PrinterMenuFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as MainActivity).thread = Thread(Runnable{
-            val reVal = AppHelper.getPairedDevice()
-        })
+//        (activity as MainActivity).thread = Thread(Runnable{
+//            val reVal = AppHelper.getPairedDevice()
+//        })
     }
 
     override fun onCreateView(

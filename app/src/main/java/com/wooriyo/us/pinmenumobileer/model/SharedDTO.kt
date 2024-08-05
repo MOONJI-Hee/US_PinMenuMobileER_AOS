@@ -53,8 +53,10 @@ class SharedDTO(context: Context) {
         pref.edit().putString("not_today", notToday).apply()
     }
 
-    fun getConnectedPrinter(): JSONObject {
-        return JSONObject(pref.getString("printer", "") ?: "")
+    fun getConnectedPrinter(): JSONObject? {
+        val json: String? = pref.getString("printer", "")
+
+        return if(json.isNullOrEmpty()) null else JSONObject(json)
     }
 
     fun setConnectedPrinter(bluetoothDevice: BluetoothDevice) {

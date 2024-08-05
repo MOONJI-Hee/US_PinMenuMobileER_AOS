@@ -243,29 +243,6 @@ class AppHelper {
             MyApplication.bluetoothAdapter.startDiscovery()
         }
 
-        // 블루투스 연결
-        fun connDevice(position: Int): Int {
-            Log.d("AppHelper", "세우테크 프린터 커넥트 시작")
-
-            var retVal: Int = -1
-            if(remoteDevices.isNotEmpty()) {
-                val connDvc = remoteDevices[position]
-                Log.d("AppHelper", "connDvc >> $connDvc")
-
-                try {
-                    MyApplication.bluetoothPort.connect(connDvc)
-                    retVal = Integer.valueOf(0)
-                    connDev_sewoo = remoteDevices[position].address
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    retVal = Integer.valueOf(-1)
-                }
-            }else {
-                retVal = -2
-            }
-            return retVal
-        }
-
         // 페어링 된 기기 찾기
         fun getPairedDevice() : Int {
             Log.d("AppHelper", "getPairedDevice 시작")

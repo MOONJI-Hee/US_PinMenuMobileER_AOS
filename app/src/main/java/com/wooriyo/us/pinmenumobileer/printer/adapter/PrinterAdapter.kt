@@ -23,20 +23,9 @@ import com.wooriyo.us.pinmenumobileer.util.PrinterHelper
 import java.io.IOException
 
 class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adapter<PrinterAdapter.ViewHolder>() {
-    private lateinit var connRPClickListener: ItemClickListener
-    private lateinit var connSewooClickListener: ItemClickListener
-
-    fun setConnRPClickListener(connRPClickListener: ItemClickListener) {
-        this.connRPClickListener = connRPClickListener
-    }
-
-    fun setConnSewooClickListener(connSewooClickListener: ItemClickListener) {
-        this.connSewooClickListener = connSewooClickListener
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ListPrinterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, parent.context, connRPClickListener, connSewooClickListener)
+        return ViewHolder(binding, parent.context)
     }
 
     override fun getItemCount(): Int {
@@ -47,7 +36,7 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
         holder.bind(dataSet[position])
     }
 
-    class ViewHolder(val binding: ListPrinterBinding, val context: Context, val connRPClickListener: ItemClickListener, val connSewooClickListener: ItemClickListener): RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(val binding: ListPrinterBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: BluetoothDevice) {
             Log.d("Sewoo Adapter",  "BluetoothDevice bontState > ${data.bondState}")
             Log.d("Sewoo Adapter",  "BluetoothDevice uuids > ${data.uuids}")
@@ -126,9 +115,9 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
             binding.btnConn.setOnClickListener {
                 Log.d("PrinterAdapter", "isSewoo >>> $isSewoo")
                 if(isSewoo)
-                    connSewooClickListener.onItemClick(adapterPosition)
+                    PrinterHelper.connSewoo(context, MyApplication.remoteDevices[adapterPosition])
                 else
-                    connRPClickListener.onItemClick(adapterPosition)
+                    PrinterHelper.connRT(context, MyApplication.remoteDevices[adapterPosition])
             }
 
             binding.btnClear.setOnClickListener {

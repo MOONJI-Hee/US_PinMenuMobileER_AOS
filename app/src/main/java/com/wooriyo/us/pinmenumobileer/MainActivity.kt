@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.util.Printer
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -34,6 +35,7 @@ import com.wooriyo.us.pinmenumobileer.qr.SetQrcodeFragment
 import com.wooriyo.us.pinmenumobileer.store.StoreListFragment
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
+import com.wooriyo.us.pinmenumobileer.util.PrinterHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -69,29 +71,18 @@ class MainActivity : BaseActivity() {
 
         thread = Thread(Runnable{
             if(AppHelper.getPairedDevice() == 1) {
-                val connectedPrinter = pref.getConnectedPrinter()
-                if(connectedPrinter.equals("")) return@Runnable
+                val connectedPrinter = pref.getConnectedPrinter() ?: return@Runnable
 
                 pairedDevices.forEach{
                     if(it.address == connectedPrinter.getString("address")
                         && it.uuids.toString() == connectedPrinter.getString("uuids")) {
-
+                        if(PrinterHelper.checkSewoo(it))
+                            PrinterHelper.connSewoo(mActivity, it)
+                        else
+                            PrinterHelper.connRT(mActivity, it)
                     }
                 }
             }
-
-
-
-//            if(reVal == 1) {
-//                val rtnVal = AppHelper.connDevice(0)
-//
-//                if (rtnVal == 0) { // Connection success.
-//                    val rh = RequestHandler()
-//                    MyApplication.btThread = Thread(rh)
-//                    MyApplication.btThread!!.start()
-//                } else // Connection failed.
-//                    Log.d("AppHelper", "블루투스 연결 실패~!")
-//            }
         })
 
         val type : Int = intent.getIntExtra("type", 0)
@@ -99,9 +90,6 @@ class MainActivity : BaseActivity() {
         if(type == 0) {
             goMain()
         }
-//        else if(type == 1) {
-//            setNavi(binding.icPay.id)
-//        }
 
         // 알림 권한 확인
         if(MyApplication.osver >= 33) {
@@ -122,6 +110,12 @@ class MainActivity : BaseActivity() {
             icPrint.setOnClickListener { setNavi(it.id) }
             icMore.setOnClickListener { setNavi(it.id) }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(thread.isAlive)
+            thread.interrupt()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -182,7 +176,7 @@ class MainActivity : BaseActivity() {
         if(!MyApplication.bluetoothAdapter.isEnabled) {   // 블루투스 꺼져있음
             turnOnBluetooth()
         }else {
-            thread.start()
+            if(!thread.isAlive) thread.start()
         }
     }
 
@@ -221,11 +215,6 @@ class MainActivity : BaseActivity() {
         replace(SelectStoreFragment.newInstance(type))
     }
 
-//    private fun goPay() {
-//        binding.ivMenu.setImageResource()
-//        replace(SetPayFragment.newInstance())
-//    }
-
     private fun goMenuSet() {
         binding.banner.visibility = View.GONE
         binding.ivMenu.setImageResource(R.drawable.icon_menuset_p)
@@ -252,15 +241,6 @@ class MainActivity : BaseActivity() {
         replace(MoreFragment.newInstance())
     }
 
-    fun checkQrAgree(position: Int) {
-//        MyApplication.store = storeList[position]
-//        MyApplication.storeidx = storeList[position].idx
-//        if(storeList[position].agree == "Y")
-//            goQr()
-//        else
-//            goQrAgree.launch(Intent(mActivity, QrAgreeActivity::class.java))
-    }
-
     private fun setNavi(id:Int) {
         if(storeList.size != 1 || id != R.id.icMenu) {
             if(isMain) {
@@ -285,16 +265,6 @@ class MainActivity : BaseActivity() {
         }
 
         when(id) {
-//            R.id.icPay -> {
-//                when(MyApplication.storeList.size) {
-//                    0 -> Toast.makeText(mActivity, R.string.msg_no_store, Toast.LENGTH_SHORT).show()
-//                    1 -> insPaySetting(0)
-//                    else ->  {
-//                        binding.ivPay.setImageResource(R.drawable.icon_card_p)
-//                        goSelStore("pay")
-//                    }
-//                }
-//            }
             R.id.icMenu -> {
                 when(storeList.size) {
                     0 -> Toast.makeText(mActivity, R.string.msg_no_store, Toast.LENGTH_SHORT).show()
@@ -312,9 +282,8 @@ class MainActivity : BaseActivity() {
             }
 
             R.id.icQr -> {
-                when(MyApplication.storeList.size) {
+                when(storeList.size) {
                     0 -> Toast.makeText(mActivity, R.string.msg_no_store, Toast.LENGTH_SHORT).show()
-//                    1 -> checkQrAgree(0)
                     1 -> goQr(0)
                     else -> {
                         binding.ivQr.setImageResource(R.drawable.icon_qr_p)
@@ -324,7 +293,7 @@ class MainActivity : BaseActivity() {
             }
 
             R.id.icPrint -> {
-                when(MyApplication.storeList.size) {
+                when(storeList.size) {
                     0 -> Toast.makeText(mActivity, R.string.msg_no_store, Toast.LENGTH_SHORT).show()
                     1 -> insPrintSetting(0)
                     else -> {
@@ -391,7 +360,7 @@ class MainActivity : BaseActivity() {
 
     fun insPaySetting(position: Int) {
         ApiClient.service.insPaySetting(
-            MyApplication.useridx, MyApplication.storeList[position].idx,
+            MyApplication.useridx, storeList[position].idx,
             MyApplication.androidId
         )
             .enqueue(object : Callback<ResultDTO>{
@@ -402,10 +371,9 @@ class MainActivity : BaseActivity() {
                     val result = response.body() ?: return
 
                     if(result.status == 1) {
-                        MyApplication.store = MyApplication.storeList[position]
-                        MyApplication.storeidx = MyApplication.storeList[position].idx
+                        MyApplication.store = storeList[position]
+                        MyApplication.storeidx = storeList[position].idx
                         MyApplication.bidx = result.bidx
-//                        goPay()
                     }else
                         Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
                 }
@@ -420,7 +388,7 @@ class MainActivity : BaseActivity() {
 
     fun insPrintSetting(position: Int) {
         ApiClient.service.insPrintSetting(
-            MyApplication.useridx, MyApplication.storeList[position].idx,
+            MyApplication.useridx, storeList[position].idx,
             MyApplication.androidId
         )
             .enqueue(object : retrofit2.Callback<ResultDTO>{
@@ -431,8 +399,8 @@ class MainActivity : BaseActivity() {
                     val result = response.body() ?: return
 
                     if(result.status == 1){
-                        MyApplication.store = MyApplication.storeList[position]
-                        MyApplication.storeidx = MyApplication.storeList[position].idx
+                        MyApplication.store = storeList[position]
+                        MyApplication.storeidx = storeList[position].idx
                         MyApplication.bidx = result.bidx
                         goPrint()
                     }else
@@ -448,8 +416,7 @@ class MainActivity : BaseActivity() {
 
     fun checkDeviceLimit(position: Int) {
         ApiClient.service.checkDeviceLimit(
-            MyApplication.useridx, storeList[position].idx, MyApplication.pref.getToken().toString(),
-            MyApplication.androidId, 0)
+            MyApplication.useridx, storeList[position].idx, pref.getToken().toString(), MyApplication.androidId, 0)
             .enqueue(object : Callback<ResultDTO> {
                 override fun onResponse(call: Call<ResultDTO>, response: Response<ResultDTO>) {
                     Log.d(TAG, "이용자수 체크 url : $response")

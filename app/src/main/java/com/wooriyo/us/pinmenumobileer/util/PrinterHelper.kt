@@ -1,16 +1,17 @@
 package com.wooriyo.us.pinmenumobileer.util
 
 import android.bluetooth.BluetoothDevice
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.rt.printerlibrary.bean.BluetoothEdrConfigBean
 import com.rt.printerlibrary.connect.PrinterInterface
-import com.rt.printerlibrary.enumerate.ConnectStateEnum
 import com.rt.printerlibrary.factory.connect.BluetoothFactory
 import com.rt.printerlibrary.factory.connect.PIFactory
 import com.rt.printerlibrary.printer.ThermalPrinter
+import com.sewoo.request.android.RequestHandler
 import com.wooriyo.us.pinmenumobileer.MyApplication
-import com.wooriyo.us.pinmenumobileer.R
+import java.io.IOException
 
 class PrinterHelper {
     companion object {
@@ -22,8 +23,13 @@ class PrinterHelper {
             }
         }
 
-        fun connRT() {
-            val configObj = BluetoothEdrConfigBean(MyApplication.remoteDevices[position])
+        fun connRT(context: Context, bluetoothDevice: BluetoothDevice) {
+            if(MyApplication.remoteDevices.isEmpty()) {
+                Toast.makeText(context, "There is no connectable Bluetooth device.", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            val configObj = BluetoothEdrConfigBean(bluetoothDevice)
             val bluetoothEdrConfigBean = configObj as BluetoothEdrConfigBean
 
             val piFactory: PIFactory = BluetoothFactory()
@@ -37,9 +43,32 @@ class PrinterHelper {
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.d("PrinterHelper", "RP325 Connect Error > $e")
-                Toast.makeText(mActivity, "Bluetooth Connection Fail", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Bluetooth Connection Fail", Toast.LENGTH_SHORT).show()
             }
         }
+
+        fun connSewoo(context: Context, bluetoothDevice: BluetoothDevice) {
+            Log.d("PrinterHelper", "세우테크 프린터 커넥트 시작")
+
+            if(MyApplication.remoteDevices.isEmpty()) {
+                Toast.makeText(context, "There is no connectable Bluetooth device.", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            try {
+                MyApplication.bluetoothPort.connect(bluetoothDevice)
+                MyApplication.connDev_sewoo = bluetoothDevice.address
+
+                val rh = RequestHandler()
+                MyApplication.btThread = Thread(rh)
+                MyApplication.btThread!!.start()
+            } catch (e: IOException) {
+                e.printStackTrace()
+                Log.d("PrinterHelper", "Sewoo Connect Error > $e")
+                Toast.makeText(context, "Bluetooth Connection Fail", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
 //        fun checkConn () : Boolean {
 //            return = if(isSewoo) {

@@ -34,14 +34,6 @@ class BtDiscoveryReceiver: BroadcastReceiver() {
                     remoteDevices.add(remoteDevice)
                 }
             }
-            val retVal = AppHelper.connDevice(0)
-
-            if (retVal == 0) { // Connection success.
-                val rh = RequestHandler()
-                MyApplication.btThread = Thread(rh)
-                MyApplication.btThread!!.start()
-            } else // Connection failed.
-                Toast.makeText(context, "블루투스 연결 실패", Toast.LENGTH_SHORT).show()
         }else
             Toast.makeText(context, "검색된 블루투스 기기가 없습니다.", Toast.LENGTH_SHORT).show()
     }
