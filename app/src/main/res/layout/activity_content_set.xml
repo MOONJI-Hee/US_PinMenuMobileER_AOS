@@ -132,6 +132,7 @@
                 android:padding="20dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/kitchen">
 
                 <TextView
@@ -169,6 +170,7 @@
             <TextView
                 style="@style/text17m"
                 android:text="@string/printer_customer"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@+id/tv_kitchen"
                 app:layout_constraintTop_toTopOf="@+id/customer"
                 app:layout_constraintBottom_toBottomOf="@+id/customer"/>
@@ -177,6 +179,7 @@
                 style="@style/toggle"
                 android:id="@+id/customer"
                 android:layout_marginTop="5dp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/cl_cate"
                 app:layout_constraintEnd_toEndOf="@+id/kitchen"/>
 
@@ -188,12 +191,14 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
                 android:text="@string/printer_customer_info"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/customer"/>
 
             <TextView
                 style="@style/text17m"
                 android:text="@string/printer_order_no"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@+id/tv_kitchen"
                 app:layout_constraintTop_toTopOf="@+id/orderNo"
                 app:layout_constraintBottom_toBottomOf="@+id/orderNo"/>
@@ -202,6 +207,7 @@
                 style="@style/toggle"
                 android:id="@+id/orderNo"
                 android:layout_marginTop="5dp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/cl_customer"
                 app:layout_constraintEnd_toEndOf="@+id/kitchen"/>
 
@@ -212,6 +218,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
                 android:text="@string/printer_order_no_info"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/orderNo"/>
 

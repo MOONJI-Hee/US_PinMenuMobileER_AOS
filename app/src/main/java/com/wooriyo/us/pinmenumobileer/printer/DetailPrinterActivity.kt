@@ -61,27 +61,6 @@ class DetailPrinterActivity : BaseActivity() {
         // 삭제 전 연결 해제
         if (MyApplication.bluetoothPort.isConnected) MyApplication.bluetoothPort.disconnect()
 
-        ApiClient.service.delPrint(useridx, storeidx, androidId, bidx)
-            .enqueue(object : Callback<ResultDTO> {
-                override fun onResponse(call: Call<ResultDTO>, response: Response<ResultDTO>) {
-                    Log.d(TAG, "프린터 삭제 URL : $response")
-                    if (!response.isSuccessful) return
-
-                    val result = response.body() ?: return
-                    when (result.status) {
-                        1 -> {
-                            Toast.makeText(mActivity, R.string.msg_complete, Toast.LENGTH_SHORT).show()
-                            finish()
-                        }
-                        else -> Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<ResultDTO>, t: Throwable) {
-                    Toast.makeText(mActivity, R.string.msg_retry, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "프린터 삭제 오류 >> $t")
-                    Log.d(TAG, "프린터 삭제 오류 >> ${call.request()}")
-                }
-            })
+        // TODO 연결 해제 > 페어링 해제 > remote list에서 제거 > finish()
     }
 }

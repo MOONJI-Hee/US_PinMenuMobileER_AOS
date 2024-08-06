@@ -303,7 +303,7 @@ class AppHelper {
             val textSetting = TextSetting().apply {
                 escFontType = ESCFontTypeEnum.FONT_A_12x24
                 align = CommonEnum.ALIGN_LEFT
-                doubleWidth = SettingEnum.Enable
+//                doubleWidth = SettingEnum.Enable
             }
 
             try {
@@ -316,7 +316,8 @@ class AppHelper {
                 escCmd.append(escCmd.getTextCmd(textSetting, "Table No   : ${order.tableNo}\n"))
                 escCmd.append(escCmd.lfcrCmd)
 
-                escCmd.append(escCmd.getTextCmd(textSetting,  "Product             Qty"))
+//                escCmd.append(escCmd.getTextCmd(textSetting,  "Product             Qty0"))
+                escCmd.append(escCmd.getTextCmd(textSetting,  "Product                                     Qty"))
                 escCmd.append(escCmd.lfcrCmd)
 
                 escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
@@ -326,6 +327,7 @@ class AppHelper {
                     val pOrder = AppHelper.getPrintRT(it)
                     escCmd.append(escCmd.getTextCmd(textSetting, pOrder))
                     escCmd.append(escCmd.lfcrCmd)
+                    escCmd.append(escCmd.getTextCmd(smallText, "\n"))
                 }
 
                 if(order.paytype == 3) {
@@ -390,7 +392,7 @@ class AppHelper {
         // 주문내역(상세내역) 영수증 형태 String으로 받기 - RTP325
         fun getPrintRT(ord: OrderDTO) : String {
             val oneLine = AppProperties.RT_ONE_LINE_BIG     // 23
-            val productLine = AppProperties.RT_PRODUCT_BIG  // 19
+            val productLine = AppProperties.RT_PRODUCT_SMALL  // 19
             val qtyLine = AppProperties.RT_QTY_BIG          // 3
 //            val amtLine = AppProperties.RT_AMT_BIG          // 6
 
@@ -437,6 +439,8 @@ class AppHelper {
                     result.append("\n -$it")
                 }
             }
+
+//            result.append("\n")
 
             return result.toString()
         }

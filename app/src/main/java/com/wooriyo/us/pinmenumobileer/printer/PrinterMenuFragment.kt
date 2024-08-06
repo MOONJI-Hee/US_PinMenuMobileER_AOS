@@ -28,7 +28,7 @@ class PrinterMenuFragment : Fragment() {
         binding = FragmentPrinterMenuBinding.inflate(layoutInflater)
 
         // 권한 확인
-        (activity as MainActivity).checkPermissions()
+//        (activity as MainActivity).checkPermissions()
 
         binding.run {
             connSet.setOnClickListener {

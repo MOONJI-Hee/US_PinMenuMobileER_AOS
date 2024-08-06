@@ -102,7 +102,7 @@ class SetConnActivity : BaseActivity(), PrinterObserver {
                 if (BluetoothDevice.ACTION_ACL_CONNECTED == action) {
                     Toast.makeText(mActivity, "Bluetooth Connection Success", Toast.LENGTH_SHORT).show()
 
-                    MyApplication.pref.setConnectedPrinter(remoteDevices[connPos])
+//                    MyApplication.pref.setConnectedPrinter(remoteDevices[connPos])
                     printerAdapter.notifyItemChanged(connPos)
 
                 } else if (BluetoothDevice.ACTION_ACL_DISCONNECTED == action) {
@@ -147,12 +147,12 @@ class SetConnActivity : BaseActivity(), PrinterObserver {
     override fun printerObserverCallback(printerInterface: PrinterInterface<*>, state: Int) {
         Log.i(TAG, "printerObserverCallback:state= $state")
         runOnUiThread {
-            loadingDialog.dismiss()
+//            loadingDialog.dismiss()
             when (state) {
                 CommonEnum.CONNECT_STATE_SUCCESS -> {
                     Toast.makeText(mActivity, "Bluetooth Connection Success", Toast.LENGTH_SHORT).show()
                     MyApplication.rtPrinter.setPrinterInterface(printerInterface)
-                    MyApplication.pref.setConnectedPrinter(printerInterface.configObject as BluetoothDevice)
+//                    MyApplication.pref.setConnectedPrinter(printerInterface.configObject as BluetoothDevice)
                     printerAdapter.notifyItemChanged(connPos)
                 }
 

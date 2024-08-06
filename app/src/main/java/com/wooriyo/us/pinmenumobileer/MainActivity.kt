@@ -388,10 +388,8 @@ class MainActivity : BaseActivity() {
 
     fun insPrintSetting(position: Int) {
         ApiClient.service.insPrintSetting(
-            MyApplication.useridx, storeList[position].idx,
-            MyApplication.androidId
-        )
-            .enqueue(object : retrofit2.Callback<ResultDTO>{
+            MyApplication.useridx, storeList[position].idx, MyApplication.androidId
+        ).enqueue(object : Callback<ResultDTO>{
                 override fun onResponse(call: Call<ResultDTO>, response: Response<ResultDTO>) {
                     Log.d(TAG, "프린터 설정 최초 진입 시 row 추가 url : $response")
                     if(!response.isSuccessful) return
