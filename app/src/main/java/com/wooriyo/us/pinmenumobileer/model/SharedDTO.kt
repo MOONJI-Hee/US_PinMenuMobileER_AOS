@@ -53,6 +53,16 @@ class SharedDTO(context: Context) {
         pref.edit().putString("not_today", notToday).apply()
     }
 
+    fun getPrintSetting() : PrintContentDTO? {
+        val json: String ?= pref.getString("printSetting", "")
+        return gson.fromJson(json, PrintContentDTO::class.java)
+    }
+
+    fun setPrintSetting(printContent: PrintContentDTO) {
+        val json = gson.toJson(printContent)
+        pref.edit().putString("printSetting", json).apply()
+    }
+
     fun getConnectedPrinter(): JSONObject? {
         val json: String? = pref.getString("printer", "")
 

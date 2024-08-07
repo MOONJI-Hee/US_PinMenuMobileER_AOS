@@ -52,6 +52,10 @@ class AppProperties {
                 const val RT_QTY_SMALL = 3           // 큰 글자 기준, 수량 칸에 들어갈 글자 개수
                 const val RT_AMT_SMALL = 6           // 큰 글자 기준, 가격 칸에 들어갈 글자 개수 (vvAMTv) (000.00) (#00.00) (##0.00)
 
+                const val RT_ONE_LINE = RT_ONE_LINE_SMALL
+                const val RT_PRODUCT = RT_PRODUCT_SMALL
+                const val RT_QTY = RT_QTY_SMALL
+
                 const val FONT_BIG = 37
                 const val FONT_SMALL = 28
 

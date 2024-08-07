@@ -391,10 +391,9 @@ class AppHelper {
 
         // 주문내역(상세내역) 영수증 형태 String으로 받기 - RTP325
         fun getPrintRT(ord: OrderDTO) : String {
-            val oneLine = AppProperties.RT_ONE_LINE_BIG     // 23
-            val productLine = AppProperties.RT_PRODUCT_SMALL  // 19
-            val qtyLine = AppProperties.RT_QTY_BIG          // 3
-//            val amtLine = AppProperties.RT_AMT_BIG          // 6
+            val oneLine = AppProperties.RT_ONE_LINE
+            val productLine = AppProperties.RT_PRODUCT
+            val qtyLine = AppProperties.RT_QTY
 
             val result: StringBuilder = StringBuilder()
             val underline1 = StringBuilder()
@@ -439,8 +438,6 @@ class AppHelper {
                     result.append("\n -$it")
                 }
             }
-
-//            result.append("\n")
 
             return result.toString()
         }

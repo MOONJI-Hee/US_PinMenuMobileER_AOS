@@ -71,7 +71,7 @@ class ContentSetActivity : BaseActivity() {
 
     fun setCategory() {
         val category = strCate.split(",")
-        if(category.isNotEmpty()) {
+        if(strCate.isNotEmpty() && category.isNotEmpty()) {
             cnt = category.size
         }else cnt = 0
 

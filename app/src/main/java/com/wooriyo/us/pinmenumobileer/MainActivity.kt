@@ -27,10 +27,10 @@ import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.databinding.ActivityMainBinding
 import com.wooriyo.us.pinmenumobileer.menu.SetCategoryActivity
 import com.wooriyo.us.pinmenumobileer.model.PopupListDTO
+import com.wooriyo.us.pinmenumobileer.model.PrintContentDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
 import com.wooriyo.us.pinmenumobileer.more.MoreFragment
 import com.wooriyo.us.pinmenumobileer.printer.PrinterMenuFragment
-import com.wooriyo.us.pinmenumobileer.qr.QrAgreeActivity
 import com.wooriyo.us.pinmenumobileer.qr.SetQrcodeFragment
 import com.wooriyo.us.pinmenumobileer.store.StoreListFragment
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
@@ -389,22 +389,22 @@ class MainActivity : BaseActivity() {
     fun insPrintSetting(position: Int) {
         ApiClient.service.insPrintSetting(
             MyApplication.useridx, storeList[position].idx, MyApplication.androidId
-        ).enqueue(object : Callback<ResultDTO>{
-                override fun onResponse(call: Call<ResultDTO>, response: Response<ResultDTO>) {
+        ).enqueue(object : Callback<PrintContentDTO>{
+                override fun onResponse(call: Call<PrintContentDTO>, response: Response<PrintContentDTO>) {
                     Log.d(TAG, "프린터 설정 최초 진입 시 row 추가 url : $response")
                     if(!response.isSuccessful) return
 
                     val result = response.body() ?: return
 
                     if(result.status == 1){
+                        pref.setPrintSetting(result)
                         MyApplication.store = storeList[position]
                         MyApplication.storeidx = storeList[position].idx
-                        MyApplication.bidx = result.bidx
                         goPrint()
                     }else
                         Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
                 }
-                override fun onFailure(call: Call<ResultDTO>, t: Throwable) {
+                override fun onFailure(call: Call<PrintContentDTO>, t: Throwable) {
                     Toast.makeText(mActivity, R.string.msg_retry, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "프린터 설정 최초 진입 시 row 추가 오류 >> $t")
                     Log.d(TAG, "프린터 설정 최초 진입 시 row 추가 오류 >> ${call.request()}")
