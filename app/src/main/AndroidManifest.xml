@@ -36,6 +36,9 @@
         <activity
             android:name=".PrinterActivity" />
         <activity
+            android:name=".more.SetUseLangActivity"
+            android:exported="false" />
+        <activity
             android:name=".more.TipTaxActivity"
             android:exported="false" />
         <activity
@@ -46,6 +49,9 @@
             android:exported="false" />
         <activity
             android:name=".more.SetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".more.MemberSetActivity"
             android:exported="false" />
         <activity
             android:name=".qr.EventPreviewActivity"
@@ -84,21 +90,11 @@
             android:name=".more.SetCustomerInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".payment.SetPgInfoActivity"
-            android:exported="false" />
-        <activity
             android:name=".common.WebViewActivity"
             android:exported="false" />
         <activity
             android:name=".qr.QrDetailActivity"
             android:exported="false" />
-        <activity
-            android:name=".qr.QrAgreeActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
         <activity
             android:name=".member.MasterLoginActivity"
             android:exported="false" />
@@ -107,21 +103,6 @@
             android:exported="true" />
         <activity
             android:name=".history.ByHistoryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".payment.NicepayJoinWayActivity"
-            android:exported="false" />
-        <activity
-            android:name=".payment.NicepayInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".payment.QrActivity"
-            android:exported="false" />
-        <activity
-            android:name=".payment.SetNicepayActivity"
-            android:exported="false" />
-        <activity
-            android:name=".payment.ReaderModelActivity"
             android:exported="false" />
         <activity
             android:name=".printer.SelectCateActivity"
@@ -168,14 +149,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".more.MemberSetActivity"
-            android:exported="false" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_noti" />
-
         <service
             android:name=".fcm.MyFirebaseService"
             android:exported="false">

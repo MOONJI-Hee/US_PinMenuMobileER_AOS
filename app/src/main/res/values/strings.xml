@@ -200,7 +200,7 @@
     <string name="printer_wifi">Wifi</string>
     <string name="printer_support_info">In the Pinmenu, printers are not provided.\nIf you have a printer that can be connected to the Pinmenu, you can use it immediately by connecting directly. If you do not have a printer that can be connected, you can purchase one and connect it for use.</string>
 
-    <string name="printer_title_conn_mng">연결 프린터 관리</string>
+    <string name="printer_title_conn_mng">Selected Printer</string>
     <string name="printer_available">Available Printers</string>
     <string name="test">Test</string>
     <string name="good">Good</string>
@@ -304,6 +304,17 @@
 
     <!--  설정  -->
     <string name="version_info">Version info</string>
+
+    <!--  다국어 설정  -->
+    <string name="language">Language</string>
+    <string name="title_set_language">Multilingual Settings</string>
+    <string name="lang_kor">한국어</string>
+    <string name="lang_eng">English</string>
+    <string name="lang_chn">中國語</string>
+    <string name="lang_esp">Spanish</string>
+    <string name="lang_jpn">日本語</string>
+
+    <!--  타임존 설정  -->
 
     <!--  Tip & Tax  -->
     <string name="tiptax">Tip &amp; Tax</string>

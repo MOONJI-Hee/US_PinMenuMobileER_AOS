@@ -66,7 +66,8 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
             val connStatus = if(isSewoo) {
                 MyApplication.bluetoothPort.isConnected && MyApplication.connDev_sewoo == data.address
             }else {
-                MyApplication.rtPrinter.getPrinterInterface() != null && MyApplication.rtPrinter.connectState == ConnectStateEnum.Connected && MyApplication.rtPrinter.printerInterface.configObject as BluetoothDevice == data
+//                MyApplication.rtPrinter.getPrinterInterface() != null && MyApplication.rtPrinter.connectState == ConnectStateEnum.Connected && MyApplication.rtPrinter.printerInterface.configObject as BluetoothDevice == data
+                MyApplication.rtPrinter.getPrinterInterface() != null && MyApplication.rtPrinter.connectState == ConnectStateEnum.Connected
             }
 
             if(connStatus) {

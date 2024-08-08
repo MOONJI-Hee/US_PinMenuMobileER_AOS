@@ -86,6 +86,21 @@ class MoreFragment : Fragment() {
                     }
                 }
             }
+            language.setOnClickListener {
+                when(storeList.size) {
+                    0 -> Toast.makeText(context, R.string.msg_no_store, Toast.LENGTH_SHORT).show()
+                    1 -> {
+                        MyApplication.store = storeList[0]
+                        MyApplication.storeidx = storeList[0].idx
+                        startActivity(Intent(context, SetUseLangActivity::class.java))
+                    }
+                    else ->  {
+                        startActivity(
+                            Intent(requireContext(), SelectStoreActivity::class.java).apply{ putExtra("type", "language") }
+                        )
+                    }
+                }
+            }
             setting.setOnClickListener { requireContext().startActivity(Intent(requireContext(), SetActivity::class.java)) }
         }
         return binding.root

@@ -217,6 +217,14 @@ interface Api {
         @Query("tax") tax: String
     ): Call<ResultDTO>
 
+    // 다국어 설정
+    @GET("m/setLanguage")
+    fun setLanguage(
+        @Query("useridx") useridx: Int,
+        @Query("storeidx") storeidx: Int,
+        @Query("lang") lang: String
+    ):Call<ResultDTO>
+
     // 카테고리 목록 조희
     @GET("m/getcategory.php")
     fun getCateList(

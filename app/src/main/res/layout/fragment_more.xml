@@ -63,6 +63,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/storeImg"/>
             <TextView
                 style="@style/text12d"
+                android:id="@+id/tvMenuUi"
                 android:text="@string/more_menu_ui"
                 app:layout_constraintStart_toStartOf="@+id/menuUi"
                 app:layout_constraintEnd_toEndOf="@id/menuUi"
@@ -90,7 +91,7 @@
                 android:src="@drawable/icon_more_tip_tax"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/storeImg"
-                app:layout_constraintEnd_toStartOf="@+id/setting"/>
+                app:layout_constraintEnd_toStartOf="@+id/language"/>
             <TextView
                 style="@style/text12d"
                 android:text="@string/tiptax"
@@ -99,14 +100,30 @@
                 app:layout_constraintTop_toBottomOf="@+id/tiptax"/>
 
             <ImageView
-                android:id="@+id/setting"
+                android:id="@+id/language"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="10dp"
-                android:src="@drawable/icon_more_set"
+                android:src="@drawable/icon_more_language"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tiptax"
                 app:layout_constraintEnd_toEndOf="parent"/>
+            <TextView
+                style="@style/text12d"
+                android:text="@string/language"
+                app:layout_constraintStart_toStartOf="@+id/language"
+                app:layout_constraintEnd_toEndOf="@id/language"
+                app:layout_constraintTop_toBottomOf="@+id/language"/>
+
+            <ImageView
+                android:id="@+id/setting"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/icon_more_set"
+                app:layout_constraintEnd_toEndOf="@+id/menuUi"
+                app:layout_constraintStart_toStartOf="@+id/menuUi"
+                app:layout_constraintTop_toBottomOf="@+id/tvMenuUi" />
             <TextView
                 style="@style/text12d"
                 android:text="@string/setting"

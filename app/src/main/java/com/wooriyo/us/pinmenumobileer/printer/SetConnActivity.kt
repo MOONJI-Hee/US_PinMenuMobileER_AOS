@@ -151,7 +151,7 @@ class SetConnActivity : BaseActivity(), PrinterObserver {
             when (state) {
                 CommonEnum.CONNECT_STATE_SUCCESS -> {
                     Toast.makeText(mActivity, "Bluetooth Connection Success", Toast.LENGTH_SHORT).show()
-                    MyApplication.rtPrinter.setPrinterInterface(printerInterface)
+//                    MyApplication.rtPrinter.setPrinterInterface(printerInterface)
 //                    MyApplication.pref.setConnectedPrinter(printerInterface.configObject as BluetoothDevice)
                     printerAdapter.notifyItemChanged(connPos)
                 }
