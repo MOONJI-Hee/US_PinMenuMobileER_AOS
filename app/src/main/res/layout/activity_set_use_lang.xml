@@ -52,6 +52,7 @@
             style="@style/toggle"
             android:id="@+id/checkEng"
             android:checked="true"
+            android:clickable="false"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -92,6 +93,7 @@
         <CheckBox
             style="@style/toggle"
             android:id="@+id/checkEsp"
+            android:clickable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -130,6 +132,7 @@
         <CheckBox
             style="@style/toggle"
             android:id="@+id/checkKor"
+            android:clickable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -168,6 +171,7 @@
         <CheckBox
             style="@style/toggle"
             android:id="@+id/checkChn"
+            android:clickable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -207,6 +211,7 @@
         <CheckBox
             style="@style/toggle"
             android:id="@+id/checkJpn"
+            android:clickable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -219,5 +224,13 @@
             app:layout_constraintEnd_toEndOf="@+id/tv_jpn"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        style="@style/subtext"
+        android:layout_margin="20dp"
+        android:layout_width="0dp"
+        android:text="@string/set_language_info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jpn"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

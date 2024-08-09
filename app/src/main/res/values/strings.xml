@@ -311,8 +311,9 @@
     <string name="lang_kor">한국어</string>
     <string name="lang_eng">English</string>
     <string name="lang_chn">中國語</string>
-    <string name="lang_esp">Spanish</string>
+    <string name="lang_esp">Español</string>
     <string name="lang_jpn">日本語</string>
+    <string name="set_language_info">On smartphones, you can toggle the language settings on and off.\nYou can enter language-specific text on the Pinmenu website.\nURL : www.pinmenu.net\nPlease sign in with your Pinmenu Mgmt app ID.</string>
 
     <!--  타임존 설정  -->
 

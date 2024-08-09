@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.Toast
 import com.wooriyo.us.pinmenumobileer.BaseActivity
+import com.wooriyo.us.pinmenumobileer.MyApplication
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.store
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.storeidx
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.useridx
@@ -19,6 +20,9 @@ import retrofit2.Response
 
 class SetUseLangActivity: BaseActivity() {
     lateinit var binding: ActivitySetUseLangBinding
+
+    var init = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySetUseLangBinding.inflate(layoutInflater)
@@ -27,27 +31,14 @@ class SetUseLangActivity: BaseActivity() {
         binding.run {
             back.setOnClickListener { finish() }
 
-//            setCheckListener(checkEsp, disableEsp)
+            setCheckListener(checkEsp, disableEsp)
             setCheckListener(checkKor, disableKor)
             setCheckListener(checkChn, disableChn)
             setCheckListener(checkJpn, disableJpn)
 
             esp.setOnClickListener {
-//                checkEsp.isChecked = !checkEsp.isChecked
-//                store.esp_buse = if(checkEsp.isChecked) "Y" else "N"
-//                if (checkEsp.isChecked) checkEsp.isChecked = false
-
-                if(checkEsp.isChecked) {
-                    checkEsp.isChecked = false
-                    store.esp_buse = "N"
-                    disableEsp.visibility = View.VISIBLE
-                }else {
-                    checkEsp.isChecked = true
-                    store.esp_buse = "Y"
-                    disableEsp.visibility = View.GONE
-                }
-
-                setLanguage()
+                checkEsp.isChecked = !checkEsp.isChecked
+                store.esp_buse = if(checkEsp.isChecked) "Y" else "N"
             }
 
             kor.setOnClickListener {
@@ -58,13 +49,11 @@ class SetUseLangActivity: BaseActivity() {
             chn.setOnClickListener {
                 checkChn.isChecked = !checkChn.isChecked
                 store.chn_buse = if(checkChn.isChecked) "Y" else "N"
-//                if (checkChn.isChecked) checkChn.isChecked = false
             }
 
             jpn.setOnClickListener {
                 checkJpn.isChecked = !checkJpn.isChecked
                 store.jpn_buse = if(checkJpn.isChecked) "Y" else "N"
-//                if (checkJpn.isChecked) checkJpn.isChecked = false
             }
 
             checkEsp.isChecked = store.esp_buse == "Y"
@@ -73,9 +62,15 @@ class SetUseLangActivity: BaseActivity() {
             checkJpn.isChecked = store.jpn_buse == "Y"
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        init = false
+    }
+
     private fun setCheckListener(checkBox: CheckBox, v: View) {
         checkBox.setOnCheckedChangeListener { _, isChecked ->
-            setLanguage()
+            if(!init) setLanguage()
 
             if(isChecked)
                 v.visibility = View.GONE
@@ -87,7 +82,7 @@ class SetUseLangActivity: BaseActivity() {
     fun setLanguage() {
         val lang = StringBuffer()
 
-        lang.append("eng")
+        lang.append("usa")
         if(binding.checkEsp.isChecked) lang.append("/esp")
         if(binding.checkKor.isChecked) lang.append("/kor")
         if(binding.checkChn.isChecked) lang.append("/chn")
