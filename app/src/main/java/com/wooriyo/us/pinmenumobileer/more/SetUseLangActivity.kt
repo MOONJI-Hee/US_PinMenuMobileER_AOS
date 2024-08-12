@@ -1,18 +1,21 @@
 package com.wooriyo.us.pinmenumobileer.more
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.LinearInterpolator
 import android.widget.CheckBox
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.wooriyo.us.pinmenumobileer.BaseActivity
-import com.wooriyo.us.pinmenumobileer.MyApplication
-import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.store
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.storeidx
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.useridx
 import com.wooriyo.us.pinmenumobileer.R
 import com.wooriyo.us.pinmenumobileer.databinding.ActivitySetUseLangBinding
+import com.wooriyo.us.pinmenumobileer.model.LangDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
+import com.wooriyo.us.pinmenumobileer.more.adapter.LanguageAdapter
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,7 +23,7 @@ import retrofit2.Response
 
 class SetUseLangActivity: BaseActivity() {
     lateinit var binding: ActivitySetUseLangBinding
-
+    lateinit var lang: LangDTO
     var init = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,38 +31,35 @@ class SetUseLangActivity: BaseActivity() {
         binding = ActivitySetUseLangBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        lang = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra("language", LangDTO::class.java) ?: LangDTO()
+        }else {
+            intent.getSerializableExtra("language") as LangDTO
+        }
+
         binding.run {
             back.setOnClickListener { finish() }
 
+            rv.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
+            rv.adapter = LanguageAdapter(lang)
+
             setCheckListener(checkEsp, disableEsp)
             setCheckListener(checkKor, disableKor)
-            setCheckListener(checkChn, disableChn)
-            setCheckListener(checkJpn, disableJpn)
 
             esp.setOnClickListener {
                 checkEsp.isChecked = !checkEsp.isChecked
-                store.esp_buse = if(checkEsp.isChecked) "Y" else "N"
+//                store.esp_buse = if(checkEsp.isChecked) "Y" else "N"
             }
 
             kor.setOnClickListener {
                 checkKor.isChecked = !checkKor.isChecked
-                store.kor_buse = if(checkKor.isChecked) "Y" else "N"
+//                store.kor_buse = if(checkKor.isChecked) "Y" else "N"
             }
 
-            chn.setOnClickListener {
-                checkChn.isChecked = !checkChn.isChecked
-                store.chn_buse = if(checkChn.isChecked) "Y" else "N"
-            }
-
-            jpn.setOnClickListener {
-                checkJpn.isChecked = !checkJpn.isChecked
-                store.jpn_buse = if(checkJpn.isChecked) "Y" else "N"
-            }
-
-            checkEsp.isChecked = store.esp_buse == "Y"
-            checkKor.isChecked = store.kor_buse == "Y"
-            checkChn.isChecked = store.chn_buse == "Y"
-            checkJpn.isChecked = store.jpn_buse == "Y"
+//            checkEsp.isChecked = store.esp_buse == "Y"
+//            checkKor.isChecked = store.kor_buse == "Y"
+//            checkChn.isChecked = store.chn_buse == "Y"
+//            checkJpn.isChecked = store.jpn_buse == "Y"
         }
     }
 
@@ -85,8 +85,6 @@ class SetUseLangActivity: BaseActivity() {
         lang.append("usa")
         if(binding.checkEsp.isChecked) lang.append("/esp")
         if(binding.checkKor.isChecked) lang.append("/kor")
-        if(binding.checkChn.isChecked) lang.append("/chn")
-        if(binding.checkJpn.isChecked) lang.append("/jpn")
 
 //        val list = ArrayList<String>()
 //

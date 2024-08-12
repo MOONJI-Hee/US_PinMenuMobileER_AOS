@@ -6,6 +6,7 @@ import com.wooriyo.us.pinmenumobileer.model.CallSetListDTO
 import com.wooriyo.us.pinmenumobileer.model.CateListDTO
 import com.wooriyo.us.pinmenumobileer.model.EventDTO
 import com.wooriyo.us.pinmenumobileer.model.GoodsListDTO
+import com.wooriyo.us.pinmenumobileer.model.LangDTO
 import com.wooriyo.us.pinmenumobileer.model.MemberDTO
 import com.wooriyo.us.pinmenumobileer.model.OrderHistoryDTO
 import com.wooriyo.us.pinmenumobileer.model.OrderListDTO
@@ -218,6 +219,12 @@ interface Api {
     ): Call<ResultDTO>
 
     // 다국어 설정
+    @GET("m/ins_lang_setting.php")
+    fun insLangSetting(
+        @Query("useridx") useridx: Int,
+        @Query("storeidx") storeidx: Int,
+    ): Call<LangDTO>
+
     @GET("m/setLanguage")
     fun setLanguage(
         @Query("useridx") useridx: Int,

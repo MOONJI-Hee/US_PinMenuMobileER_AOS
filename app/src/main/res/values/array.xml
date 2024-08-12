@@ -11,4 +11,36 @@
         <item>+</item>
         <item>-</item>
     </array>
+    <array name="language">
+        <item>English</item>
+        <item>Español</item>
+        <item>한국어</item>
+        <item>中國語</item>
+        <item>日本語</item>
+        <item>हिन्दी</item>
+        <item>français</item>
+        <item>עִברִית</item>
+        <item>العربية</item>
+        <item>বাংলা</item>
+        <item>Русский</item>
+        <item>Português</item>
+        <item>ภาษาไทย</item>
+        <item>Tiếng Việt</item>
+    </array>
+    <array name="language_img">
+        <item>img_language_usa_s</item>
+        <item>img_language_esp_s</item>
+        <item>img_language_kor_s</item>
+        <item>img_language_chn_s</item>
+        <item>img_language_jpn_s</item>
+        <item>img_language_ind_s</item>
+        <item>img_language_fra_s</item>
+        <item>img_language_are_s</item>
+        <item>img_language_isr_s</item>
+        <item>img_language_bgd_s</item>
+        <item>img_language_rus_s</item>
+        <item>img_language_prt_s</item>
+        <item>img_language_tha_s</item>
+        <item>img_language_vnm_s</item>
+    </array>
 </resources>

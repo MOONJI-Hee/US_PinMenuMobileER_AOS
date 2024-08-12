@@ -44,15 +44,15 @@ class SelectStoreFragment : Fragment() {
             override fun onItemClick(position: Int) {
                 super.onItemClick(position)
                 when (type) {
-                    "menu"  ->  {
+                    "menu"     -> {
                         MyApplication.store = MyApplication.storeList[position]
                         MyApplication.storeidx = MyApplication.storeList[position].idx
-
                         startActivity(Intent(context, SetCategoryActivity::class.java))
                     }
-                    "pay"   ->  (activity as MainActivity).insPaySetting(position)
-                    "print" ->  (activity as MainActivity).insPrintSetting(position)
-                    "qr"    ->  (activity as MainActivity).goQr(position)
+                    "pay"      -> (activity as MainActivity).insPaySetting(position)
+                    "print"    -> (activity as MainActivity).insPrintSetting(position)
+                    "qr"       -> (activity as MainActivity).goQr(position)
+                    "language" -> (context as MainActivity).insLangSetting(position)
                 }
             }
         })

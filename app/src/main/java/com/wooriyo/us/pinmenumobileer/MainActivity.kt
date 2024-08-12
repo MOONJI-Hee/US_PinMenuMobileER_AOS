@@ -26,10 +26,12 @@ import com.wooriyo.us.pinmenumobileer.common.dialog.WelcomeDialog
 import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.databinding.ActivityMainBinding
 import com.wooriyo.us.pinmenumobileer.menu.SetCategoryActivity
+import com.wooriyo.us.pinmenumobileer.model.LangDTO
 import com.wooriyo.us.pinmenumobileer.model.PopupListDTO
 import com.wooriyo.us.pinmenumobileer.model.PrintContentDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
 import com.wooriyo.us.pinmenumobileer.more.MoreFragment
+import com.wooriyo.us.pinmenumobileer.more.SetUseLangActivity
 import com.wooriyo.us.pinmenumobileer.printer.PrinterMenuFragment
 import com.wooriyo.us.pinmenumobileer.qr.SetQrcodeFragment
 import com.wooriyo.us.pinmenumobileer.store.StoreListFragment
@@ -210,7 +212,7 @@ class MainActivity : BaseActivity() {
         replace(StoreListFragment.newInstance())
     }
 
-    private fun goSelStore(type: String) {
+    fun goSelStore(type: String) {
         binding.banner.visibility = View.GONE
         replace(SelectStoreFragment.newInstance(type))
     }
@@ -410,6 +412,31 @@ class MainActivity : BaseActivity() {
                     Log.d(TAG, "프린터 설정 최초 진입 시 row 추가 오류 >> ${call.request()}")
                 }
             })
+    }
+
+    fun insLangSetting(position: Int) {
+        ApiClient.service.insLangSetting(MyApplication.useridx, storeList[position].idx).enqueue(object : Callback<LangDTO>{
+            override fun onResponse(call: Call<LangDTO>, response: Response<LangDTO>) {
+                Log.d(TAG, "언어 설정 페이지 진입 url : $response")
+                if(!response.isSuccessful) return
+                val result = response.body() ?: return
+
+                if(result.status == 1) {
+                    MyApplication.store = storeList[position]
+                    MyApplication.storeidx = storeList[position].idx
+                    val intent = Intent(mActivity, SetUseLangActivity::class.java)
+                    intent.putExtra("language", result)
+                    startActivity(intent)
+                }else
+                    Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onFailure(call: Call<LangDTO>, t: Throwable) {
+                Toast.makeText(mActivity, R.string.msg_retry, Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "언어 설정 페이지 진입 오류 >> $t")
+                Log.d(TAG, "언어 설정 페이지 진입 오류 >> ${call.request()}")
+            }
+        })
     }
 
     fun checkDeviceLimit(position: Int) {
