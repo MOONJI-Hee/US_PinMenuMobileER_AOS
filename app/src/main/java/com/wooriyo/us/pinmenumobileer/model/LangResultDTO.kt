@@ -3,7 +3,7 @@ package com.wooriyo.us.pinmenumobileer.model
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class LangDTO(
+data class LangResultDTO(
     @SerializedName("status") var status: Int,
     @SerializedName("msg") var msg: String,
     @SerializedName("lang_use_eng") var eng_buse : String,
@@ -20,7 +20,7 @@ data class LangDTO(
     @SerializedName("lang_use_por") var por_buse : String,
     @SerializedName("lang_use_tha") var tha_buse : String,
     @SerializedName("lang_use_vie") var vie_buse : String
-): Serializable {
+) {
     constructor() : this(
         1, "", "Y", "N", "N", "N", "N", "N", "N",
         "N", "N", "N", "N", "N", "N", "N"

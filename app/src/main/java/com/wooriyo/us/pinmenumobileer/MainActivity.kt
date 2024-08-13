@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.util.Printer
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -16,7 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.sewoo.request.android.RequestHandler
+import com.google.gson.Gson
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.pairedDevices
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.pref
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.storeList
@@ -26,7 +25,7 @@ import com.wooriyo.us.pinmenumobileer.common.dialog.WelcomeDialog
 import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.databinding.ActivityMainBinding
 import com.wooriyo.us.pinmenumobileer.menu.SetCategoryActivity
-import com.wooriyo.us.pinmenumobileer.model.LangDTO
+import com.wooriyo.us.pinmenumobileer.model.LangResultDTO
 import com.wooriyo.us.pinmenumobileer.model.PopupListDTO
 import com.wooriyo.us.pinmenumobileer.model.PrintContentDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
@@ -38,9 +37,11 @@ import com.wooriyo.us.pinmenumobileer.store.StoreListFragment
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
 import com.wooriyo.us.pinmenumobileer.util.PrinterHelper
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.POST
 
 class MainActivity : BaseActivity() {
     lateinit var binding: ActivityMainBinding
@@ -415,8 +416,8 @@ class MainActivity : BaseActivity() {
     }
 
     fun insLangSetting(position: Int) {
-        ApiClient.service.insLangSetting(MyApplication.useridx, storeList[position].idx).enqueue(object : Callback<LangDTO>{
-            override fun onResponse(call: Call<LangDTO>, response: Response<LangDTO>) {
+        ApiClient.service.insLangSetting(MyApplication.useridx, storeList[position].idx).enqueue(object : Callback<LangResultDTO>{
+            override fun onResponse(call: Call<LangResultDTO>, response: Response<LangResultDTO>) {
                 Log.d(TAG, "언어 설정 페이지 진입 url : $response")
                 if(!response.isSuccessful) return
                 val result = response.body() ?: return
@@ -424,14 +425,15 @@ class MainActivity : BaseActivity() {
                 if(result.status == 1) {
                     MyApplication.store = storeList[position]
                     MyApplication.storeidx = storeList[position].idx
+
                     val intent = Intent(mActivity, SetUseLangActivity::class.java)
-                    intent.putExtra("language", result)
+                    intent.putExtra("language", Gson().toJson(result))
                     startActivity(intent)
                 }else
                     Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
             }
 
-            override fun onFailure(call: Call<LangDTO>, t: Throwable) {
+            override fun onFailure(call: Call<LangResultDTO>, t: Throwable) {
                 Toast.makeText(mActivity, R.string.msg_retry, Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "언어 설정 페이지 진입 오류 >> $t")
                 Log.d(TAG, "언어 설정 페이지 진입 오류 >> ${call.request()}")

@@ -1,11 +1,7 @@
 package com.wooriyo.us.pinmenumobileer.more
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.animation.LinearInterpolator
-import android.widget.CheckBox
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wooriyo.us.pinmenumobileer.BaseActivity
@@ -13,93 +9,56 @@ import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.storeidx
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.useridx
 import com.wooriyo.us.pinmenumobileer.R
 import com.wooriyo.us.pinmenumobileer.databinding.ActivitySetUseLangBinding
-import com.wooriyo.us.pinmenumobileer.model.LangDTO
+import com.wooriyo.us.pinmenumobileer.model.LanguageDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
 import com.wooriyo.us.pinmenumobileer.more.adapter.LanguageAdapter
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SetUseLangActivity: BaseActivity() {
     lateinit var binding: ActivitySetUseLangBinding
-    lateinit var lang: LangDTO
-    var init = true
+    lateinit var lang: String
+    lateinit var arrLangCode : Array<String>
+
+    val languageList = ArrayList<LanguageDTO>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySetUseLangBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        lang = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getSerializableExtra("language", LangDTO::class.java) ?: LangDTO()
-        }else {
-            intent.getSerializableExtra("language") as LangDTO
-        }
+        lang = intent.getStringExtra("language") ?: ""
 
-        binding.run {
-            back.setOnClickListener { finish() }
+        setLanguageList()
 
-            rv.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
-            rv.adapter = LanguageAdapter(lang)
-
-            setCheckListener(checkEsp, disableEsp)
-            setCheckListener(checkKor, disableKor)
-
-            esp.setOnClickListener {
-                checkEsp.isChecked = !checkEsp.isChecked
-//                store.esp_buse = if(checkEsp.isChecked) "Y" else "N"
-            }
-
-            kor.setOnClickListener {
-                checkKor.isChecked = !checkKor.isChecked
-//                store.kor_buse = if(checkKor.isChecked) "Y" else "N"
-            }
-
-//            checkEsp.isChecked = store.esp_buse == "Y"
-//            checkKor.isChecked = store.kor_buse == "Y"
-//            checkChn.isChecked = store.chn_buse == "Y"
-//            checkJpn.isChecked = store.jpn_buse == "Y"
-        }
+        binding.back.setOnClickListener { finish() }
+        binding.save.setOnClickListener { setLanguage() }
     }
 
-    override fun onResume() {
-        super.onResume()
-        init = false
-    }
+    fun setLanguageList() {
+        val jsonObject = JSONObject(lang)
+        val arrLang = resources.getStringArray(R.array.language)
+        val arrImg = resources.getStringArray(R.array.language_img)
+        arrLangCode = resources.getStringArray(R.array.language_code)
 
-    private fun setCheckListener(checkBox: CheckBox, v: View) {
-        checkBox.setOnCheckedChangeListener { _, isChecked ->
-            if(!init) setLanguage()
-
-            if(isChecked)
-                v.visibility = View.GONE
-            else
-                v.visibility = View.VISIBLE
+        arrLang.forEachIndexed { i, it ->
+            languageList.add(LanguageDTO(it, arrImg[i], jsonObject.get(arrLangCode[i]) == "Y"))
         }
+
+        binding.rv.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
+        binding.rv.adapter = LanguageAdapter(languageList)
     }
 
     fun setLanguage() {
-        val lang = StringBuffer()
+        val lang = JSONObject()
 
-        lang.append("usa")
-        if(binding.checkEsp.isChecked) lang.append("/esp")
-        if(binding.checkKor.isChecked) lang.append("/kor")
-
-//        val list = ArrayList<String>()
-//
-//        if(binding.checkKor.isChecked) list.add("kor")
-//        if(binding.checkEng.isChecked) list.add("eng")
-//        if(binding.checkEsp.isChecked) list.add("esp")
-//        if(binding.checkChn.isChecked) list.add("chn")
-//        if(binding.checkJpn.isChecked) list.add("jpn")
-//
-//        list.forEach {
-//            if(lang.toString() == "")
-//                lang.append(it)
-//            else
-//                lang.append("/$it")
-//        }
+        languageList.forEachIndexed { i, it ->
+            val buse = if(it.isChecked) "Y" else "N"
+            lang.put(arrLangCode[i], buse)
+        }
 
         ApiClient.service.setLanguage(useridx, storeidx, lang.toString()).enqueue(object : Callback<ResultDTO> {
             override fun onResponse(p0: Call<ResultDTO>, p1: Response<ResultDTO>) {

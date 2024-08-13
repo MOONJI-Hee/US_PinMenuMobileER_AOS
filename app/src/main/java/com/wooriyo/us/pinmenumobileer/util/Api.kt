@@ -1,16 +1,14 @@
 package com.wooriyo.us.pinmenumobileer.util
 
-import androidx.room.Index.Order
 import com.wooriyo.us.pinmenumobileer.model.CallListDTO
 import com.wooriyo.us.pinmenumobileer.model.CallSetListDTO
 import com.wooriyo.us.pinmenumobileer.model.CateListDTO
 import com.wooriyo.us.pinmenumobileer.model.EventDTO
 import com.wooriyo.us.pinmenumobileer.model.GoodsListDTO
-import com.wooriyo.us.pinmenumobileer.model.LangDTO
+import com.wooriyo.us.pinmenumobileer.model.LangResultDTO
 import com.wooriyo.us.pinmenumobileer.model.MemberDTO
 import com.wooriyo.us.pinmenumobileer.model.OrderHistoryDTO
 import com.wooriyo.us.pinmenumobileer.model.OrderListDTO
-import com.wooriyo.us.pinmenumobileer.model.PaySettingDTO
 import com.wooriyo.us.pinmenumobileer.model.PgDetailResultDTO
 import com.wooriyo.us.pinmenumobileer.model.PgResultDTO
 import com.wooriyo.us.pinmenumobileer.model.PopupListDTO
@@ -18,13 +16,13 @@ import com.wooriyo.us.pinmenumobileer.model.PrintContentDTO
 import com.wooriyo.us.pinmenumobileer.model.PrintListDTO
 import com.wooriyo.us.pinmenumobileer.model.PrintModelListDTO
 import com.wooriyo.us.pinmenumobileer.model.QrListDTO
-import com.wooriyo.us.pinmenumobileer.model.ReceiptDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
 import com.wooriyo.us.pinmenumobileer.model.StoreListDTO
 import com.wooriyo.us.pinmenumobileer.model.TableNoListDTO
 import com.wooriyo.us.pinmenumobileer.model.TipTaxDTO
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -223,7 +221,7 @@ interface Api {
     fun insLangSetting(
         @Query("useridx") useridx: Int,
         @Query("storeidx") storeidx: Int,
-    ): Call<LangDTO>
+    ): Call<LangResultDTO>
 
     @GET("m/setLanguage")
     fun setLanguage(

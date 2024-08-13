@@ -307,7 +307,7 @@
 
     <!--  다국어 설정  -->
     <string name="language">Language</string>
-    <string name="title_set_language">Multilingual Settings</string>
+    <string name="title_set_language">Language Settings</string>
     <string name="lang_kor">한국어</string>
     <string name="lang_eng">English</string>
     <string name="lang_chn">中國語</string>
