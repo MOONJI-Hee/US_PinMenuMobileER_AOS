@@ -67,6 +67,7 @@ class SetUseLangActivity: BaseActivity() {
                 val result = p1.body() ?: return
 
                 Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
+                if(result.status == 1) finish()
             }
 
             override fun onFailure(p0: Call<ResultDTO>, p1: Throwable) {
