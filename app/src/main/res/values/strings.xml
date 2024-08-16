@@ -113,7 +113,7 @@
     <string name="store_addr_hint">Please enter the address.</string>
     <string name="store_addr_info1">Events will be held based on the store address provided.\nPlease enter the store address accurately.</string>
     <string name="store_addr_info2">To use the Pinmenu Manager app, you must register at least one store.</string>
-    <string name="store_addr_info3">You can modify store information on a tablet PC or through the website.</string>
+    <string name="store_addr_info3">You can modify store information through a tablet PC or website.</string>
     <string name="store_reg">Store registration</string>
     <!--  매장 세부 정보  -->
     <string name="at" translatable="false"><![CDATA[@]]></string>
@@ -308,11 +308,6 @@
     <!--  다국어 설정  -->
     <string name="language">Language</string>
     <string name="title_set_language">Language Settings</string>
-    <string name="lang_kor">한국어</string>
-    <string name="lang_eng">English</string>
-    <string name="lang_chn">中國語</string>
-    <string name="lang_esp">Español</string>
-    <string name="lang_jpn">日本語</string>
     <string name="set_language_info">On smartphones, you can toggle the language settings on and off.\nYou can enter language-specific text on the Pinmenu website.\nURL : www.pinmenu.net\nPlease sign in with your Pinmenu Mgmt app ID.</string>
 
     <!--  타임존 설정  -->

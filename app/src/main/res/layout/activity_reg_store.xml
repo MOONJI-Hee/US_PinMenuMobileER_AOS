@@ -59,7 +59,7 @@
 
         <TextView
             style="@style/text15"
-            android:id="@+id/tv_arpayo"
+            android:id="@+id/tv_address"
             android:layout_marginTop="20dp"
             android:text="@string/store_addr"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,15 +75,15 @@
 <!--            app:layout_constraintBottom_toTopOf="@+id/btn_map"/>-->
 
         <EditText
-            style="@style/edittext"
+            style="@style/edittext_big"
             android:id="@+id/et_addr"
             android:layout_width="match_parent"
+            android:layout_height="74dp"
             android:layout_marginTop="10dp"
-            android:inputType="text"
-            android:maxLines="1"
+            android:inputType="textMultiLine"
             android:hint="@string/store_addr_hint"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_arpayo"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_address"/>
 
         <TextView
             android:id="@+id/info1"
