@@ -65,14 +65,14 @@
 
         <TextView
             style="@style/text_num"
-            android:text="Table "
+            android:text="Order No. "
             android:textSize="17dp"
             app:layout_constraintBottom_toBottomOf="@+id/regdt"
-            app:layout_constraintEnd_toStartOf="@+id/tableNo"/>
+            app:layout_constraintEnd_toStartOf="@+id/orderNo"/>
 
         <TextView
             style="@style/text_num_b"
-            android:id="@+id/tableNo"
+            android:id="@+id/orderNo"
             android:textSize="17dp"
             app:layout_constraintBottom_toBottomOf="@+id/regdt"
             app:layout_constraintEnd_toEndOf="parent"/>

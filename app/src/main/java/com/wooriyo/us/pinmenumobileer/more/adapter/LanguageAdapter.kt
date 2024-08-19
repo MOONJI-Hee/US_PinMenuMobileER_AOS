@@ -18,6 +18,8 @@ class LanguageAdapter(val dataSet: ArrayList<LanguageDTO>): RecyclerView.Adapter
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         p0.bind(dataSet[p1])
+
+        if(p1 == 0) p0.binding.check.visibility = View.INVISIBLE
     }
 
     override fun getItemCount(): Int {

@@ -113,13 +113,13 @@
         app:layout_constraintTop_toTopOf="@+id/prop4"
         app:layout_constraintEnd_toEndOf="@+id/prop4"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon_tip_tax_default"
-        app:layout_constraintTop_toTopOf="@+id/prop2"
+    <View
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:background="@drawable/bg_btn_rb6"
         app:layout_constraintEnd_toEndOf="@+id/prop2"
-        />
+        app:layout_constraintStart_toStartOf="@+id/prop2"
+        app:layout_constraintBottom_toBottomOf="@+id/prop2" />
 
     <TextView
         style="@style/subtext"
