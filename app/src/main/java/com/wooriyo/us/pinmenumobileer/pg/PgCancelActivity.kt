@@ -66,7 +66,11 @@ class PgCancelActivity : BaseActivity() {
                             cardInfo.text = "${result.cardname}(${result.cardnum})"
                             price.text = AppHelper.price(result.amt)
                             regdt.text = result.pay_regdt
-                            tableNo.text = result.tableNo
+                            orderNo.text = result.orderNo
+                            subPrice.text = result.subTotal
+                            tipProp.text = result.tipPer
+                            tipPrice.text = AppHelper.price(result.tip)
+                            taxPrice.text = AppHelper.price(result.tax)
                         }
                     }
                     else -> Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
