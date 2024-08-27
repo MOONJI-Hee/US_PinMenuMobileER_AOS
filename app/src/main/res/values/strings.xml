@@ -153,7 +153,7 @@
     <!--  카테고리 / 메뉴 삭제 다이얼로그  -->
     <string name="dialog_delete_title">Delete %s</string>
     <string name="dialog_delete_name" translatable="false">[ %s ]</string>
-    <string name="dialog_delete_confirm">%s를 삭제하시겠습니까?</string>
+    <string name="dialog_delete_confirm">Delete this %s?</string>
     <string name="category_delete_info">Pressing delete will remove all items within this category, and once deleted, they cannot be restored.</string>
     <string name="menu_delete_info">Pressing delete will erase all entered information, and once deleted, they cannot be restored.</string>
 

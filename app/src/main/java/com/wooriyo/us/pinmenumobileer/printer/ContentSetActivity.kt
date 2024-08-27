@@ -22,6 +22,7 @@ import retrofit2.Response
 class ContentSetActivity : BaseActivity() {
     lateinit var binding: ActivityContentSetBinding
 
+    var idx = 0
     var cnt = 0
     var strCate = ""    // 주방영수증에 출력될 카테고리 리스트 (String형, 콤마로 구분)
 
@@ -96,7 +97,7 @@ class ContentSetActivity : BaseActivity() {
         if(binding.orderNo.isChecked)
             strOrdCode = "Y"
 
-        ApiClient.service.setPrintContent(useridx,  MyApplication.storeidx, androidId, MyApplication.bidx, fontSize, strKitchen, strReceipt, strOrdCode, strCate)
+        ApiClient.service.setPrintContent(useridx, MyApplication.storeidx, androidId, idx, fontSize, strKitchen, strReceipt, strOrdCode, strCate)
             .enqueue(object : Callback<PrintContentDTO> {
                 override fun onResponse(call: Call<PrintContentDTO>, response: Response<PrintContentDTO>) {
                     Log.d(TAG, "프린터 출력 내용 설정 url : $response")
@@ -128,7 +129,10 @@ class ContentSetActivity : BaseActivity() {
 
                 val result = response.body() ?: return
                 when(result.status) {
-                    1 -> setView(result)
+                    1 -> {
+                        idx = result.idx
+                        setView(result)
+                    }
                     else -> Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
                 }
             }
