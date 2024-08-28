@@ -149,12 +149,7 @@ class ReservationAdapter(val dataSet: ArrayList<OrderHistoryDTO>): RecyclerView.
 
                 delete.setOnClickListener { deleteListener.onItemClick(adapterPosition) }
                 print.setOnClickListener {
-                    if(MyApplication.bluetoothPort.isConnected) {
-                        printClickListener.onItemClick(adapterPosition)
-                    }else{
-                        val fragmentActivity = context as FragmentActivity
-                        AlertDialog("", context.getString(R.string.dialog_no_printer)).show(fragmentActivity.supportFragmentManager, "AlertDialog")
-                    }
+                    printClickListener.onItemClick(adapterPosition)
                 }
                 btnComplete.setOnClickListener {
                     if(data.isreser > 0)

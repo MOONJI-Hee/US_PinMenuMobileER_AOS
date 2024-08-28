@@ -17,43 +17,27 @@ import retrofit2.Response
 class SupportPrinterActivity : BaseActivity() {
     lateinit var binding: ActivitySupportPrinterBinding
 
-//    val TAG = "SupportPrinterActivity"
-//    val mActivity = this@SupportPrinterActivity
-
     val modelList = ArrayList<PrintModelDTO>()
 
     var opend_ts = false
-    var opend_te = false
-    var opend_cube = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySupportPrinterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        getSupportPrinter()
+//        getSupportPrinter()
 
         binding.back.setOnClickListener { finish() }
-        binding.ts400b.setOnClickListener {
+        binding.rp325.setOnClickListener {
             if(opend_ts) {
-                binding.ts400bInfo.visibility = View.GONE
-                binding.openTs400b.setImageResource(R.drawable.icon_list_arrow_down)
+                binding.rp325Info.visibility = View.GONE
+                binding.openRp325.setImageResource(R.drawable.icon_list_arrow_down)
                 opend_ts = false
             }else {
-                binding.ts400bInfo.visibility = View.VISIBLE
-                binding.openTs400b.setImageResource(R.drawable.icon_list_arrow_up)
+                binding.rp325Info.visibility = View.VISIBLE
+                binding.openRp325.setImageResource(R.drawable.icon_list_arrow_up)
                 opend_ts = true
-            }
-        }
-        binding.gcube.setOnClickListener {
-            if(opend_cube) {
-                binding.gcubeInfo.visibility = View.GONE
-                binding.openGcube.setImageResource(R.drawable.icon_list_arrow_down)
-                opend_cube = false
-            }else {
-                binding.gcubeInfo.visibility = View.VISIBLE
-                binding.openGcube.setImageResource(R.drawable.icon_list_arrow_up)
-                opend_cube = true
             }
         }
     }

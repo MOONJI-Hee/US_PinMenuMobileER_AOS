@@ -10,11 +10,13 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wooriyo.us.pinmenumobileer.BaseActivity
+import com.wooriyo.us.pinmenumobileer.MyApplication
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.storeidx
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.useridx
 import com.wooriyo.us.pinmenumobileer.R
 import com.wooriyo.us.pinmenumobileer.common.dialog.ClearDialog
 import com.wooriyo.us.pinmenumobileer.common.dialog.ConfirmDialog
+import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.databinding.ActivityOrderListBinding
 import com.wooriyo.us.pinmenumobileer.history.adapter.CallListAdapter
 import com.wooriyo.us.pinmenumobileer.history.adapter.HistoryAdapter
@@ -63,6 +65,19 @@ class ByHistoryActivity: BaseActivity() {
         setOrderAdapter()
         setReservAdapter()
         setCallAdapter()
+
+        when (MyApplication.store.fontsize) {
+            1 -> {
+                AppProperties.RT_ONE_LINE = AppProperties.RT_ONE_LINE_BIG
+                AppProperties.RT_PRODUCT = AppProperties.RT_PRODUCT_BIG
+                AppProperties.RT_QTY = AppProperties.RT_QTY_BIG
+            }
+            2 -> {
+                AppProperties.RT_ONE_LINE = AppProperties.RT_ONE_LINE_SMALL
+                AppProperties.RT_PRODUCT = AppProperties.RT_PRODUCT_SMALL
+                AppProperties.RT_QTY = AppProperties.RT_QTY_SMALL
+            }
+        }
 
         binding.rv.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false)
         binding.rv.adapter = orderAdapter

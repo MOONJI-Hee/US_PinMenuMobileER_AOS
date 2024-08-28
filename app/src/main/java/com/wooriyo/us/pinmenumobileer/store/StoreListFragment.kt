@@ -93,7 +93,7 @@ class StoreListFragment : Fragment() {
 
     // 매장리스트 조회 Api
     fun getStoreList() {
-        ApiClient.service.getStoreList(MyApplication.useridx)
+        ApiClient.service.getStoreList(MyApplication.useridx, MyApplication.androidId)
             .enqueue(object: retrofit2.Callback<StoreListDTO>{
                 override fun onResponse(call: Call<StoreListDTO>, response: Response<StoreListDTO>) {
                     Log.d(TAG, "매장 리스트 조회 url : $response")

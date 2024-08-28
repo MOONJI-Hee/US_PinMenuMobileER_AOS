@@ -128,6 +128,7 @@ interface Api {
     @GET("m/store.list.php")
     fun getStoreList(
         @Query("useridx") useridx: Int,
+        @Query("uuid") androidId : String,
         @Query("storeidx") storeidx: String?="" // null일 때 처리를 위해서 여기만 String
     ): Call<StoreListDTO>
 

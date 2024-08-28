@@ -1,7 +1,6 @@
 package com.wooriyo.us.pinmenumobileer.printer.adapter
 
 import android.bluetooth.BluetoothDevice
-import android.content.ClipData.Item
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -17,8 +16,8 @@ import com.wooriyo.us.pinmenumobileer.R
 import com.wooriyo.us.pinmenumobileer.common.dialog.AlertDialog
 import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.databinding.ListPrinterBinding
-import com.wooriyo.us.pinmenumobileer.listener.ItemClickListener
 import com.wooriyo.us.pinmenumobileer.printer.DetailPrinterActivity
+import com.wooriyo.us.pinmenumobileer.printer.SetConnActivity
 import com.wooriyo.us.pinmenumobileer.util.PrinterHelper
 import java.io.IOException
 
@@ -28,12 +27,12 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
         return ViewHolder(binding, parent.context)
     }
 
-    override fun getItemCount(): Int {
-        return dataSet.size
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(dataSet[position])
+    }
+
+    override fun getItemCount(): Int {
+        return dataSet.size
     }
 
     class ViewHolder(val binding: ListPrinterBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
@@ -59,21 +58,23 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
             }
 
             binding.ivPrinter.setImageResource(img)
-            binding.model.text = "$model\n[${data.address}]"
+            binding.model.text = model
+            binding.address.text = "[${data.address}]"
             binding.nick.text = data.alias.toString()
 
             // 연결 상태에 따라 우측 버튼 및 뷰 변경
-            val connStatus = if(isSewoo) {
-                MyApplication.bluetoothPort.isConnected && MyApplication.connDev_sewoo == data.address
-            }else {
-//                MyApplication.rtPrinter.getPrinterInterface() != null && MyApplication.rtPrinter.connectState == ConnectStateEnum.Connected && MyApplication.rtPrinter.printerInterface.configObject as BluetoothDevice == data
-                MyApplication.rtPrinter.getPrinterInterface() != null && MyApplication.rtPrinter.connectState == ConnectStateEnum.Connected
-            }
+            val connStatus =
+                if(isSewoo) {
+                    MyApplication.bluetoothPort.isConnected && MyApplication.connDev_sewoo == data.address
+                }else {
+    //                MyApplication.rtPrinter.getPrinterInterface() != null && MyApplication.rtPrinter.connectState == ConnectStateEnum.Connected && MyApplication.rtPrinter.printerInterface.configObject as BluetoothDevice == data
+                    MyApplication.rtPrinter.getPrinterInterface() != null && MyApplication.rtPrinter.connectState == ConnectStateEnum.Connected
+                }
 
             if(connStatus) {
                 binding.btnConn.visibility = View.INVISIBLE
                 binding.connNo.visibility = View.INVISIBLE
-                binding.btnClear.visibility = View.VISIBLE
+                binding.btnDisConn.visibility = View.VISIBLE
                 binding.connDot.visibility = View.VISIBLE
                 binding.connStatus.visibility = View.VISIBLE
                 binding.connStatus.text = context.getString(R.string.good)
@@ -95,7 +96,7 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
             } else {
                 binding.btnConn.visibility = View.VISIBLE
                 binding.connNo.visibility = View.VISIBLE
-                binding.btnClear.visibility = View.GONE
+                binding.btnDisConn.visibility = View.GONE
                 binding.connDot.visibility = View.GONE
                 binding.connStatus.visibility = View.GONE
 
@@ -114,14 +115,15 @@ class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adap
             }
 
             binding.btnConn.setOnClickListener {
-                Log.d("PrinterAdapter", "isSewoo >>> $isSewoo")
+                (context as SetConnActivity).loadingDialog.show(context.supportFragmentManager)
+                (context as SetConnActivity).connPos = adapterPosition
                 if(isSewoo)
                     PrinterHelper.connSewoo(context, MyApplication.remoteDevices[adapterPosition])
                 else
                     PrinterHelper.connRT(context, MyApplication.remoteDevices[adapterPosition])
             }
 
-            binding.btnClear.setOnClickListener {
+            binding.btnDisConn.setOnClickListener {
                 // TODO 프린터 연결 해제
             }
         }

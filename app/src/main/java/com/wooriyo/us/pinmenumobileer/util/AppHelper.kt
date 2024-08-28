@@ -267,7 +267,8 @@ class AppHelper {
 
         fun print(order: OrderHistoryDTO, context: Context) {
             if (MyApplication.rtPrinter.getPrinterInterface() != null && MyApplication.rtPrinter.connectState == ConnectStateEnum.Connected) {
-                printRT(order, context)
+                if(MyApplication.store.kitchen == "Y") printRT(order, context)
+                if(MyApplication.store.receipt == "Y") printReceipt(order)
             }
             if(MyApplication.bluetoothPort.isConnected) {
                 printSewoo(order, context)
@@ -283,12 +284,7 @@ class AppHelper {
 
             val escFac : CmdFactory = EscFactory()
             val escCmd : Cmd = escFac.create()
-//        escCmd.append(escCmd.headerCmd)
             escCmd.chartsetName = "UTF-8"
-
-            val commonSetting = CommonSetting()
-//        commonSetting.align = CommonEnum.ALIGN_LEFT
-//        escCmd.append(escCmd.getCommonSettingCmd(commonSetting))
 
             val defaultText = TextSetting().apply {
                 align = CommonEnum.ALIGN_LEFT
@@ -303,7 +299,13 @@ class AppHelper {
             val textSetting = TextSetting().apply {
                 escFontType = ESCFontTypeEnum.FONT_A_12x24
                 align = CommonEnum.ALIGN_LEFT
-//                doubleWidth = SettingEnum.Enable
+            }
+
+            var title = "Product                                     Qty"
+
+            if(MyApplication.store.fontsize == 1) {
+                textSetting.doubleWidth = SettingEnum.Enable
+                title = "Product              Qty"
             }
 
             try {
@@ -316,8 +318,7 @@ class AppHelper {
                 escCmd.append(escCmd.getTextCmd(textSetting, "Table No   : ${order.tableNo}\n"))
                 escCmd.append(escCmd.lfcrCmd)
 
-//                escCmd.append(escCmd.getTextCmd(textSetting,  "Product             Qty0"))
-                escCmd.append(escCmd.getTextCmd(textSetting,  "Product                                     Qty"))
+                escCmd.append(escCmd.getTextCmd(textSetting, title))
                 escCmd.append(escCmd.lfcrCmd)
 
                 escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
@@ -426,6 +427,132 @@ class AppHelper {
             result.append(ord.gea)
 
             if(ord.gea < 10) result.append(" ")
+
+            if (underline1.toString() != "")
+                result.append("\r$underline1")
+
+            if (underline2.toString() != "")
+                result.append("\r$underline2")
+
+            if(!ord.opt.isNullOrEmpty()) {
+                ord.opt.forEach {
+                    result.append("\n -$it")
+                }
+            }
+
+            return result.toString()
+        }
+
+        fun printReceipt(order: OrderHistoryDTO) {
+            val escFac : CmdFactory = EscFactory()
+            val escCmd : Cmd = escFac.create()
+            escCmd.chartsetName = "UTF-8"
+
+            val defaultText = TextSetting().apply {
+                align = CommonEnum.ALIGN_LEFT
+            }
+
+            val smallText = TextSetting().apply {
+                escFontType = ESCFontTypeEnum.FONT_A_12x24
+                align = CommonEnum.ALIGN_LEFT
+                isEscSmallCharactor = SettingEnum.Enable
+            }
+
+            val titleSetting = TextSetting().apply {
+                escFontType = ESCFontTypeEnum.FONT_A_12x24
+                align = CommonEnum.ALIGN_MIDDLE
+                doubleWidth = SettingEnum.Enable
+                doubleHeight = SettingEnum.Enable
+            }
+
+            val hyphen = StringBuilder()
+
+            for (i in 1..48) {
+                hyphen.append("-")
+            }
+
+            try {
+                // title (매장 이름, 매장 번호)
+                escCmd.append(escCmd.getTextCmd(titleSetting, MyApplication.store.name))
+                escCmd.append(escCmd.lfcrCmd)
+                escCmd.append(escCmd.getTextCmd(titleSetting, MyApplication.store.tel))
+                escCmd.append(escCmd.lfcrCmd)
+                // 주문 날짜
+                escCmd.append(escCmd.getTextCmd(defaultText, order.regdt))
+                escCmd.append(escCmd.lfcrCmd)
+                // 하이픈
+                escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
+                escCmd.append(escCmd.lfcrCmd)
+
+                // 주문내역
+                order.olist.forEach {
+                    val pOrder = getReceiptPrint(it)
+                    escCmd.append(escCmd.getTextCmd(defaultText, pOrder))
+                    escCmd.append(escCmd.lfcrCmd)
+                    escCmd.append(escCmd.getTextCmd(smallText, "\n"))
+                }
+
+                // 하이픈
+                escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
+                escCmd.append(escCmd.lfcrCmd)
+                // 가격
+                escCmd.append(escCmd.getTextCmd(defaultText, "SubTotal : $${order.amount}"))
+                escCmd.append(escCmd.lfcrCmd)
+                escCmd.append(escCmd.getTextCmd(defaultText, "Tip : $${order.tip}"))
+                escCmd.append(escCmd.lfcrCmd)
+                escCmd.append(escCmd.getTextCmd(defaultText, "Tax : $${order.tax}"))
+                escCmd.append(escCmd.lfcrCmd)
+                // 총 가격
+                escCmd.append(escCmd.getTextCmd(titleSetting, "Total : $${order.total_price}"))
+                escCmd.append(escCmd.lfcrCmd)
+
+                escCmd.append(escCmd.cmdCutNew)
+
+                MyApplication.rtPrinter.writeMsgAsync(escCmd.appendCmds)
+
+            } catch (e : UnsupportedEncodingException) {
+                e.printStackTrace()
+                Log.d("AppHelper", "Exception > $e")
+            }
+        }
+
+        // 주문내역(상세내역) 영수증 형태 String으로 받기 - RTP325
+        fun getReceiptPrint(ord: OrderDTO) : String {
+            val productLine = 40
+            val amtLine = 6
+
+            val result: StringBuilder = StringBuilder()
+            val underline1 = StringBuilder()
+            val underline2 = StringBuilder()
+            val underline3 = StringBuilder()
+
+            var total = 1
+            ord.name.forEach {
+                if (total <= productLine)
+                    result.append(it)
+                else if (total <= (productLine * 2))
+                    underline1.append(it)
+                else if (total <= (productLine * 3))
+                    underline2.append(it)
+                else
+                    underline3.append(it)
+
+                total++
+            }
+
+            val diff1 = productLine - (result.toString().length)
+            for(i in 1..diff1) {
+                result.append(" ")
+            }
+
+            result.append(" ")
+
+            val diff2 = amtLine - ord.amount.toString().length
+            for(i in 1..diff2) {
+                result.append(" ")
+            }
+            result.append("$")
+            result.append(ord.amount)
 
             if (underline1.toString() != "")
                 result.append("\r$underline1")

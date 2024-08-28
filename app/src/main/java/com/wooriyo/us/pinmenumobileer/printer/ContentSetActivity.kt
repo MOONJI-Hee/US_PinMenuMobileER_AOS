@@ -106,8 +106,12 @@ class ContentSetActivity : BaseActivity() {
                     val result = response.body() ?: return
                     when(result.status) {
                         1 -> {
+                            MyApplication.store.fontsize = fontSize
+                            MyApplication.store.kitchen = strKitchen
+                            MyApplication.store.receipt = strReceipt
+
                             Toast.makeText(mActivity, R.string.msg_complete, Toast.LENGTH_SHORT).show()
-                            setView(result)
+                            finish()
                         }
                         else -> Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
                     }

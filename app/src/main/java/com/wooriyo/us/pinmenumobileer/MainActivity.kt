@@ -74,16 +74,16 @@ class MainActivity : BaseActivity() {
 
         thread = Thread(Runnable{
             if(AppHelper.getPairedDevice() == 1) {
-                val connectedPrinter = pref.getConnectedPrinter() ?: return@Runnable
+//                val connectedPrinter = pref.getConnectedPrinter() ?: return@Runnable
 
                 pairedDevices.forEach{
-                    if(it.address == connectedPrinter.getString("address")
-                        && it.uuids.toString() == connectedPrinter.getString("uuids")) {
-                        if(PrinterHelper.checkSewoo(it))
-                            PrinterHelper.connSewoo(mActivity, it)
-                        else
-                            PrinterHelper.connRT(mActivity, it)
-                    }
+//                    if(it.address == connectedPrinter.getString("address")
+//                        && it.uuids.toString() == connectedPrinter.getString("uuids")) {
+//                        if(PrinterHelper.checkSewoo(it))
+//                            PrinterHelper.connSewoo(mActivity, it)
+//                        else
+//                            PrinterHelper.connRT(mActivity, it)
+//                    }
                 }
             }
         })
@@ -127,6 +127,8 @@ class MainActivity : BaseActivity() {
         if(grantResults.isEmpty()) return
 
         when(requestCode) {
+            AppProperties.REQUEST_NOTIFICATION -> checkPermissions()
+
             AppProperties.REQUEST_ENABLE_BT -> {
                 checkBluetoothPermission()
                 if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -476,6 +478,7 @@ class MainActivity : BaseActivity() {
         for (pms in permissions) {
             if(ActivityCompat.checkSelfPermission(mActivity, pms) != PackageManager.PERMISSION_GRANTED) {
                 if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity, pms)) {
+                    Log.d(TAG, "Location Permission Should Show Request Permission Rationale")
                     AlertDialog.Builder(mActivity)
                         .setTitle(R.string.pms_location_content)
                         .setMessage(R.string.pms_location_content)
@@ -487,8 +490,11 @@ class MainActivity : BaseActivity() {
                         .show()
                     return
                 }else {
+                    Log.d(TAG, "Location Permission Denied")
                     deniedPms.add(pms)
                 }
+            }else {
+                Log.d(TAG, "Location Permission Granted")
             }
         }
 

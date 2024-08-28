@@ -32,51 +32,23 @@ class SelectPrinterActivity : BaseActivity() {
         binding.run {
             // SupportPrinterActivity와 Layout 같이 쓰기 때문에 뷰 변경해주기
             title.text = getString(R.string.printer_title_sel_model)
-            ckTs400b.visibility = View.VISIBLE
-            ckTe202.visibility = View.VISIBLE
-            ckSam4s.visibility = View.VISIBLE
+            ckRp325.visibility = View.VISIBLE
             select.visibility = View.VISIBLE
             supportInfo.visibility = View.GONE
-            openTs400b.visibility = View.GONE
-            openTe202.visibility = View.GONE
-            openGcube.visibility = View.GONE
+            openRp325.visibility = View.GONE
 
-            ts400b.setOnClickListener {
-                ckTs400b.isChecked = true
-            }
-            te202.setOnClickListener {
-                ckTe202.isChecked = true
-            }
-            gcube.setOnClickListener {
-                ckSam4s.isChecked = true
+            rp325.setOnClickListener {
+                ckRp325.isChecked = true
             }
 
-            ckTs400b.setOnCheckedChangeListener { _, isChecked ->
-                if(isChecked) {
-                    ckTe202.isChecked = false
-                    ckSam4s.isChecked = false
-                }
-            }
-
-            ckTe202.setOnCheckedChangeListener { _, isChecked ->
-                if(isChecked) {
-                    ckTs400b.isChecked = false
-                    ckSam4s.isChecked = false
-                }
-            }
-
-            ckSam4s.setOnCheckedChangeListener { _, isChecked ->
-                if(isChecked) {
-                    ckTs400b.isChecked = false
-                    ckTe202.isChecked = false
-                }
-            }
+//            ckRp325.setOnCheckedChangeListener { _, isChecked ->
+//                if(isChecked) {
+//                }
+//            }
 
             select.setOnClickListener {
                 when {
-                    ckTs400b.isChecked -> type = 1
-                    ckTe202.isChecked -> type = 2
-                    ckSam4s.isChecked -> type = 3
+                    ckRp325.isChecked -> type = 1
                 }
                 setPrinterModel()
             }
