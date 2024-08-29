@@ -9,30 +9,30 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.sewoo.jpos.command.ESCPOSConst
 import com.wooriyo.us.pinmenumobileer.BaseActivity
 import com.wooriyo.us.pinmenumobileer.MyApplication
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.storeidx
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.useridx
 import com.wooriyo.us.pinmenumobileer.R
-import com.wooriyo.us.pinmenumobileer.history.adapter.CallListAdapter
 import com.wooriyo.us.pinmenumobileer.common.dialog.ClearDialog
 import com.wooriyo.us.pinmenumobileer.common.dialog.ConfirmDialog
 import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.databinding.ActivityOrderListBinding
+import com.wooriyo.us.pinmenumobileer.history.adapter.CallListAdapter
 import com.wooriyo.us.pinmenumobileer.history.adapter.HistoryAdapter
+import com.wooriyo.us.pinmenumobileer.history.adapter.OrderAdapter
+import com.wooriyo.us.pinmenumobileer.history.adapter.ReservationAdapter
+import com.wooriyo.us.pinmenumobileer.history.dialog.SetTableNoDialog
+import com.wooriyo.us.pinmenumobileer.listener.DialogListener
 import com.wooriyo.us.pinmenumobileer.listener.ItemClickListener
 import com.wooriyo.us.pinmenumobileer.model.CallHistoryDTO
 import com.wooriyo.us.pinmenumobileer.model.CallListDTO
 import com.wooriyo.us.pinmenumobileer.model.OrderHistoryDTO
 import com.wooriyo.us.pinmenumobileer.model.OrderListDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
-import com.wooriyo.us.pinmenumobileer.history.adapter.OrderAdapter
-import com.wooriyo.us.pinmenumobileer.history.adapter.ReservationAdapter
-import com.wooriyo.us.pinmenumobileer.history.dialog.SetTableNoDialog
-import com.wooriyo.us.pinmenumobileer.listener.DialogListener
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
+import com.wooriyo.us.pinmenumobileer.util.AppHelper.Companion.print
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,19 +54,10 @@ class ByHistoryActivity: BaseActivity() {
 
     var selText: TextView?= null
 
-    // 프린트 관련 변수
-    var hyphen = StringBuilder()                // 하이픈
-    var hyphen_num = AppProperties.HYPHEN_NUM   // 하이픈 개수
-    var font_size = AppProperties.FONT_SIZE
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        for (i in 1..hyphen_num) {
-            hyphen.append("-")
-        }
 
         selectTab(binding.tvOrder)
 
@@ -74,6 +65,19 @@ class ByHistoryActivity: BaseActivity() {
         setOrderAdapter()
         setReservAdapter()
         setCallAdapter()
+
+        when (MyApplication.store.fontsize) {
+            1 -> {
+                AppProperties.RT_ONE_LINE = AppProperties.RT_ONE_LINE_BIG
+                AppProperties.RT_PRODUCT = AppProperties.RT_PRODUCT_BIG
+                AppProperties.RT_QTY = AppProperties.RT_QTY_BIG
+            }
+            2 -> {
+                AppProperties.RT_ONE_LINE = AppProperties.RT_ONE_LINE_SMALL
+                AppProperties.RT_PRODUCT = AppProperties.RT_PRODUCT_SMALL
+                AppProperties.RT_QTY = AppProperties.RT_QTY_SMALL
+            }
+        }
 
         binding.rv.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false)
         binding.rv.adapter = orderAdapter
@@ -196,7 +200,7 @@ class ByHistoryActivity: BaseActivity() {
         })
 
         adapter.setOnPrintClickListener(object: ItemClickListener {
-            override fun onItemClick(position: Int) {print(list[position])}
+            override fun onItemClick(position: Int) {print(list[position], mActivity)}
         })
 
         adapter.setOnTableNoListener(object: ItemClickListener {
@@ -255,7 +259,7 @@ class ByHistoryActivity: BaseActivity() {
         })
 
         orderAdapter.setOnPrintClickListener(object: ItemClickListener {
-            override fun onItemClick(position: Int) {print(orderList[position])}
+            override fun onItemClick(position: Int) {print(orderList[position], mActivity)}
         })
     }
 
@@ -289,7 +293,7 @@ class ByHistoryActivity: BaseActivity() {
         })
 
         reservAdapter.setOnPrintClickListener(object: ItemClickListener {
-            override fun onItemClick(position: Int) {print(reservList[position])}
+            override fun onItemClick(position: Int) {print(reservList[position], mActivity)}
         })
 
         reservAdapter.setOnTableNoListener(object: ItemClickListener {
@@ -333,6 +337,7 @@ class ByHistoryActivity: BaseActivity() {
     // 주문 목록 조회
     fun getOrderList() {
         loadingDialog.show(supportFragmentManager)
+
         ApiClient.service.getOrderList(useridx, storeidx).enqueue(object: Callback<OrderListDTO> {
             override fun onResponse(call: Call<OrderListDTO>, response: Response<OrderListDTO>) {
                 Log.d(TAG, "주문 목록 조회 url : $response")
@@ -658,111 +663,5 @@ class ByHistoryActivity: BaseActivity() {
                     Log.d(TAG, "예약 확인 실패 > ${call.request()}")
                 }
             })
-    }
-
-    // 주문 프린트
-    fun print(order: OrderHistoryDTO) {
-        val pOrderDt = order.regdt
-        val pTableNo = order.tableNo
-        val pOrderNo = order.ordcode
-
-        if(MyApplication.bluetoothPort.isConnected){
-            MyApplication.escposPrinter.printAndroidFont(
-                MyApplication.store.name,
-                AppProperties.FONT_WIDTH,
-                AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            MyApplication.escposPrinter.printAndroidFont("주문날짜 : $pOrderDt",
-                AppProperties.FONT_WIDTH,
-                AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            MyApplication.escposPrinter.printAndroidFont("주문번호 : $pOrderNo",
-                AppProperties.FONT_WIDTH,
-                AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            MyApplication.escposPrinter.printAndroidFont("테이블번호 : $pTableNo",
-                AppProperties.FONT_WIDTH,
-                AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            MyApplication.escposPrinter.printAndroidFont(
-                AppProperties.TITLE_MENU,
-                AppProperties.FONT_WIDTH,
-                AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            MyApplication.escposPrinter.printAndroidFont(hyphen.toString(),
-                AppProperties.FONT_WIDTH, font_size, ESCPOSConst.LK_ALIGNMENT_LEFT)
-
-            order.olist.forEach {
-                val pOrder = AppHelper.getPrint(it)
-                MyApplication.escposPrinter.printAndroidFont(pOrder,
-                    AppProperties.FONT_WIDTH, font_size, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            }
-
-            if(order.reserType > 0 && order.rlist.isNotEmpty()) {
-                val reserv = order.rlist[0]
-
-                MyApplication.escposPrinter.lineFeed(2)
-
-                MyApplication.escposPrinter.printAndroidFont("전화번호",
-                    AppProperties.FONT_WIDTH,
-                    20, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                MyApplication.escposPrinter.printAndroidFont(reserv.tel,
-                    AppProperties.FONT_WIDTH,
-                    33, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                MyApplication.escposPrinter.printAndroidFont("예약자명",
-                    AppProperties.FONT_WIDTH,
-                    20, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                MyApplication.escposPrinter.printAndroidFont(reserv.name,
-                    AppProperties.FONT_WIDTH,
-                    33, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                MyApplication.escposPrinter.printAndroidFont("요청사항",
-                    AppProperties.FONT_WIDTH,
-                    20, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                MyApplication.escposPrinter.printAndroidFont(reserv.memo,
-                    AppProperties.FONT_WIDTH,
-                    33, ESCPOSConst.LK_ALIGNMENT_LEFT)
-
-                var str = ""
-                when(order.reserType) {
-                    1 -> str = "매장"
-                    2 -> str = "포장"
-                }
-                MyApplication.escposPrinter.printAndroidFont(
-                    String.format(getString(R.string.reserv_date), str),
-                    AppProperties.FONT_WIDTH,
-                    20, ESCPOSConst.LK_ALIGNMENT_LEFT)
-
-                MyApplication.escposPrinter.printAndroidFont(reserv.reserdt,
-                    AppProperties.FONT_WIDTH,
-                    33, ESCPOSConst.LK_ALIGNMENT_LEFT)
-            }
-
-            MyApplication.escposPrinter.lineFeed(4)
-            MyApplication.escposPrinter.cutPaper()
-        }
-
-        //SAM4S
-//        MyApplication.cubeBuilder.createCommandBuffer()
-//        MyApplication.cubeBuilder.addText("${MyApplication.store.name}\n")
-//        MyApplication.cubeBuilder.addText("주문날짜 : $pOrderDt\n")
-//        MyApplication.cubeBuilder.addText("주문번호 : $pOrderNo\n")
-//        MyApplication.cubeBuilder.addText("테이블번호 : $pTableNo\n")
-//        MyApplication.cubeBuilder.addText(AppProperties.TITLE_MENU_SAM4S)
-//        MyApplication.cubeBuilder.addText(hyphen.toString())
-//
-//        orderList[position].olist.forEach {
-//            val pOrder = AppHelper.getSam4sPrint(it)
-//            MyApplication.cubeBuilder.addText("$pOrder\n")
-//        }
-//        MyApplication.cubeBuilder.addFeedLine(4)
-//        MyApplication.cubeBuilder.addCut(Sam4sBuilder.CUT_NO_FEED)
-//
-//        //send builder data
-//        try {
-//            //cl_Menu.mPrinter.sendData(builder);
-//            MyApplication.INSTANCE.mPrinterConnection?.sendData(MyApplication.cubeBuilder)
-//            MyApplication.cubeBuilder.clearCommandBuffer()
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//
-//        if(AppHelper.checkCubeConn(mActivity) == 1) {
-//
-//        }
     }
 }

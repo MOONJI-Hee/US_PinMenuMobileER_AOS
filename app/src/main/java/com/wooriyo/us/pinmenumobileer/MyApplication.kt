@@ -13,30 +13,18 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.view.WindowManager
-import com.sam4s.printer.Sam4sBuilder
+import com.rt.printerlibrary.factory.printer.ThermalPrinterFactory
+import com.rt.printerlibrary.printer.RTPrinter
+import com.rt.printerlibrary.printer.ThermalPrinter
 import com.sewoo.jpos.printer.ESCPOSPrinter
 import com.sewoo.port.android.BluetoothPort
-import com.wooriyo.us.pinmenumobileer.R
 import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.model.SharedDTO
 import com.wooriyo.us.pinmenumobileer.model.StoreDTO
-import com.wooriyo.us.pinmenumobileer.printer.sam4s.PrinterConnection
 
 class MyApplication: Application() {
-
-    //Sam4s 프린터 관련
-    lateinit var mPrinterConnection: PrinterConnection
-
     init {
         INSTANCE = this
-    }
-
-    fun getPrinterConnection(): PrinterConnection?{
-        return mPrinterConnection
-    }
-
-    fun setPrinterConnection(connection: PrinterConnection) {
-        mPrinterConnection = connection
     }
 
     companion object {
@@ -55,30 +43,32 @@ class MyApplication: Application() {
         lateinit var appver : String
         lateinit var md : String
 
-        var useridx = 0
-        var storeidx = 0
         lateinit var store: StoreDTO
         lateinit var androidId : String
         val storeList = ArrayList<StoreDTO>()
+        var useridx = 0
+        var storeidx = 0
         var engStoreName = ""
+        var manualPdf = ""                    // 사용설명서 경로
 
-        // 블루투스 관련 변수
+        // 블루투스 관련 객체 (영수증 프린터 연결)
         lateinit var bluetoothManager: BluetoothManager
         lateinit var bluetoothAdapter: BluetoothAdapter
+        lateinit var pairedDevices: ArrayList<BluetoothDevice>  // 페어링 기기 목록
+        lateinit var remoteDevices: ArrayList<BluetoothDevice>  // 연결 가능한 기기 목록 (페어링 + 검색 기기)
+        var btThread: Thread? = null                            // 블루투스 기기 검색 / 연결 시 사용 쓰레드
+
+        // RP325
+        lateinit var rtPrinter: RTPrinter<ThermalPrinter>
+        val currentCmdType: Int = 1         // CMD_ESC
+        val currentConnectType: Int = 1     // CON_BLUETOOTH
 
         //세우전자 프린터 관련
-        lateinit var remoteDevices: ArrayList<BluetoothDevice>  // 페어링 된 기기 중 세우전자 프린터 리스트
         lateinit var bluetoothPort: BluetoothPort
-        lateinit var escposPrinter : ESCPOSPrinter
-        var btThread: Thread? = null
+        lateinit var escposPrinter: ESCPOSPrinter
         var connDev_sewoo = "00:00:00:00:00:00"
 
-        //SAM4S 프린터 관련
-        lateinit var cubeBuilder: Sam4sBuilder
-
-        var bidx = 0    //프린터 설정 시 부여되는 idx (기기별 매장 하나 당 한개씩 부여)
-
-        var manualPdf = ""  // 사용설명서 경로
+        var bidx = 0    //프린터 설정 시 부여되는 idx
 
         fun setStoreDTO() {
             store = StoreDTO(useridx)
@@ -114,21 +104,19 @@ class MyApplication: Application() {
         //블루투스
         bluetoothManager = this.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager.adapter
+        pairedDevices = ArrayList()
+        remoteDevices = ArrayList()
 
-        //세우전자
-        remoteDevices = ArrayList<BluetoothDevice>()
+        // RP325 프린터
+        val printerFactory = ThermalPrinterFactory()
+        rtPrinter = printerFactory.create() as RTPrinter<ThermalPrinter>
+
+        // 세우전자 프린터
         bluetoothPort = BluetoothPort.getInstance()
         bluetoothPort.SetMacFilter(false)
-
         escposPrinter = ESCPOSPrinter()
 
-        //SAM4S
-        mPrinterConnection = PrinterConnection(applicationContext, 0)
-        cubeBuilder = Sam4sBuilder("GCube-100", Sam4sBuilder.LANG_KO)
-        cubeBuilder.addTextSize(1, 1)
-        cubeBuilder.addFeedLine(1)
-        cubeBuilder.addTextStyle(false, false, false, Sam4sBuilder.COLOR_1)
-
+        // FCM 채널 생성
         createNotificationChannel()
 
         super.onCreate()

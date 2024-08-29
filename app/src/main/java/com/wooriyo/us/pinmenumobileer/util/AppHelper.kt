@@ -1,6 +1,7 @@
 package com.wooriyo.us.pinmenumobileer.util
 
 import android.app.Activity
+import android.bluetooth.BluetoothClass
 import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.graphics.Outline
@@ -14,23 +15,32 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.INPUT_METHOD_SERVICE
 import androidx.recyclerview.widget.RecyclerView
-import com.sam4s.io.ethernet.SocketInfo
-import com.sam4s.printer.Sam4sFinder
+import com.rt.printerlibrary.cmd.Cmd
+import com.rt.printerlibrary.cmd.EscFactory
+import com.rt.printerlibrary.enumerate.CommonEnum
+import com.rt.printerlibrary.enumerate.ConnectStateEnum
+import com.rt.printerlibrary.enumerate.ESCFontTypeEnum
+import com.rt.printerlibrary.enumerate.SettingEnum
+import com.rt.printerlibrary.factory.cmd.CmdFactory
+import com.rt.printerlibrary.setting.CommonSetting
+import com.rt.printerlibrary.setting.TextSetting
+import com.sewoo.jpos.command.ESCPOSConst
 import com.wooriyo.us.pinmenumobileer.MyApplication
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.appver
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.bluetoothAdapter
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.connDev_sewoo
+import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.pairedDevices
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.remoteDevices
 import com.wooriyo.us.pinmenumobileer.R
 import com.wooriyo.us.pinmenumobileer.config.AppProperties
-import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.BT_PRINTER
 import com.wooriyo.us.pinmenumobileer.model.OrderDTO
+import com.wooriyo.us.pinmenumobileer.model.OrderHistoryDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
-import com.wooriyo.us.pinmenumobileer.printer.sam4s.EthernetConnection
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import java.io.UnsupportedEncodingException
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.time.LocalDate
@@ -233,56 +243,417 @@ class AppHelper {
             MyApplication.bluetoothAdapter.startDiscovery()
         }
 
-        // 블루투스 연결
-        fun connDevice(position: Int): Int {
-            var retVal: Int = -1
-
-            Log.d("AppHelper", "블루투스 기기 커넥트")
-            Log.d("AppHelper", "remote 기기 > $remoteDevices")
-
-            if(remoteDevices.isNotEmpty()) {
-                val connDvc = remoteDevices[position]
-                Log.d("AppHelper", "connDvc >> $connDvc")
-
-                try {
-                    MyApplication.bluetoothPort.connect(connDvc)
-                    retVal = Integer.valueOf(0)
-                    connDev_sewoo = remoteDevices[position].address
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    retVal = Integer.valueOf(-1)
-                }
-            }else {
-                retVal = -2
-            }
-            return retVal
-        }
-
         // 페어링 된 기기 찾기
         fun getPairedDevice() : Int {
             Log.d("AppHelper", "getPairedDevice 시작")
+            pairedDevices.clear()
             remoteDevices.clear()
 
-            val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
-            pairedDevices?.forEach { device ->
-//            val deviceName = device.name
-                val deviceHardwareAddress = device.address // MAC address
-
-                if(MyApplication.bluetoothPort.isValidAddress(deviceHardwareAddress)) {
+            val foundDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
+            foundDevices?.forEach { device ->
+                if(MyApplication.bluetoothPort.isValidAddress(device.address)) {
                     val deviceNum = device.bluetoothClass.majorDeviceClass
 
-                    if(deviceNum == BT_PRINTER) {
+                    if(deviceNum == BluetoothClass.Device.Major.IMAGING) {
+                        pairedDevices.add(device)
                         remoteDevices.add(device)
                     }
                 }
             }
-            Log.d("AppHelper", "페어링된 기기 목록 >>$remoteDevices")
+            Log.d("AppHelper", "페어링된 기기 목록 >> $pairedDevices")
 
-            return if(remoteDevices.isNotEmpty()) 1 else 0
+            return if(pairedDevices.isNotEmpty()) 1 else 0
+        }
+
+        fun print(order: OrderHistoryDTO, context: Context) {
+            if (MyApplication.rtPrinter.getPrinterInterface() != null && MyApplication.rtPrinter.connectState == ConnectStateEnum.Connected) {
+                if(MyApplication.store.kitchen == "Y") printRT(order, context)
+                if(MyApplication.store.receipt == "Y") printReceipt(order)
+            }
+            if(MyApplication.bluetoothPort.isConnected) {
+                printSewoo(order, context)
+            }
+        }
+
+        fun printRT(order: OrderHistoryDTO, context: Context) {
+            val hyphen = StringBuilder()
+
+            for (i in 1..48) {
+                hyphen.append("-")
+            }
+
+            val escFac : CmdFactory = EscFactory()
+            val escCmd : Cmd = escFac.create()
+            escCmd.chartsetName = "UTF-8"
+
+            val defaultText = TextSetting().apply {
+                align = CommonEnum.ALIGN_LEFT
+            }
+
+            val smallText = TextSetting().apply {
+                escFontType = ESCFontTypeEnum.FONT_A_12x24
+                align = CommonEnum.ALIGN_LEFT
+                isEscSmallCharactor = SettingEnum.Enable
+            }
+
+            val textSetting = TextSetting().apply {
+                escFontType = ESCFontTypeEnum.FONT_A_12x24
+                align = CommonEnum.ALIGN_LEFT
+            }
+
+            var title = "Product                                     Qty"
+
+            if(MyApplication.store.fontsize == 1) {
+                textSetting.doubleWidth = SettingEnum.Enable
+                title = "Product              Qty"
+            }
+
+            try {
+                escCmd.append(escCmd.getTextCmd(textSetting, MyApplication.store.name))
+                escCmd.append(escCmd.lfcrCmd)
+                escCmd.append(escCmd.getTextCmd(textSetting, "Order Date : ${order.regdt}"))
+                escCmd.append(escCmd.lfcrCmd)
+                escCmd.append(escCmd.getTextCmd(textSetting, "Order No   : ${order.ordcode}"))
+                escCmd.append(escCmd.lfcrCmd)
+                escCmd.append(escCmd.getTextCmd(textSetting, "Table No   : ${order.tableNo}\n"))
+                escCmd.append(escCmd.lfcrCmd)
+
+                escCmd.append(escCmd.getTextCmd(textSetting, title))
+                escCmd.append(escCmd.lfcrCmd)
+
+                escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
+                escCmd.append(escCmd.lfcrCmd)
+
+                order.olist.forEach {
+                    val pOrder = AppHelper.getPrintRT(it)
+                    escCmd.append(escCmd.getTextCmd(textSetting, pOrder))
+                    escCmd.append(escCmd.lfcrCmd)
+                    escCmd.append(escCmd.getTextCmd(smallText, "\n"))
+                }
+
+                if(order.paytype == 3) {
+                    escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
+                    escCmd.append(escCmd.lfcrCmd)
+                    defaultText.doubleHeight = SettingEnum.Enable
+                    escCmd.append(escCmd.getTextCmd(defaultText, "Complete payment"))
+                    defaultText.doubleHeight = SettingEnum.Disable
+                    escCmd.append(escCmd.lfcrCmd)
+                }
+
+                if(order.reserType > 0 && order.rlist.isNotEmpty()) {
+                    val reserv = order.rlist[0]
+
+                    escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
+                    escCmd.append(escCmd.lfcrCmd)
+
+                    escCmd.append(escCmd.getTextCmd(smallText, "Phone Num"))
+                    escCmd.append(escCmd.lfcrCmd)
+
+                    escCmd.append(escCmd.getTextCmd(textSetting, reserv.tel))
+                    escCmd.append(escCmd.lfcrCmd)
+
+                    escCmd.append(escCmd.getTextCmd(smallText, "Res. Name"))
+                    escCmd.append(escCmd.lfcrCmd)
+
+                    escCmd.append(escCmd.getTextCmd(textSetting, reserv.name))
+                    escCmd.append(escCmd.lfcrCmd)
+
+                    if(reserv.memo.isNotEmpty()) {
+                        escCmd.append(escCmd.getTextCmd(smallText, "Request"))
+                        escCmd.append(escCmd.lfcrCmd)
+
+                        escCmd.append(escCmd.getTextCmd(textSetting, reserv.memo))
+                        escCmd.append(escCmd.lfcrCmd)
+                    }
+
+                    var str = ""
+                    when(order.reserType) {
+                        1 -> str = "Store"
+                        2 -> str = "To-go"
+                    }
+
+                    escCmd.append(escCmd.getTextCmd(smallText, String.format(context.getString(R.string.reserv_date), str)))
+                    escCmd.append(escCmd.lfcrCmd)
+
+                    escCmd.append(escCmd.getTextCmd(textSetting, reserv.reserdt))
+                    escCmd.append(escCmd.lfcrCmd)
+                }
+
+                escCmd.append(escCmd.cmdCutNew)
+
+                MyApplication.rtPrinter.writeMsgAsync(escCmd.appendCmds)
+
+            } catch (e : UnsupportedEncodingException) {
+                e.printStackTrace()
+                Log.d("AppHelper", "Exception > $e")
+
+            }
+        }
+
+        // 주문내역(상세내역) 영수증 형태 String으로 받기 - RTP325
+        fun getPrintRT(ord: OrderDTO) : String {
+            val oneLine = AppProperties.RT_ONE_LINE
+            val productLine = AppProperties.RT_PRODUCT
+            val qtyLine = AppProperties.RT_QTY
+
+            val result: StringBuilder = StringBuilder()
+            val underline1 = StringBuilder()
+            val underline2 = StringBuilder()
+            val underline3 = StringBuilder()
+
+            var total = 1
+            ord.name.forEach {
+                if (total <= productLine)
+                    result.append(it)
+                else if (total <= (productLine * 2))
+                    underline1.append(it)
+                else if (total <= (productLine * 3))
+                    underline2.append(it)
+                else
+                    underline3.append(it)
+
+                total++
+            }
+
+            val diff1 = productLine - (result.toString().length)
+            for(i in 1..diff1) {
+                result.append(" ")
+            }
+
+            result.append(" ")
+
+            if (ord.gea < 100) result.append(" ")
+
+            result.append(ord.gea)
+
+            if(ord.gea < 10) result.append(" ")
+
+            if (underline1.toString() != "")
+                result.append("\r$underline1")
+
+            if (underline2.toString() != "")
+                result.append("\r$underline2")
+
+            if(!ord.opt.isNullOrEmpty()) {
+                ord.opt.forEach {
+                    result.append("\n -$it")
+                }
+            }
+
+            return result.toString()
+        }
+
+        fun printReceipt(order: OrderHistoryDTO) {
+            val escFac : CmdFactory = EscFactory()
+            val escCmd : Cmd = escFac.create()
+            escCmd.chartsetName = "UTF-8"
+
+            val defaultText = TextSetting().apply {
+                align = CommonEnum.ALIGN_LEFT
+            }
+
+            val smallText = TextSetting().apply {
+                escFontType = ESCFontTypeEnum.FONT_A_12x24
+                align = CommonEnum.ALIGN_LEFT
+                isEscSmallCharactor = SettingEnum.Enable
+            }
+
+            val titleSetting = TextSetting().apply {
+                escFontType = ESCFontTypeEnum.FONT_A_12x24
+                align = CommonEnum.ALIGN_MIDDLE
+                doubleWidth = SettingEnum.Enable
+                doubleHeight = SettingEnum.Enable
+            }
+
+            val hyphen = StringBuilder()
+
+            for (i in 1..48) {
+                hyphen.append("-")
+            }
+
+            try {
+                // title (매장 이름, 매장 번호)
+                escCmd.append(escCmd.getTextCmd(titleSetting, MyApplication.store.name))
+                escCmd.append(escCmd.lfcrCmd)
+                escCmd.append(escCmd.getTextCmd(titleSetting, MyApplication.store.tel))
+                escCmd.append(escCmd.lfcrCmd)
+                // 주문 날짜
+                escCmd.append(escCmd.getTextCmd(defaultText, order.regdt))
+                escCmd.append(escCmd.lfcrCmd)
+                // 하이픈
+                escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
+                escCmd.append(escCmd.lfcrCmd)
+
+                // 주문내역
+                order.olist.forEach {
+                    val pOrder = getReceiptPrint(it)
+                    escCmd.append(escCmd.getTextCmd(defaultText, pOrder))
+                    escCmd.append(escCmd.lfcrCmd)
+                    escCmd.append(escCmd.getTextCmd(smallText, "\n"))
+                }
+
+                // 하이픈
+                escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
+                escCmd.append(escCmd.lfcrCmd)
+                // 가격
+                escCmd.append(escCmd.getTextCmd(defaultText, "SubTotal : $${order.amount}"))
+                escCmd.append(escCmd.lfcrCmd)
+                escCmd.append(escCmd.getTextCmd(defaultText, "Tip : $${order.tip}"))
+                escCmd.append(escCmd.lfcrCmd)
+                escCmd.append(escCmd.getTextCmd(defaultText, "Tax : $${order.tax}"))
+                escCmd.append(escCmd.lfcrCmd)
+                // 총 가격
+                escCmd.append(escCmd.getTextCmd(titleSetting, "Total : $${order.total_price}"))
+                escCmd.append(escCmd.lfcrCmd)
+
+                escCmd.append(escCmd.cmdCutNew)
+
+                MyApplication.rtPrinter.writeMsgAsync(escCmd.appendCmds)
+
+            } catch (e : UnsupportedEncodingException) {
+                e.printStackTrace()
+                Log.d("AppHelper", "Exception > $e")
+            }
+        }
+
+        // 주문내역(상세내역) 영수증 형태 String으로 받기 - RTP325
+        fun getReceiptPrint(ord: OrderDTO) : String {
+            val productLine = 40
+            val amtLine = 6
+
+            val result: StringBuilder = StringBuilder()
+            val underline1 = StringBuilder()
+            val underline2 = StringBuilder()
+            val underline3 = StringBuilder()
+
+            var total = 1
+            ord.name.forEach {
+                if (total <= productLine)
+                    result.append(it)
+                else if (total <= (productLine * 2))
+                    underline1.append(it)
+                else if (total <= (productLine * 3))
+                    underline2.append(it)
+                else
+                    underline3.append(it)
+
+                total++
+            }
+
+            val diff1 = productLine - (result.toString().length)
+            for(i in 1..diff1) {
+                result.append(" ")
+            }
+
+            result.append(" ")
+
+            val diff2 = amtLine - ord.amount.toString().length
+            for(i in 1..diff2) {
+                result.append(" ")
+            }
+            result.append("$")
+            result.append(ord.amount)
+
+            if (underline1.toString() != "")
+                result.append("\r$underline1")
+
+            if (underline2.toString() != "")
+                result.append("\r$underline2")
+
+            if(!ord.opt.isNullOrEmpty()) {
+                ord.opt.forEach {
+                    result.append("\n -$it")
+                }
+            }
+
+            return result.toString()
+        }
+
+        // 주문 프린트
+        fun printSewoo(order: OrderHistoryDTO, context: Context) {
+            val hyphen = StringBuilder()                // 하이픈
+
+            for (i in 1..AppProperties.HYPHEN_NUM) {
+                hyphen.append("-")
+            }
+
+            val pOrderDt = order.regdt
+            val pTableNo = order.tableNo
+            val pOrderNo = order.ordcode
+
+            if(MyApplication.bluetoothPort.isConnected){
+                MyApplication.escposPrinter.printAndroidFont(
+                    MyApplication.store.name,
+                    AppProperties.FONT_WIDTH,
+                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                MyApplication.escposPrinter.printAndroidFont("Order Date : $pOrderDt",
+                    AppProperties.FONT_WIDTH,
+                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                MyApplication.escposPrinter.printAndroidFont("Order No : $pOrderNo",
+                    AppProperties.FONT_WIDTH,
+                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                MyApplication.escposPrinter.printAndroidFont("Table No : $pTableNo",
+                    AppProperties.FONT_WIDTH,
+                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                MyApplication.escposPrinter.printAndroidFont(
+                    AppProperties.TITLE_MENU,
+                    AppProperties.FONT_WIDTH,
+                    AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                MyApplication.escposPrinter.printAndroidFont(hyphen.toString(),
+                    AppProperties.FONT_WIDTH, AppProperties.FONT_SIZE, ESCPOSConst.LK_ALIGNMENT_LEFT)
+
+                order.olist.forEach {
+                    val pOrder = getPrintSewoo(it)
+                    MyApplication.escposPrinter.printAndroidFont(pOrder,
+                        AppProperties.FONT_WIDTH, AppProperties.FONT_SIZE, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                }
+
+                if(order.reserType > 0 && order.rlist.isNotEmpty()) {
+                    val reserv = order.rlist[0]
+
+                    MyApplication.escposPrinter.lineFeed(2)
+
+                    MyApplication.escposPrinter.printAndroidFont("Phone Num",
+                        AppProperties.FONT_WIDTH,
+                        20, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                    MyApplication.escposPrinter.printAndroidFont(reserv.tel,
+                        AppProperties.FONT_WIDTH,
+                        33, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                    MyApplication.escposPrinter.printAndroidFont("Res. Name",
+                        AppProperties.FONT_WIDTH,
+                        20, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                    MyApplication.escposPrinter.printAndroidFont(reserv.name,
+                        AppProperties.FONT_WIDTH,
+                        33, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                    MyApplication.escposPrinter.printAndroidFont("Request",
+                        AppProperties.FONT_WIDTH,
+                        20, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                    MyApplication.escposPrinter.printAndroidFont(reserv.memo,
+                        AppProperties.FONT_WIDTH,
+                        33, ESCPOSConst.LK_ALIGNMENT_LEFT)
+
+                    var str = ""
+                    when(order.reserType) {
+                        1 -> str = "Store"
+                        2 -> str = "To-go"
+                    }
+                    MyApplication.escposPrinter.printAndroidFont(
+                        String.format(context.getString(R.string.reserv_date), str),
+                        AppProperties.FONT_WIDTH,
+                        20, ESCPOSConst.LK_ALIGNMENT_LEFT)
+
+                    MyApplication.escposPrinter.printAndroidFont(reserv.reserdt,
+                        AppProperties.FONT_WIDTH,
+                        33, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                }
+
+                MyApplication.escposPrinter.lineFeed(4)
+                MyApplication.escposPrinter.cutPaper()
+            }
         }
 
         // 주문내역(상세내역) 영수증 형태 String으로 받기 - 세우전자
-        fun getPrint(ord: OrderDTO) : String {
+        fun getPrintSewoo(ord: OrderDTO) : String {
             var one_line = AppProperties.ONE_LINE_BIG
             var space = AppProperties.SPACE
 
@@ -391,187 +762,5 @@ class AppHelper {
             return 1.0
         }
 
-        // 주문내역(상세내역) 영수증 형태 String으로 받기 - SAM4S
-//        fun getSam4sPrint(ord: OrderDTO) : String {
-//            var hangul_size = AppProperties.HANGUL_SIZE_SAM4S
-//            var one_line = AppProperties.ONE_LINE_SAM4S
-//            var space = AppProperties.SPACE_SAM4S
-//
-//            var total = 0.0
-//
-//            val result: StringBuilder = StringBuilder()
-//            val underline1 = StringBuilder()
-//            val underline2 = StringBuilder()
-//
-//            ord.name.forEach {
-//                if(total + hangul_size <= one_line)
-//                    result.append(it)
-//                else if(total + hangul_size <= (one_line * 2))
-//                    underline1.append(it)
-//                else
-//                    underline2.append(it)
-//
-//                if(it == ' ') {
-//                    total++
-//                }else
-//                    total += hangul_size
-//            }
-//
-//            val mlength = result.toString().length
-//            val mHangul = result.toString().replace(" ", "").length
-//            val mSpace = mlength - mHangul
-//            val mLine = mHangul * hangul_size + mSpace
-//
-//            val diff = one_line - mLine + 1
-//
-//            if (ord.gea >= 100) {
-//                space = 0
-//            }else if(ord.gea >= 10) {
-//                space = 1
-//            }
-//
-//            for(i in 1..diff) {
-//                result.append(" ")
-//            }
-//            result.append(ord.gea.toString())
-//
-//            for (i in 1..space) {
-//                result.append(" ")
-//            }
-//
-//            var togo = ""
-//            when(ord.togotype) {
-//                1-> togo = "신규"
-//                2-> togo = "포장"
-//            }
-//            result.append(togo)
-//
-//            if(underline1.toString() != "")
-//                result.append("\n$underline1")
-//
-//            if(underline2.toString() != "")
-//                result.append("\n$underline2")
-//
-//            return result.toString()
-//        }
-
-        // SAM4S 프린터기 관련 메소드
-        val finder: Sam4sFinder = Sam4sFinder()
-
-        var scheduler:ScheduledExecutorService ?= null
-        var future: ScheduledFuture<*>? = null
-
-        val cubePrinterList = ArrayList<SocketInfo>()
-
-        // 같은 ip내 GCUBE 프린터 검색
-        fun searchCube(context: Context) {
-            if (future != null) {
-                future!!.cancel(false)
-                while (!future!!.isDone) {
-                    try {
-                        Thread.sleep(500)
-                    } catch (e: java.lang.Exception) {
-                        break
-                    }
-                }
-                future = null
-            }
-            scheduler = Executors.newSingleThreadScheduledExecutor()
-            scheduler.let {
-                finder.startSearch(context, Sam4sFinder.DEVTYPE_ETHERNET)
-                future = it?.scheduleWithFixedDelay(
-                    Runnable {
-                        val list = getCubeList()
-
-                        if(list != null && list.size > 0) {
-                            cubePrinterList.clear()
-                            list.forEach { cube -> cubePrinterList.add(cube as SocketInfo) }
-//                            connectCube(context, cubeList[0] as SocketInfo)
-                        }
-                    }, 0, 500, TimeUnit.MILLISECONDS )
-            }
-        }
-
-        fun getCubeList() : ArrayList<*>? {
-            val list = finder.devices
-
-            if(list != null && list.size > 0) {
-                Log.d("AppeHelper", "device 찾음")
-                Log.d("AppeHelper", "프린터 왜 정보 안나와.. >>>> ${(list[0] as SocketInfo).address}")
-                Log.d("AppeHelper", "프린터 왜 정보 안나와.. >>>> ${(list[0] as SocketInfo).port}")
-
-                stopSearchCube()
-
-                return list
-            }else {
-                return null
-            }
-        }
-
-        fun stopSearchCube() {
-            Log.d("AppHelper", "Stop Search 들어옴")
-            if (future != null) {
-                future!!.cancel(false)
-                while (!future!!.isDone) {
-                    try {
-                        Thread.sleep(500)
-                    } catch (e: java.lang.Exception) {
-                        break
-                    }
-                }
-                future = null
-            }
-            finder.stopSearch()
-        }
-
-        fun destroySearchCube() {
-            if(future != null) {
-                future!!.cancel(false)
-                while(!future!!.isDone()) {
-                    try {
-                        Thread.sleep(500)
-                    } catch (e: Exception) {
-                        break
-                    }
-                }
-                future = null
-            }
-            scheduler?.shutdown()
-        }
-
-        fun connectCube(context: Context, info: SocketInfo) {
-            MyApplication.INSTANCE.getPrinterConnection()?.ClosePrinter()
-            val connection = EthernetConnection(context)
-//            connection.setSocketInfo(info)
-            connection.setName(info.address)
-            connection.setAdress(info.address)
-            connection.setPort(info.port)
-            connection.OpenPrinter()
-
-            Log.d("AppHelper", "Printer Status >> ${connection.getPrinterStatus()}")
-            Log.d("AppHelper", "Printer IsConnected >> ${connection.IsConnected()}")
-
-            MyApplication.INSTANCE.setPrinterConnection(connection)
-//            checkCubeConn()
-        }
-
-        // GCUBE 연결되었는지 확인, 상태 return
-        fun checkCubeConn(context: Context): Int {
-            val cube = MyApplication.INSTANCE.getPrinterConnection()
-            val connection = EthernetConnection(context)
-
-            connection.OpenPrinter()
-
-            if (connection.IsConnected()) {
-                Log.d("AppHelper", "연결됨 들어옴")
-            }
-
-            val status = connection.getPrinterStatus()?:"Null Error"
-            val name = connection.getPrinterName()?:""
-            Log.d("AppHelper", "Printer Status >> $status")
-            Log.d("AppHelper", "Printer name >> $name")
-
-            return if (status == "Printer Ready") 1 else 0
-        }
     }
 }

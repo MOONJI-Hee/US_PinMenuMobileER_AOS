@@ -113,7 +113,7 @@
     <string name="store_addr_hint">Please enter the address.</string>
     <string name="store_addr_info1">Events will be held based on the store address provided.\nPlease enter the store address accurately.</string>
     <string name="store_addr_info2">To use the Pinmenu Manager app, you must register at least one store.</string>
-    <string name="store_addr_info3">You can modify store information on a tablet PC or through the website.</string>
+    <string name="store_addr_info3">You can modify store information through a tablet PC or website.</string>
     <string name="store_reg">Store registration</string>
     <!--  매장 세부 정보  -->
     <string name="at" translatable="false"><![CDATA[@]]></string>
@@ -153,7 +153,7 @@
     <!--  카테고리 / 메뉴 삭제 다이얼로그  -->
     <string name="dialog_delete_title">Delete %s</string>
     <string name="dialog_delete_name" translatable="false">[ %s ]</string>
-    <string name="dialog_delete_confirm">%s를 삭제하시겠습니까?</string>
+    <string name="dialog_delete_confirm">Delete this %s?</string>
     <string name="category_delete_info">Pressing delete will remove all items within this category, and once deleted, they cannot be restored.</string>
     <string name="menu_delete_info">Pressing delete will erase all entered information, and once deleted, they cannot be restored.</string>
 
@@ -200,7 +200,7 @@
     <string name="printer_wifi">Wifi</string>
     <string name="printer_support_info">In the Pinmenu, printers are not provided.\nIf you have a printer that can be connected to the Pinmenu, you can use it immediately by connecting directly. If you do not have a printer that can be connected, you can purchase one and connect it for use.</string>
 
-    <string name="printer_title_conn_mng">연결 프린터 관리</string>
+    <string name="printer_title_conn_mng">Selected Printer</string>
     <string name="printer_available">Available Printers</string>
     <string name="test">Test</string>
     <string name="good">Good</string>
@@ -305,6 +305,13 @@
     <!--  설정  -->
     <string name="version_info">Version info</string>
 
+    <!--  다국어 설정  -->
+    <string name="language">Language</string>
+    <string name="title_set_language">Language Settings</string>
+    <string name="set_language_info">On smartphones, you can toggle the language settings on and off.\nYou can enter language-specific text on the Pinmenu website.\nURL : www.pinmenu.net\nPlease sign in with your Pinmenu Mgmt app ID.</string>
+
+    <!--  타임존 설정  -->
+
     <!--  Tip & Tax  -->
     <string name="tiptax">Tip &amp; Tax</string>
     <string name="tip">Tip</string>
@@ -332,6 +339,8 @@
 
     <!--  예약 정보  -->
     <string name="reserv_no">Reservation No.</string>
+<!--    <string name="reserv_store">Dine</string>-->
+<!--    <string name="reserv_togo">포장</string>-->
     <string name="reserv_paid">Prepay</string>
     <string name="reserv_tel">Phone Num</string>
     <string name="reserv_name">Res. Name</string>
@@ -351,7 +360,7 @@
     <string name="dialog_no_pg_info3">Pinmenu website ></string>
     <string name="dialog_no_pg_info4">Hamburger button ></string>
     <string name="dialog_no_pg_info5">PG Application/Management</string>
-    <string name="dialog_pg_cancel_info">Once the payment cancellation is processed, it cannot be reversed.\n(Cancellation procedures may vary depending on the credit card company)</string>
+    <string name="dialog_pg_cancel_info">Once the payment cancellation is processed,\nit cannot be reversed.\n(Cancellation procedures may vary depending on\nthe credit card company)</string>
 
     <!-- 주문 결제 -->
     <string name="dialog_complete">Would you like to proceed with completing the selected %s?</string>

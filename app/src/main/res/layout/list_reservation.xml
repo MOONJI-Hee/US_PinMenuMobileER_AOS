@@ -8,15 +8,50 @@
     android:background="@color/white">
 
     <LinearLayout
-        android:id="@+id/reservType"
-        android:layout_width="35dp"
+        android:id="@+id/typeStore"
+        android:layout_width="48dp"
         android:layout_height="48dp"
+        android:paddingStart="6dp"
+        android:paddingEnd="7dp"
+        android:background="#FC125E"
+        android:orientation="vertical"
+        android:gravity="end|center_vertical"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
-        <ImageView
-            android:id="@+id/ivReservType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <TextView
+            style="@style/text15b"
+            android:textColor="@color/white"
+            android:text="Dine" />
+        <TextView
+            style="@style/text15b"
+            android:layout_marginTop="-4dp"
+            android:textColor="@color/white"
+            android:text="-in" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/typeTogo"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:paddingTop="5dp"
+        android:paddingStart="7dp"
+        android:paddingEnd="6dp"
+        android:background="#2B9DFC"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+        <TextView
+            style="@style/text15b"
+            android:textColor="@color/white"
+            android:text="To" />
+        <TextView
+            style="@style/text15b"
+            android:layout_marginTop="-8dp"
+            android:layout_gravity="end"
+            android:textColor="@color/white"
+            android:text="-go" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +62,7 @@
         android:background="@color/main"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/reservType">
+        app:layout_constraintStart_toEndOf="@+id/typeStore">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clTableNo"
             android:layout_width="wrap_content"

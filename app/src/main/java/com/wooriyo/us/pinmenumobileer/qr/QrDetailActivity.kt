@@ -3,12 +3,14 @@ package com.wooriyo.us.pinmenumobileer.qr
 import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.CheckBox
@@ -201,21 +203,41 @@ class QrDetailActivity : BaseActivity() {
         }
         Log.d(TAG, "fileName > $fileName")
 
-        val folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
-        val filePath = "$folder/$fileName"
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+            val contentValues = ContentValues()
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
 
-        Log.d(TAG, "filePath > $filePath")
+            val path = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues) ?: return
 
-        val fos: FileOutputStream
-        try{
-            fos = FileOutputStream(File(filePath))
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos)
-            fos.close()
+            try{
+                val fos = contentResolver.openOutputStream(path) ?: return
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100, fos)
+                fos.close()
 
-            Toast.makeText(mActivity, R.string.msg_success_down, Toast.LENGTH_SHORT).show()
-        }catch (e: IOException) {
-            Toast.makeText(mActivity, R.string.msg_fail_down, Toast.LENGTH_SHORT).show()
-            e.printStackTrace()
+                Toast.makeText(mActivity, R.string.msg_success_down, Toast.LENGTH_SHORT).show()
+            }catch (e: IOException) {
+                Toast.makeText(mActivity, R.string.msg_fail_down, Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
+            }
+        }else { // oreo(8/26) 버전에서 경로 조회 / 저장 안되는 이슈로 분기 처리 > 추후 수정
+            val folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
+            val filePath = "$folder/$fileName"
+
+            Log.d(TAG, "filePath > $filePath")
+
+            val fos: FileOutputStream
+            try{
+                fos = FileOutputStream(File(filePath))
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos)
+                fos.close()
+
+                Toast.makeText(mActivity, R.string.msg_success_down, Toast.LENGTH_SHORT).show()
+            }catch (e: IOException) {
+                Toast.makeText(mActivity, R.string.msg_fail_down, Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
+            }
         }
     }
 

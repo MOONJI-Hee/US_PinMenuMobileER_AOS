@@ -16,7 +16,6 @@ import com.wooriyo.us.pinmenumobileer.listener.ItemClickListener
 import com.wooriyo.us.pinmenumobileer.model.PgResultDTO
 import com.wooriyo.us.pinmenumobileer.model.PgTableDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
-import com.wooriyo.us.pinmenumobileer.more.adapter.PgTableAdapter
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
 import org.json.JSONArray
 import org.json.JSONObject
@@ -30,7 +29,6 @@ class SetCustomerInfoActivity : BaseActivity() {
 //    val TAG = "SetCustomerInfoActivity"
 
     val tableList = ArrayList<PgTableDTO>()
-    val tableAdapter = PgTableAdapter(tableList)
 
     var bisAll = true   // 테이블 전체 선택 여부
     var tb_cnt = 0      // 테이블 개수
@@ -43,33 +41,8 @@ class SetCustomerInfoActivity : BaseActivity() {
 
         getTableList()
 
-        tableAdapter.setOnCheckClickListener(object : ItemClickListener {
-            override fun onCheckClick(position: Int, v: CheckBox, isChecked: Boolean) {
-                if(isChecked) {
-                    sel_tb_cnt++
-                    if(sel_tb_cnt == tb_cnt) {
-                        checkAll()
-                        sel_tb_cnt = 0
-                    }else if(sel_tb_cnt == 1) {
-                        bisAll = false
-                        binding.allTable.isChecked = false
-                    }
-                }else {
-                    if(sel_tb_cnt == 1) {
-                        checkAll()
-                        sel_tb_cnt = 0
-                    }else if (sel_tb_cnt > 1) {
-                        sel_tb_cnt--
-                    }
-                }
-
-                Log.d(TAG, "sel_tb_cnt >> $sel_tb_cnt")
-            }
-        })
-
         binding.run {
             rvTable.layoutManager = LinearLayoutManager(mActivity, RecyclerView.VERTICAL, false)
-            rvTable.adapter = tableAdapter
 
             useName.isChecked = store.blname == "Y"
             usePhone.isChecked = store.blphone == "Y"
@@ -91,9 +64,6 @@ class SetCustomerInfoActivity : BaseActivity() {
     }
 
     fun checkAll() {
-        if(!bisAll)
-            tableAdapter.checkAll(true)
-
         bisAll = true
         binding.allTable.isChecked = true
     }
@@ -162,7 +132,6 @@ class SetCustomerInfoActivity : BaseActivity() {
 
                         bisAll = result.blAll == "Y"
                         binding.allTable.isChecked = bisAll
-                        tableAdapter.checkAll(bisAll)
                     }
                     else -> Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
                 }

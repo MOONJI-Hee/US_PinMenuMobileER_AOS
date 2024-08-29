@@ -14,6 +14,7 @@ class LoadingDialog: BaseDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DialogLoadingBinding.inflate(layoutInflater)
+        isCancelable = false
         return binding.root
     }
 

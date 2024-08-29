@@ -44,7 +44,7 @@ class MenuStoreAdapter(val dataSet: ArrayList<StoreDTO>): RecyclerView.Adapter<M
                 if(usePay || data.paytype == 4) {
                     storeName.setTextColor(Color.BLACK)
                 }else {
-                    storeName.setTextColor(Color.parseColor("#33000000"))
+                    storeName.setTextColor(Color.parseColor("#B4B4B4"))
                 }
 
                 storeName.setOnClickListener {

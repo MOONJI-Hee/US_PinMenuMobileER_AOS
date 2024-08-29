@@ -15,7 +15,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.sewoo.request.android.RequestHandler
+import com.google.gson.Gson
+import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.pairedDevices
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.pref
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.storeList
 import com.wooriyo.us.pinmenumobileer.common.SelectStoreFragment
@@ -24,48 +25,47 @@ import com.wooriyo.us.pinmenumobileer.common.dialog.WelcomeDialog
 import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.databinding.ActivityMainBinding
 import com.wooriyo.us.pinmenumobileer.menu.SetCategoryActivity
+import com.wooriyo.us.pinmenumobileer.model.LangResultDTO
 import com.wooriyo.us.pinmenumobileer.model.PopupListDTO
+import com.wooriyo.us.pinmenumobileer.model.PrintContentDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
 import com.wooriyo.us.pinmenumobileer.more.MoreFragment
+import com.wooriyo.us.pinmenumobileer.more.SetUseLangActivity
 import com.wooriyo.us.pinmenumobileer.printer.PrinterMenuFragment
-import com.wooriyo.us.pinmenumobileer.qr.QrAgreeActivity
 import com.wooriyo.us.pinmenumobileer.qr.SetQrcodeFragment
 import com.wooriyo.us.pinmenumobileer.store.StoreListFragment
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
+import com.wooriyo.us.pinmenumobileer.util.PrinterHelper
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.POST
 
 class MainActivity : BaseActivity() {
     lateinit var binding: ActivityMainBinding
-
-    var isMain = true
-
     lateinit var thread: Thread
 
-    @RequiresApi(33)
-    val pms_noti : String = Manifest.permission.POST_NOTIFICATIONS
+    private val turnOnBluetoothResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if(it.resultCode == RESULT_OK) { checkBluetooth() }
+    }
 
     private val permissions = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
 
-    private val permissions_bt = arrayOf(
-        Manifest.permission.BLUETOOTH_CONNECT,
-        Manifest.permission.BLUETOOTH_SCAN
+    @RequiresApi(Build.VERSION_CODES.S)
+    private val permissionsBt = arrayOf(
+        Manifest.permission.BLUETOOTH_SCAN,
+        Manifest.permission.BLUETOOTH_CONNECT
     )
 
-    val goQrAgree = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//        if (it.resultCode == RESULT_OK) {
-//            goQr()
-//        }
-    }
+    @RequiresApi(33)
+    val pms_noti : String = Manifest.permission.POST_NOTIFICATIONS
 
-    private val turnOnBluetoothResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if(it.resultCode == RESULT_OK) { checkBluetooth() }
-    }
+    var isMain = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,27 +73,26 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
 
         thread = Thread(Runnable{
-            val reVal = AppHelper.getPairedDevice()
-            if(reVal == 1) {
-                val rtnVal = AppHelper.connDevice(0)
+            if(AppHelper.getPairedDevice() == 1) {
+//                val connectedPrinter = pref.getConnectedPrinter() ?: return@Runnable
 
-                if (rtnVal == 0) { // Connection success.
-                    val rh = RequestHandler()
-                    MyApplication.btThread = Thread(rh)
-                    MyApplication.btThread!!.start()
-                } else // Connection failed.
-                    Log.d("AppHelper", "블루투스 연결 실패~!")
+                pairedDevices.forEach{
+//                    if(it.address == connectedPrinter.getString("address")
+//                        && it.uuids.toString() == connectedPrinter.getString("uuids")) {
+//                        if(PrinterHelper.checkSewoo(it))
+//                            PrinterHelper.connSewoo(mActivity, it)
+//                        else
+//                            PrinterHelper.connRT(mActivity, it)
+//                    }
+                }
             }
         })
 
         val type : Int = intent.getIntExtra("type", 0)
 
-        if(type == null || type == 0) {
+        if(type == 0) {
             goMain()
         }
-//        else if(type == 1) {
-//            setNavi(binding.icPay.id)
-//        }
 
         // 알림 권한 확인
         if(MyApplication.osver >= 33) {
@@ -111,10 +110,15 @@ class MainActivity : BaseActivity() {
             icMain.setOnClickListener { goMain() }
             icMenu.setOnClickListener { setNavi(it.id) }
             icQr.setOnClickListener { setNavi(it.id) }
-//            icPrint.setOnClickListener { setNavi(it.id) }
-            icPrint.setOnClickListener { Toast.makeText(mActivity, R.string.msg_preparing, Toast.LENGTH_SHORT).show() }
+            icPrint.setOnClickListener { setNavi(it.id) }
             icMore.setOnClickListener { setNavi(it.id) }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(thread.isAlive)
+            thread.interrupt()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -123,11 +127,13 @@ class MainActivity : BaseActivity() {
         if(grantResults.isEmpty()) return
 
         when(requestCode) {
+            AppProperties.REQUEST_NOTIFICATION -> checkPermissions()
+
             AppProperties.REQUEST_ENABLE_BT -> {
                 checkBluetoothPermission()
-//                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    checkBluetooth()
-//                }
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    checkBluetooth()
+                }
             }
             AppProperties.REQUEST_LOCATION -> {
                 grantResults.forEach {
@@ -144,80 +150,6 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    // 위치 권한 확인하기
-    fun checkPermissions() {
-        val deniedPms = ArrayList<String>()
-
-        for (pms in permissions) {
-            if(ActivityCompat.checkSelfPermission(mActivity, pms) != PackageManager.PERMISSION_GRANTED) {
-                if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity, pms)) {
-                    AlertDialog.Builder(mActivity)
-                        .setTitle(R.string.pms_location_content)
-                        .setMessage(R.string.pms_location_content)
-                        .setPositiveButton(R.string.confirm) { dialog, _ ->
-                            dialog.dismiss()
-                            getLocationPms()
-                        }
-                        .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss()}
-                        .show()
-                    return
-                }else {
-                    deniedPms.add(pms)
-                }
-            }
-        }
-
-        if(deniedPms.isEmpty()) {
-            if (MyApplication.osver >= Build.VERSION_CODES.S)
-                checkBluetoothPermission()
-            else
-                checkBluetooth()
-        }else {
-            getLocationPms()
-        }
-    }
-
-    //권한 받아오기
-    fun getLocationPms() {
-        ActivityCompat.requestPermissions(mActivity, permissions, AppProperties.REQUEST_LOCATION)
-    }
-
-    fun checkBluetoothPermission() {
-        val deniedPms = ArrayList<String>()
-
-        for (pms in permissions_bt) {
-            if(ActivityCompat.checkSelfPermission(mActivity, pms) != PackageManager.PERMISSION_GRANTED) {
-                if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity, pms)) {
-                    AlertDialog.Builder(mActivity)
-                        .setTitle(R.string.pms_bluetooth_title)
-                        .setMessage(R.string.pms_bluetooth_content)
-                        .setPositiveButton(R.string.confirm) { dialog, _ ->
-                            getBluetoothPms()
-                            dialog.dismiss()
-                            return@setPositiveButton
-                        }
-                        .setNegativeButton(R.string.cancel) { dialog, _ ->
-                            dialog.dismiss()
-                            return@setNegativeButton
-                        }
-                        .show()
-                    return
-                }else
-                    deniedPms.add(pms)
-            }
-        }
-
-        if(deniedPms.isEmpty() || deniedPms.size == 0) {
-            checkBluetooth()
-        }else {
-            getBluetoothPms()
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.S)
-    fun getBluetoothPms() {
-        ActivityCompat.requestPermissions(mActivity, permissions_bt, AppProperties.REQUEST_ENABLE_BT)
-    }
 
     // SDK 33 이상에서 알림 권한 확인
     @RequiresApi(33)
@@ -249,7 +181,7 @@ class MainActivity : BaseActivity() {
         if(!MyApplication.bluetoothAdapter.isEnabled) {   // 블루투스 꺼져있음
             turnOnBluetooth()
         }else {
-            thread.start()
+            if(!thread.isAlive) thread.start()
         }
     }
 
@@ -283,15 +215,10 @@ class MainActivity : BaseActivity() {
         replace(StoreListFragment.newInstance())
     }
 
-    private fun goSelStore(type: String) {
+    fun goSelStore(type: String) {
         binding.banner.visibility = View.GONE
         replace(SelectStoreFragment.newInstance(type))
     }
-
-//    private fun goPay() {
-//        binding.ivMenu.setImageResource()
-//        replace(SetPayFragment.newInstance())
-//    }
 
     private fun goMenuSet() {
         binding.banner.visibility = View.GONE
@@ -319,15 +246,6 @@ class MainActivity : BaseActivity() {
         replace(MoreFragment.newInstance())
     }
 
-    fun checkQrAgree(position: Int) {
-//        MyApplication.store = storeList[position]
-//        MyApplication.storeidx = storeList[position].idx
-//        if(storeList[position].agree == "Y")
-//            goQr()
-//        else
-//            goQrAgree.launch(Intent(mActivity, QrAgreeActivity::class.java))
-    }
-
     private fun setNavi(id:Int) {
         if(storeList.size != 1 || id != R.id.icMenu) {
             if(isMain) {
@@ -352,16 +270,6 @@ class MainActivity : BaseActivity() {
         }
 
         when(id) {
-//            R.id.icPay -> {
-//                when(MyApplication.storeList.size) {
-//                    0 -> Toast.makeText(mActivity, R.string.msg_no_store, Toast.LENGTH_SHORT).show()
-//                    1 -> insPaySetting(0)
-//                    else ->  {
-//                        binding.ivPay.setImageResource(R.drawable.icon_card_p)
-//                        goSelStore("pay")
-//                    }
-//                }
-//            }
             R.id.icMenu -> {
                 when(storeList.size) {
                     0 -> Toast.makeText(mActivity, R.string.msg_no_store, Toast.LENGTH_SHORT).show()
@@ -379,9 +287,8 @@ class MainActivity : BaseActivity() {
             }
 
             R.id.icQr -> {
-                when(MyApplication.storeList.size) {
+                when(storeList.size) {
                     0 -> Toast.makeText(mActivity, R.string.msg_no_store, Toast.LENGTH_SHORT).show()
-//                    1 -> checkQrAgree(0)
                     1 -> goQr(0)
                     else -> {
                         binding.ivQr.setImageResource(R.drawable.icon_qr_p)
@@ -391,7 +298,7 @@ class MainActivity : BaseActivity() {
             }
 
             R.id.icPrint -> {
-                when(MyApplication.storeList.size) {
+                when(storeList.size) {
                     0 -> Toast.makeText(mActivity, R.string.msg_no_store, Toast.LENGTH_SHORT).show()
                     1 -> insPrintSetting(0)
                     else -> {
@@ -458,7 +365,7 @@ class MainActivity : BaseActivity() {
 
     fun insPaySetting(position: Int) {
         ApiClient.service.insPaySetting(
-            MyApplication.useridx, MyApplication.storeList[position].idx,
+            MyApplication.useridx, storeList[position].idx,
             MyApplication.androidId
         )
             .enqueue(object : Callback<ResultDTO>{
@@ -469,10 +376,9 @@ class MainActivity : BaseActivity() {
                     val result = response.body() ?: return
 
                     if(result.status == 1) {
-                        MyApplication.store = MyApplication.storeList[position]
-                        MyApplication.storeidx = MyApplication.storeList[position].idx
+                        MyApplication.store = storeList[position]
+                        MyApplication.storeidx = storeList[position].idx
                         MyApplication.bidx = result.bidx
-//                        goPay()
                     }else
                         Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
                 }
@@ -487,25 +393,23 @@ class MainActivity : BaseActivity() {
 
     fun insPrintSetting(position: Int) {
         ApiClient.service.insPrintSetting(
-            MyApplication.useridx, MyApplication.storeList[position].idx,
-            MyApplication.androidId
-        )
-            .enqueue(object : retrofit2.Callback<ResultDTO>{
-                override fun onResponse(call: Call<ResultDTO>, response: Response<ResultDTO>) {
+            MyApplication.useridx, storeList[position].idx, MyApplication.androidId
+        ).enqueue(object : Callback<PrintContentDTO>{
+                override fun onResponse(call: Call<PrintContentDTO>, response: Response<PrintContentDTO>) {
                     Log.d(TAG, "프린터 설정 최초 진입 시 row 추가 url : $response")
                     if(!response.isSuccessful) return
 
                     val result = response.body() ?: return
 
                     if(result.status == 1){
-                        MyApplication.store = MyApplication.storeList[position]
-                        MyApplication.storeidx = MyApplication.storeList[position].idx
-                        MyApplication.bidx = result.bidx
+                        pref.setPrintSetting(result)
+                        MyApplication.store = storeList[position]
+                        MyApplication.storeidx = storeList[position].idx
                         goPrint()
                     }else
                         Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
                 }
-                override fun onFailure(call: Call<ResultDTO>, t: Throwable) {
+                override fun onFailure(call: Call<PrintContentDTO>, t: Throwable) {
                     Toast.makeText(mActivity, R.string.msg_retry, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "프린터 설정 최초 진입 시 row 추가 오류 >> $t")
                     Log.d(TAG, "프린터 설정 최초 진입 시 row 추가 오류 >> ${call.request()}")
@@ -513,10 +417,35 @@ class MainActivity : BaseActivity() {
             })
     }
 
+    fun insLangSetting(position: Int) {
+        ApiClient.service.insLangSetting(MyApplication.useridx, storeList[position].idx).enqueue(object : Callback<LangResultDTO>{
+            override fun onResponse(call: Call<LangResultDTO>, response: Response<LangResultDTO>) {
+                Log.d(TAG, "언어 설정 페이지 진입 url : $response")
+                if(!response.isSuccessful) return
+                val result = response.body() ?: return
+
+                if(result.status == 1) {
+                    MyApplication.store = storeList[position]
+                    MyApplication.storeidx = storeList[position].idx
+
+                    val intent = Intent(mActivity, SetUseLangActivity::class.java)
+                    intent.putExtra("language", Gson().toJson(result))
+                    startActivity(intent)
+                }else
+                    Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onFailure(call: Call<LangResultDTO>, t: Throwable) {
+                Toast.makeText(mActivity, R.string.msg_retry, Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "언어 설정 페이지 진입 오류 >> $t")
+                Log.d(TAG, "언어 설정 페이지 진입 오류 >> ${call.request()}")
+            }
+        })
+    }
+
     fun checkDeviceLimit(position: Int) {
         ApiClient.service.checkDeviceLimit(
-            MyApplication.useridx, storeList[position].idx, MyApplication.pref.getToken().toString(),
-            MyApplication.androidId, 0)
+            MyApplication.useridx, storeList[position].idx, pref.getToken().toString(), MyApplication.androidId, 0)
             .enqueue(object : Callback<ResultDTO> {
                 override fun onResponse(call: Call<ResultDTO>, response: Response<ResultDTO>) {
                     Log.d(TAG, "이용자수 체크 url : $response")
@@ -538,5 +467,86 @@ class MainActivity : BaseActivity() {
                     Log.d(TAG, "이용자수 체크 오류 > ${call.request()}")
                 }
             })
+    }
+
+    // 이 밑부터 삭제 예정
+
+    // 위치 권한 확인하기
+    fun checkPermissions() {
+        val deniedPms = ArrayList<String>()
+
+        for (pms in permissions) {
+            if(ActivityCompat.checkSelfPermission(mActivity, pms) != PackageManager.PERMISSION_GRANTED) {
+                if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity, pms)) {
+                    Log.d(TAG, "Location Permission Should Show Request Permission Rationale")
+                    AlertDialog.Builder(mActivity)
+                        .setTitle(R.string.pms_location_content)
+                        .setMessage(R.string.pms_location_content)
+                        .setPositiveButton(R.string.confirm) { dialog, _ ->
+                            dialog.dismiss()
+                            getLocationPms()
+                        }
+                        .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss()}
+                        .show()
+                    return
+                }else {
+                    Log.d(TAG, "Location Permission Denied")
+                    deniedPms.add(pms)
+                }
+            }else {
+                Log.d(TAG, "Location Permission Granted")
+            }
+        }
+
+        if(deniedPms.isEmpty()) {
+            if (MyApplication.osver >= Build.VERSION_CODES.S)
+                checkBluetoothPermission()
+            else
+                checkBluetooth()
+        }else {
+            getLocationPms()
+        }
+    }
+
+    //권한 받아오기
+    fun getLocationPms() {
+        ActivityCompat.requestPermissions(mActivity, permissions, AppProperties.REQUEST_LOCATION)
+    }
+
+    fun checkBluetoothPermission() {
+        val deniedPms = ArrayList<String>()
+
+        for (pms in permissionsBt) {
+            if(ActivityCompat.checkSelfPermission(mActivity, pms) != PackageManager.PERMISSION_GRANTED) {
+                if(ActivityCompat.shouldShowRequestPermissionRationale(mActivity, pms)) {
+                    AlertDialog.Builder(mActivity)
+                        .setTitle(R.string.pms_bluetooth_title)
+                        .setMessage(R.string.pms_bluetooth_content)
+                        .setPositiveButton(R.string.confirm) { dialog, _ ->
+                            getBluetoothPms()
+                            dialog.dismiss()
+                            return@setPositiveButton
+                        }
+                        .setNegativeButton(R.string.cancel) { dialog, _ ->
+                            dialog.dismiss()
+                            return@setNegativeButton
+                        }
+                        .show()
+                    return
+                }else
+                    deniedPms.add(pms)
+            }
+        }
+
+        if(deniedPms.isEmpty() || deniedPms.size == 0) {
+            checkBluetooth()
+        }else {
+            getBluetoothPms()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    fun getBluetoothPms() {
+        ActivityCompat.requestPermissions(mActivity, permissionsBt, AppProperties.REQUEST_ENABLE_BT)
     }
 }

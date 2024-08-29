@@ -14,13 +14,11 @@ class PrinterMenuFragment : Fragment() {
     lateinit var binding: FragmentPrinterMenuBinding
     val TAG = "PrinterMenuFragment"
 
-    var cubeList : ArrayList<*> ?= null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as MainActivity).thread = Thread(Runnable{
-            val reVal = AppHelper.getPairedDevice()
-        })
+//        (activity as MainActivity).thread = Thread(Runnable{
+//            val reVal = AppHelper.getPairedDevice()
+//        })
     }
 
     override fun onCreateView(
@@ -30,21 +28,12 @@ class PrinterMenuFragment : Fragment() {
         binding = FragmentPrinterMenuBinding.inflate(layoutInflater)
 
         // 권한 확인
-        (activity as MainActivity).checkPermissions()
+//        (activity as MainActivity).checkPermissions()
 
         binding.run {
             connSet.setOnClickListener {
                 val intent = Intent(context, SetConnActivity::class.java)
-//                intent.putExtra("cubeList", cubeList)
-//                Log.d("AppeHelper", "cubeList 보냄 >> $cubeList")
                 startActivity(intent)
-//                if(MyApplication.remoteDevices.isEmpty() && cubeList.isNullOrEmpty()) {
-//                    startActivity(Intent(context, NewConnActivity::class.java))
-//                }else {
-//                    val intent = Intent(context, SetConnActivity::class.java)
-//                    intent.putExtra("cubeList", cubeList)
-//                    startActivity(intent)
-//                }
             }
             support.setOnClickListener { startActivity(Intent(context, SupportPrinterActivity::class.java)) }
             contentSet.setOnClickListener { startActivity(Intent(context, ContentSetActivity::class.java)) }
@@ -55,17 +44,14 @@ class PrinterMenuFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        AppHelper.searchCube(requireContext())
     }
 
     override fun onPause() {
         super.onPause()
-        AppHelper.stopSearchCube()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        AppHelper.destroySearchCube()
     }
 
     companion object {

@@ -50,7 +50,7 @@ class StartActivity : BaseActivity() {
     }
 
     fun loginWithApi()  {
-        ApiClient.service.checkMbr(id, pw, token, MyApplication.os, MyApplication.osver, MyApplication.appver, MyApplication.md, androidId)
+        ApiClient.service.checkMbr(id, pw, token, MyApplication.os, MyApplication.osver, appver, MyApplication.md, androidId)
             .enqueue(object: retrofit2.Callback<MemberDTO>{
                 override fun onResponse(call: Call<MemberDTO>, response: Response<MemberDTO>) {
                     Log.d(TAG, "자동 로그인 url : $response")

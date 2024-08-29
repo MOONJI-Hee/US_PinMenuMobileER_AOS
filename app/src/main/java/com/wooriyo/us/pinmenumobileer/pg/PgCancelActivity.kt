@@ -21,8 +21,6 @@ import retrofit2.Response
 
 class PgCancelActivity : BaseActivity() {
     lateinit var binding: ActivityPgCancelBinding
-//    val mActivity = this@PgCancelActivity
-//    val TAG = "PgCancelActivity"
 
     val goodsList = ArrayList<PgDetailDTO>()
     val goodsAdapter = PgGoodsAdapter(goodsList)
@@ -36,6 +34,7 @@ class PgCancelActivity : BaseActivity() {
         setContentView(binding.root)
 
         ordcode = intent.getStringExtra("ordcode") ?: ""
+        tid = intent.getStringExtra("tid") ?: ""
 
         binding.rvGoods.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
         binding.rvGoods.adapter = goodsAdapter
@@ -49,7 +48,7 @@ class PgCancelActivity : BaseActivity() {
     }
 
     fun getPgDetail() {
-        ApiClient.service.getPgDetail(MyApplication.useridx, MyApplication.storeidx, ordcode).enqueue(object: Callback<PgDetailResultDTO> {
+        ApiClient.service.getPgDetail(MyApplication.useridx, MyApplication.storeidx, ordcode, tid).enqueue(object: Callback<PgDetailResultDTO> {
             override fun onResponse(call: Call<PgDetailResultDTO>, response: Response<PgDetailResultDTO>) {
                 Log.d(TAG, "pg 결제 내역 상세 조회 url : $response")
 
@@ -64,13 +63,15 @@ class PgCancelActivity : BaseActivity() {
                         goodsAdapter.notifyDataSetChanged()
 
                         binding.run {
-                            cardInfo.text = "${result.cardname} 뒷자리 ${result.cardnum}"
+                            cardInfo.text = "${result.cardname}(${result.cardnum})"
                             price.text = AppHelper.price(result.amt)
                             regdt.text = result.pay_regdt
-                            tableNo.text = result.tableNo
+                            orderNo.text = result.orderNo
+                            subPrice.text = result.subTotal
+                            tipProp.text = result.tipPer
+                            tipPrice.text = AppHelper.price(result.tip)
+                            taxPrice.text = AppHelper.price(result.tax)
                         }
-
-                        tid = result.tid
                     }
                     else -> Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()
                 }
@@ -86,9 +87,12 @@ class PgCancelActivity : BaseActivity() {
     }
 
     fun pgCancel() {
+        loadingDialog.show(supportFragmentManager)
         ApiClient.service.cancelPG(MyApplication.useridx, MyApplication.storeidx, tid).enqueue(object : Callback<ResultDTO>{
             override fun onResponse(call: Call<ResultDTO>, response: Response<ResultDTO>) {
                 Log.d(TAG, "결제취소 URL >> $response")
+                loadingDialog.dismiss()
+
                 if (!response.isSuccessful) return
 
                 val result = response.body() ?: return
@@ -102,6 +106,7 @@ class PgCancelActivity : BaseActivity() {
             }
 
             override fun onFailure(call: Call<ResultDTO>, t: Throwable) {
+                loadingDialog.dismiss()
                 Toast.makeText(mActivity, R.string.msg_retry, Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "결제취소 오류 >> $t")
                 Log.d(TAG, "결제취소 오류 >> ${call.request()}")

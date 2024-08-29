@@ -1,8 +1,11 @@
 package com.wooriyo.us.pinmenumobileer.model
 
+import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.google.gson.JsonObject
+import org.json.JSONObject
 
 class SharedDTO(context: Context) {
     private  val pref : SharedPreferences = context.getSharedPreferences("PinMenuEE_Mobile_Pref_key", Context.MODE_PRIVATE)
@@ -48,6 +51,29 @@ class SharedDTO(context: Context) {
 
     fun setNoPopupDate(notToday: String) {
         pref.edit().putString("not_today", notToday).apply()
+    }
+
+    fun getPrintSetting() : PrintContentDTO? {
+        val json: String ?= pref.getString("printSetting", "")
+        return gson.fromJson(json, PrintContentDTO::class.java)
+    }
+
+    fun setPrintSetting(printContent: PrintContentDTO) {
+        val json = gson.toJson(printContent)
+        pref.edit().putString("printSetting", json).apply()
+    }
+
+    fun getConnectedPrinter(): JSONObject? {
+        val json: String? = pref.getString("printer", "")
+
+        return if(json.isNullOrEmpty()) null else JSONObject(json)
+    }
+
+    fun setConnectedPrinter(bluetoothDevice: BluetoothDevice) {
+        val json = JSONObject()
+        json.put("uuids", bluetoothDevice.uuids)
+        json.put("address", bluetoothDevice.address)
+        pref.edit().putString("printer", json.toString()).apply()
     }
 
     fun logout() {

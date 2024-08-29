@@ -1,137 +1,130 @@
 package com.wooriyo.us.pinmenumobileer.printer.adapter
 
+import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.rt.printerlibrary.enumerate.ConnectStateEnum
 import com.sewoo.jpos.command.ESCPOSConst
-import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.bluetoothPort
-import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.escposPrinter
+import com.wooriyo.us.pinmenumobileer.MyApplication
 import com.wooriyo.us.pinmenumobileer.R
 import com.wooriyo.us.pinmenumobileer.common.dialog.AlertDialog
-import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.FONT_BIG
-import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.FONT_SMALL
-import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.FONT_WIDTH
-import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.VIEW_TYPE_ADD
-import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.VIEW_TYPE_COM
+import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.databinding.ListPrinterBinding
-import com.wooriyo.us.pinmenumobileer.databinding.ListPrinterPlusBinding
-import com.wooriyo.us.pinmenumobileer.listener.ItemClickListener
-import com.wooriyo.us.pinmenumobileer.model.PrintDTO
 import com.wooriyo.us.pinmenumobileer.printer.DetailPrinterActivity
-import com.wooriyo.us.pinmenumobileer.printer.NewConnActivity
+import com.wooriyo.us.pinmenumobileer.printer.SetConnActivity
+import com.wooriyo.us.pinmenumobileer.util.PrinterHelper
 import java.io.IOException
 
-class PrinterAdapter(val dataSet: ArrayList<PrintDTO>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    lateinit var itemClickListener: ItemClickListener
-
-    fun setConnClickListener(itemClickListener: ItemClickListener) {
-        this.itemClickListener = itemClickListener
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+class PrinterAdapter(val dataSet: ArrayList<BluetoothDevice>): RecyclerView.Adapter<PrinterAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ListPrinterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val binding_add = ListPrinterPlusBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return if(viewType == VIEW_TYPE_COM) ViewHolder(binding, parent.context, itemClickListener) else ViewHolder_add(binding_add, parent.context)
+        return ViewHolder(binding, parent.context)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(getItemViewType(position)){
-            VIEW_TYPE_COM -> {
-                holder as ViewHolder
-                holder.bind(dataSet[position])
-            }
-            VIEW_TYPE_ADD -> {
-                holder as ViewHolder_add
-                holder.bind()
-            }
-        }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(dataSet[position])
     }
 
     override fun getItemCount(): Int {
-        return dataSet.size+1
+        return dataSet.size
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if(position == itemCount - 1) VIEW_TYPE_ADD else VIEW_TYPE_COM
-    }
+    class ViewHolder(val binding: ListPrinterBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
+        fun bind(data: BluetoothDevice) {
+            Log.d("Sewoo Adapter",  "BluetoothDevice bontState > ${data.bondState}")
+            Log.d("Sewoo Adapter",  "BluetoothDevice uuids > ${data.uuids}")
+            Log.d("Sewoo Adapter",  "BluetoothDevice bluetoothClass > ${data.bluetoothClass}")
+            Log.d("Sewoo Adapter",  "BluetoothDevice address > ${data.address}")
+            Log.d("Sewoo Adapter",  "BluetoothDevice name > ${data.name}")
+            Log.d("Sewoo Adapter",  "BluetoothDevice alias > ${data.alias}")
+            Log.d("Sewoo Adapter",  "BluetoothDevice type > ${data.type}")
 
-    class ViewHolder(val binding: ListPrinterBinding, val context: Context, val itemClickListener: ItemClickListener): RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: PrintDTO) {
-            var cmp = ""
             var img = 0
-            when(data.printType) {
-                1 -> {
-                    cmp = "세우테크"
-                    img = R.drawable.skl_ts400b
-                }
-                2-> {
-                    cmp = "세우테크"
-                    img = R.drawable.skl_te202
-                }
-                3 -> {
-                    cmp = "GCUBE"
-                    img = R.drawable.sam4s
-                }
+            var model = ""
+            val isSewoo = PrinterHelper.checkSewoo(data)
+
+            if (isSewoo) {
+                model = "SEWOO SKL-TS400B"
+                img = R.drawable.skl_ts400b
+            }else {
+                model = "RONGTA RP325"
+                img = R.drawable.rp325
             }
 
             binding.ivPrinter.setImageResource(img)
-
-            binding.model.text = "$cmp ${data.model}"
-            if(data.nick != "") {
-                binding.nick.text = data.nick
-            }
+            binding.model.text = model
+            binding.address.text = "[${data.address}]"
+            binding.nick.text = data.alias.toString()
 
             // 연결 상태에 따라 우측 버튼 및 뷰 변경
-            if(data.connected) {
+            val connStatus =
+                if(isSewoo) {
+                    MyApplication.bluetoothPort.isConnected && MyApplication.connDev_sewoo == data.address
+                }else {
+    //                MyApplication.rtPrinter.getPrinterInterface() != null && MyApplication.rtPrinter.connectState == ConnectStateEnum.Connected && MyApplication.rtPrinter.printerInterface.configObject as BluetoothDevice == data
+                    MyApplication.rtPrinter.getPrinterInterface() != null && MyApplication.rtPrinter.connectState == ConnectStateEnum.Connected
+                }
+
+            if(connStatus) {
                 binding.btnConn.visibility = View.INVISIBLE
                 binding.connNo.visibility = View.INVISIBLE
-                binding.btnClear.visibility = View.VISIBLE
+                binding.btnDisConn.visibility = View.VISIBLE
                 binding.connDot.visibility = View.VISIBLE
                 binding.connStatus.visibility = View.VISIBLE
                 binding.connStatus.text = context.getString(R.string.good)
-            }else {
-                binding.btnConn.visibility = View.VISIBLE
-                binding.connNo.visibility = View.VISIBLE
-                binding.btnClear.visibility = View.GONE
-                binding.connDot.visibility = View.GONE
-                binding.connStatus.visibility = View.GONE
-            }
 
-            binding.layout.setOnClickListener {
-                val intent = Intent(context, DetailPrinterActivity::class.java)
-                intent.putExtra("printer", data)
-                context.startActivity(intent)
-            }
-
-            binding.btnTest.setOnClickListener {
-                if(bluetoothPort.isConnected) {
+                binding.btnTest.setOnClickListener {
                     try {
-                        escposPrinter.printAndroidFont(context.getString(R.string.print_test), FONT_WIDTH, FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                        escposPrinter.printAndroidFont(context.getString(R.string.print_test), FONT_WIDTH, FONT_BIG, ESCPOSConst.LK_ALIGNMENT_LEFT)
-                        escposPrinter.lineFeed(4)
-                        escposPrinter.cutPaper()
+                        MyApplication.escposPrinter.printAndroidFont(context.getString(R.string.print_test),
+                            AppProperties.FONT_WIDTH,
+                            AppProperties.FONT_SMALL, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                        MyApplication.escposPrinter.printAndroidFont(context.getString(R.string.print_test),
+                            AppProperties.FONT_WIDTH,
+                            AppProperties.FONT_BIG, ESCPOSConst.LK_ALIGNMENT_LEFT)
+                        MyApplication.escposPrinter.lineFeed(4)
+                        MyApplication.escposPrinter.cutPaper()
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
-                }else {
+                }
+            } else {
+                binding.btnConn.visibility = View.VISIBLE
+                binding.connNo.visibility = View.VISIBLE
+                binding.btnDisConn.visibility = View.GONE
+                binding.connDot.visibility = View.GONE
+                binding.connStatus.visibility = View.GONE
+
+                binding.btnTest.setOnClickListener {
                     val fragmentActivity = context as FragmentActivity
                     AlertDialog("", context.getString(R.string.dialog_no_printer)).show(fragmentActivity.supportFragmentManager, "AlertDialog")
                 }
             }
-            binding.btnConn.setOnClickListener {
-                itemClickListener.onItemClick(adapterPosition)
-            }
-        }
-    }
 
-    class ViewHolder_add(val binding: ListPrinterPlusBinding, val context: Context): RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-            binding.plus.setOnClickListener {
-                context.startActivity(Intent(context, NewConnActivity::class.java))
+            binding.layout.setOnClickListener {
+                val intent = Intent(context, DetailPrinterActivity::class.java)
+                intent.putExtra("device", data)
+                intent.putExtra("model", model)
+                intent.putExtra("img", img)
+                context.startActivity(intent)
+            }
+
+            binding.btnConn.setOnClickListener {
+                (context as SetConnActivity).loadingDialog.show(context.supportFragmentManager)
+                (context as SetConnActivity).connPos = adapterPosition
+                if(isSewoo)
+                    PrinterHelper.connSewoo(context, MyApplication.remoteDevices[adapterPosition])
+                else
+                    PrinterHelper.connRT(context, MyApplication.remoteDevices[adapterPosition])
+            }
+
+            binding.btnDisConn.setOnClickListener {
+                // TODO 프린터 연결 해제
             }
         }
     }

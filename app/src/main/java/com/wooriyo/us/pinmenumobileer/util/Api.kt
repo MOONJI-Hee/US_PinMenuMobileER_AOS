@@ -5,9 +5,10 @@ import com.wooriyo.us.pinmenumobileer.model.CallSetListDTO
 import com.wooriyo.us.pinmenumobileer.model.CateListDTO
 import com.wooriyo.us.pinmenumobileer.model.EventDTO
 import com.wooriyo.us.pinmenumobileer.model.GoodsListDTO
+import com.wooriyo.us.pinmenumobileer.model.LangResultDTO
 import com.wooriyo.us.pinmenumobileer.model.MemberDTO
+import com.wooriyo.us.pinmenumobileer.model.OrderHistoryDTO
 import com.wooriyo.us.pinmenumobileer.model.OrderListDTO
-import com.wooriyo.us.pinmenumobileer.model.PaySettingDTO
 import com.wooriyo.us.pinmenumobileer.model.PgDetailResultDTO
 import com.wooriyo.us.pinmenumobileer.model.PgResultDTO
 import com.wooriyo.us.pinmenumobileer.model.PopupListDTO
@@ -15,13 +16,13 @@ import com.wooriyo.us.pinmenumobileer.model.PrintContentDTO
 import com.wooriyo.us.pinmenumobileer.model.PrintListDTO
 import com.wooriyo.us.pinmenumobileer.model.PrintModelListDTO
 import com.wooriyo.us.pinmenumobileer.model.QrListDTO
-import com.wooriyo.us.pinmenumobileer.model.ReceiptDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
 import com.wooriyo.us.pinmenumobileer.model.StoreListDTO
 import com.wooriyo.us.pinmenumobileer.model.TableNoListDTO
 import com.wooriyo.us.pinmenumobileer.model.TipTaxDTO
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -127,6 +128,7 @@ interface Api {
     @GET("m/store.list.php")
     fun getStoreList(
         @Query("useridx") useridx: Int,
+        @Query("uuid") androidId : String,
         @Query("storeidx") storeidx: String?="" // null일 때 처리를 위해서 여기만 String
     ): Call<StoreListDTO>
 
@@ -214,6 +216,20 @@ interface Api {
         @Query("tip4") tip4: Int,
         @Query("tax") tax: String
     ): Call<ResultDTO>
+
+    // 다국어 설정
+    @GET("m/ins_lang_setting.php")
+    fun insLangSetting(
+        @Query("useridx") useridx: Int,
+        @Query("storeidx") storeidx: Int,
+    ): Call<LangResultDTO>
+
+    @GET("m/setLanguage")
+    fun setLanguage(
+        @Query("useridx") useridx: Int,
+        @Query("storeidx") storeidx: Int,
+        @Query("lang") lang: String
+    ):Call<ResultDTO>
 
     // 카테고리 목록 조희
     @GET("m/getcategory.php")
@@ -358,7 +374,7 @@ interface Api {
     @GET("m/get.receipt.php")
     fun getReceipt(
         @Query("ordcode") ordcode: String,  // 주문 코드
-    ): Call<ReceiptDTO>
+    ): Call<OrderHistoryDTO>
 
     // 주문 완료
     @GET("m/udtCompletedOrder.php")
@@ -487,7 +503,29 @@ interface Api {
         @Query("useridx") useridx: Int,
         @Query("storeidx") storeidx: Int,
         @Query("uuid") androidId : String
-    ): Call<ResultDTO>
+    ): Call<PrintContentDTO>
+
+    // 프린터 출력 설정 불러오기
+    @GET("m/getprintinfo.php")
+    fun getPrintContentSet(
+        @Query("useridx") useridx: Int,
+        @Query("storeidx") storeidx: Int,
+        @Query("uuid") androidId : String
+    ): Call<PrintContentDTO>
+
+    // 프린터 출력 설정 하기
+    @GET("m/udt_print_setting.php")
+    fun setPrintContent(
+        @Query("useridx") useridx: Int,
+        @Query("storeidx") storeidx: Int,
+        @Query("uuid") androidId : String,
+        @Query("idx") idx: Int,
+        @Query("fontSize") fontSize: Int,   // 1: 크게 , 2 : 작게
+        @Query("kitchen") kitchen: String,  // 주방영수증 사용 여부 (Y: 사용, N: 미사용)
+        @Query("receipt") receipt: String,  // 고객영수증 사용 여부 (Y: 사용, N: 미사용)
+        @Query("ordcode") ordcode: String,  // 주문번호 사용 여부 (Y: 사용, N: 미사용)
+        @Query("cate") category: String
+    ): Call<PrintContentDTO>
 
     // 등록한 프린터 목록
     @GET("m/connect_print_list.php")
@@ -530,28 +568,6 @@ interface Api {
         @Query("blstatus") blstatus : String
     ): Call<ResultDTO>
 
-    // 프린터 출력 설정 불러오기
-    @GET("m/getprintinfo.php")
-    fun getPrintContentSet(
-        @Query("useridx") useridx: Int,
-        @Query("storeidx") storeidx: Int,
-        @Query("uuid") androidId : String
-    ): Call<PrintContentDTO>
-
-    // 프린터 출력 설정 하기
-    @GET("m/udt_print_setting.php")
-    fun setPrintContent(
-        @Query("useridx") useridx: Int,
-        @Query("storeidx") storeidx: Int,
-        @Query("uuid") androidId : String,
-        @Query("idx") idx: Int,
-        @Query("fontSize") fontSize: Int,   // 1: 크게 , 2 : 작게
-        @Query("kitchen") kitchen: String,  // 주방영수증 사용 여부 (Y: 사용, N: 미사용)
-        @Query("receipt") receipt: String,  // 고객영수증 사용 여부 (Y: 사용, N: 미사용)
-        @Query("ordcode") ordcode: String,  // 주문번호 사용 여부 (Y: 사용, N: 미사용)
-        @Query("cate") category: String
-    ): Call<PrintContentDTO>
-
     // 프린터 연결 상태값 저장
     @GET("m/udt_print_connect_status.php")
     fun setPrintConnStatus (
@@ -567,55 +583,6 @@ interface Api {
     @GET("m/ins_pay_setting.php")
     fun insPaySetting(
         @Query("useridx") useridx: Int,
-        @Query("storeidx") storeidx: Int,
-        @Query("uuid") androidId : String
-    ): Call<ResultDTO>
-
-    // 결제 설정하기
-    @GET("m/udt_pay_setting.php")
-    fun udtPaySettting(
-        @Query("useridx") useridx: Int,
-        @Query("storeidx") storeidx: Int,
-        @Query("uuid") androidId : String,
-        @Query("idx") idx: Int,             // sw_paysetting 테이블 idx
-        @Query("qrbuse") qrbuse: String,    // QR 사용 여부 (Y: 사용 , N :미사용 )
-        @Query("cardbuse") cardbuse: String // 카드결제 사용 여부 (Y: 사용 , N :미사용 )
-    ): Call<ResultDTO>
-
-    // 결제 설정 불러오기
-    @GET("m/getpayinfo.php")
-    fun getPayInfo(
-        @Query("useridx") useridx: Int,
-        @Query("storeidx") storeidx: Int,
-        @Query("uuid") androidId : String
-    ): Call<PaySettingDTO>
-
-    //나이스페이먼츠 key 설정
-    @GET("m/ins_mid_setting.php")
-    fun insMidSetting(
-        @Query("useridx") useridx: Int,
-        @Query("storeidx") storeidx: Int,
-        @Query("uuid") androidId : String,
-        @Query("idx") idx: Int,             // sw_paysetting 테이블 idx
-        @Query("mid") mid : String,         // mid (아이디)
-        @Query("sc_key") sc_key : String    // 키 값
-    ): Call<ResultDTO>
-
-    //PG 심사용 사업자등록증 정보 입력
-    @GET("m/ins_pginfo.php")
-    fun insPgInfo(
-        @Query("useridx") useridx: Int,
-        @Query("storeidx") storeidx: Int,
-        @Query("snum") snum: String,
-        @Query("storenm") storeName: String,
-        @Query("ceo") ceo: String,
-        @Query("tel") tel: String,
-        @Query("addr") addr: String,
-    ): Call<ResultDTO>
-
-    // 이행보증보험 동의
-    @GET("m/agreeQR.php")
-    fun setNiceAgree(
         @Query("storeidx") storeidx: Int,
         @Query("uuid") androidId : String
     ): Call<ResultDTO>
@@ -758,7 +725,8 @@ interface Api {
     fun getPgDetail(
         @Query("useridx") useridx: Int,
         @Query("storeidx") storeidx: Int,
-        @Query("ordcode") ordcode: String
+        @Query("ordcode") ordcode: String,
+        @Query("tid") tid: String
     ): Call<PgDetailResultDTO>
 
     // pg 결제 취소

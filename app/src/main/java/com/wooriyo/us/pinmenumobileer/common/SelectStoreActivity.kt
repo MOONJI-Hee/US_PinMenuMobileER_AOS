@@ -16,6 +16,7 @@ import com.wooriyo.us.pinmenumobileer.listener.ItemClickListener
 import com.wooriyo.us.pinmenumobileer.more.SetCustomerInfoActivity
 import com.wooriyo.us.pinmenumobileer.more.SetMenuUiActivity
 import com.wooriyo.us.pinmenumobileer.more.SetStoreImgActivity
+import com.wooriyo.us.pinmenumobileer.more.SetUseLangActivity
 import com.wooriyo.us.pinmenumobileer.more.TipTaxActivity
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
 
@@ -62,6 +63,11 @@ class SelectStoreActivity : BaseActivity() {
                         MyApplication.store = storeList[position]
                         MyApplication.storeidx = storeList[position].idx
                         startActivity(Intent(mActivity, TipTaxActivity::class.java))
+                    }
+                    "language" -> {
+                        MyApplication.store = storeList[position]
+                        MyApplication.storeidx = storeList[position].idx
+                        startActivity(Intent(mActivity, SetUseLangActivity::class.java))
                     }
                 }
 
