@@ -29,7 +29,7 @@
             app:layout_constraintTop_toBottomOf="@+id/title"/>
 
         <CheckBox
-            style="@style/check"
+            style="@style/check_text"
             android:id="@+id/visibility"
             android:layout_marginTop="15dp"
             android:textColor="@color/sub_text"

@@ -6,13 +6,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.wooriyo.us.pinmenumobileer.BaseActivity
-import com.wooriyo.us.pinmenumobileer.MainActivity
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.setStoreDTO
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.store
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.useridx
 import com.wooriyo.us.pinmenumobileer.R
 import com.wooriyo.us.pinmenumobileer.databinding.ActivityRegStoreBinding
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
+import com.wooriyo.us.pinmenumobileer.more.TimezoneActivity
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,8 +20,6 @@ import retrofit2.Response
 
 class RegStoreActivity : BaseActivity() {
     lateinit var binding: ActivityRegStoreBinding
-//    val mActivity = this@RegStoreActivity
-//    val TAG = "RegStoreActivity"
 
     var pre = ""
 
@@ -73,9 +71,10 @@ class RegStoreActivity : BaseActivity() {
                         if(resultDTO != null) {
                             if(resultDTO.status == 1) {
                                 Toast.makeText(mActivity, R.string.msg_complete, Toast.LENGTH_SHORT).show()
-                                if(pre == "signUp")
-                                    startActivity(Intent(mActivity, MainActivity::class.java))
-                                else finish()
+
+                                val intent = Intent(mActivity, TimezoneActivity::class.java)
+                                intent.putExtra("pre", pre)
+                                startActivity(intent)
                             }else {
                                 Toast.makeText(mActivity, resultDTO.msg, Toast.LENGTH_SHORT).show()
                             }

@@ -34,7 +34,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PinmenuMobileER">
         <activity
-            android:name=".PrinterActivity" />
+            android:name=".TimezoneActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity android:name=".PrinterActivity" />
         <activity
             android:name=".more.SetUseLangActivity"
             android:exported="false" />
@@ -149,9 +155,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_noti" />
+
         <service
             android:name=".fcm.MyFirebaseService"
             android:exported="false">

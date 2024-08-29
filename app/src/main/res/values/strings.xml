@@ -311,6 +311,15 @@
     <string name="set_language_info">On smartphones, you can toggle the language settings on and off.\nYou can enter language-specific text on the Pinmenu website.\nURL : www.pinmenu.net\nPlease sign in with your Pinmenu Mgmt app ID.</string>
 
     <!--  타임존 설정  -->
+    <string name="timezone">Time Zone</string>
+    <string name="timezone_title">Select a Time Zone</string>
+    <string name="timezone_eastern">Eastern Time Zone (UTC-5)</string>
+    <string name="timezone_central">Central Time Zone (UTC-6)</string>
+    <string name="timezone_mountain">Mountain Time Zone (UTC-7)</string>
+    <string name="timezone_pacific">Pacific Time Zone (UTC-8)</string>
+    <string name="timezone_alaska">Alaska Time Zone (UTC-9)</string>
+    <string name="timezone_hawaii">Hawaii Aleutian Time Zone (UTC-10)</string>
+    <string name="timezone_info">Please select a store time zone.\nOrder time will be recorded in the selected time zone.\nPlease, don’t let me choose the store time zone or make the wrong choice so that my order time goes wrong.\nTime errors are not Pinmenu responsibility.</string>
 
     <!--  Tip & Tax  -->
     <string name="tiptax">Tip &amp; Tax</string>
@@ -339,8 +348,8 @@
 
     <!--  예약 정보  -->
     <string name="reserv_no">Reservation No.</string>
-<!--    <string name="reserv_store">Dine</string>-->
-<!--    <string name="reserv_togo">포장</string>-->
+    <!--    <string name="reserv_store">Dine</string>-->
+    <!--    <string name="reserv_togo">포장</string>-->
     <string name="reserv_paid">Prepay</string>
     <string name="reserv_tel">Phone Num</string>
     <string name="reserv_name">Res. Name</string>
