@@ -17,6 +17,7 @@ import com.wooriyo.us.pinmenumobileer.more.SetCustomerInfoActivity
 import com.wooriyo.us.pinmenumobileer.more.SetMenuUiActivity
 import com.wooriyo.us.pinmenumobileer.more.SetStoreImgActivity
 import com.wooriyo.us.pinmenumobileer.more.SetUseLangActivity
+import com.wooriyo.us.pinmenumobileer.more.TimezoneActivity
 import com.wooriyo.us.pinmenumobileer.more.TipTaxActivity
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
 
@@ -68,6 +69,11 @@ class SelectStoreActivity : BaseActivity() {
                         MyApplication.store = storeList[position]
                         MyApplication.storeidx = storeList[position].idx
                         startActivity(Intent(mActivity, SetUseLangActivity::class.java))
+                    }
+                    "timezone" -> {
+                        MyApplication.store = storeList[position]
+                        MyApplication.storeidx = storeList[position].idx
+                        startActivity(Intent(mActivity, TimezoneActivity::class.java).apply{ putExtra("pre", "more")})
                     }
                 }
 

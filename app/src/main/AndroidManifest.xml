@@ -34,7 +34,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PinmenuMobileER">
         <activity
-            android:name=".TimezoneActivity"
+            android:name=".more.TimezoneActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
