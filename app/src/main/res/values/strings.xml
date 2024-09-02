@@ -273,7 +273,7 @@
     <string name="event_img_hint">Image/Photo\nRegistration</string>
     <string name="event_img_info">Recommended: 800×600 (4:3) / Max : 5MB. Without image, only description displayed.</string>
     <string name="event_exp">Event Description</string>
-    <string name="event_exp_hint">Please register within 400byte Ex)Participate in the Naver receipt review event and receive complimentary beverages.</string>
+    <string name="event_exp_hint">Please register within 400byte Ex)Participate in the receipt review event and receive a free beverages.</string>
     <string name="event_link">Link Registration</string>
     <string name="event_link_hint">Please Enter Link Address</string>
     <string name="event_link_info">When entering the link address, it will display as [Shortcut], but only active in QR orders.</string>

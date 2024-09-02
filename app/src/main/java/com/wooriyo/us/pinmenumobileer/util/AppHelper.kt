@@ -472,8 +472,10 @@ class AppHelper {
             }
 
             try {
-                // title (매장 이름, 매장 번호)
+                // title (매장 이름, 매장 주소, 매장 번호)
                 escCmd.append(escCmd.getTextCmd(titleSetting, MyApplication.store.name))
+                escCmd.append(escCmd.lfcrCmd)
+                escCmd.append(escCmd.getTextCmd(titleSetting, MyApplication.store.address))
                 escCmd.append(escCmd.lfcrCmd)
                 escCmd.append(escCmd.getTextCmd(titleSetting, MyApplication.store.tel))
                 escCmd.append(escCmd.lfcrCmd)
@@ -496,14 +498,14 @@ class AppHelper {
                 escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
                 escCmd.append(escCmd.lfcrCmd)
                 // 가격
-                escCmd.append(escCmd.getTextCmd(defaultText, "SubTotal : $${order.amount}"))
+                escCmd.append(escCmd.getTextCmd(defaultText, "SubTotal : $${price(order.amount)}"))
                 escCmd.append(escCmd.lfcrCmd)
                 escCmd.append(escCmd.getTextCmd(defaultText, "Tip : $${order.tip}"))
                 escCmd.append(escCmd.lfcrCmd)
-                escCmd.append(escCmd.getTextCmd(defaultText, "Tax : $${order.tax}"))
+                escCmd.append(escCmd.getTextCmd(defaultText, "Tax : $${order.tax}\n"))
                 escCmd.append(escCmd.lfcrCmd)
                 // 총 가격
-                escCmd.append(escCmd.getTextCmd(titleSetting, "Total : $${order.total_price}"))
+                escCmd.append(escCmd.getTextCmd(titleSetting, "Total : $${price(order.total_price)}\n"))
                 escCmd.append(escCmd.lfcrCmd)
 
                 escCmd.append(escCmd.cmdCutNew)
@@ -547,12 +549,12 @@ class AppHelper {
 
             result.append(" ")
 
-            val diff2 = amtLine - ord.amount.toString().length
+            val diff2 = amtLine - price(ord.amount).length
             for(i in 1..diff2) {
                 result.append(" ")
             }
             result.append("$")
-            result.append(ord.amount)
+            result.append(price(ord.amount))
 
             if (underline1.toString() != "")
                 result.append("\r$underline1")

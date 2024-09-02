@@ -60,7 +60,7 @@ class SetCategoryActivity : BaseActivity() {
                             cateList.clear()
                             cateList.addAll(result.cateList)
 
-                            if(cateList.size > 0) {
+                            if(cateList.size > 1) {
                                 binding.changeSeq.visibility = View.VISIBLE
                             }else
                                 binding.changeSeq.visibility = View.GONE

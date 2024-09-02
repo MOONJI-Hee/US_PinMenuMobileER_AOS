@@ -38,7 +38,6 @@
             style="@style/text15"
             android:id="@+id/tvEastern"
             android:text="@string/timezone_eastern"
-            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -46,7 +45,6 @@
             style="@style/check_big"
             android:id="@+id/radioEastern"
             android:layout_marginVertical="10dp"
-            android:checked="true"
             android:clickable="false"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,6 +81,7 @@
         <TextView
             style="@style/text15"
             android:id="@+id/tvMountain"
+            android:textStyle="bold"
             android:text="@string/timezone_mountain"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -91,6 +90,7 @@
             style="@style/check_big"
             android:id="@+id/radioMountain"
             android:layout_marginVertical="10dp"
+            android:checked="true"
             android:clickable="false"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
