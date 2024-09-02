@@ -10,9 +10,9 @@
     <TextView
         style="@style/title"
         android:id="@+id/title"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/event_popup_set"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/event_popup_set"/>
+        app:layout_constraintStart_toStartOf="parent"/>
     <LinearLayout
         android:id="@+id/back"
         android:layout_width="50dp"

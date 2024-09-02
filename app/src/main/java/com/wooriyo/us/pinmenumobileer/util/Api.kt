@@ -231,6 +231,14 @@ interface Api {
         @Query("lang") lang: String
     ):Call<ResultDTO>
 
+    // 매장 타임존 설정
+    @GET("m/set_timezone.php")
+    fun setTimezone(
+        @Query("useridx") useridx: Int,
+        @Query("storeidx") storeidx: Int,
+        @Query("utc") utc: String
+    ): Call<ResultDTO>
+
     // 카테고리 목록 조희
     @GET("m/getcategory.php")
     fun getCateList(

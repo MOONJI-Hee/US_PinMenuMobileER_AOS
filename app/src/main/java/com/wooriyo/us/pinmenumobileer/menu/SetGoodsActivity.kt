@@ -3,6 +3,7 @@ package com.wooriyo.us.pinmenumobileer.menu
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.wooriyo.us.pinmenumobileer.BaseActivity
@@ -65,6 +66,12 @@ class SetGoodsActivity : BaseActivity() {
                     1 -> {
                         goodsList.clear()
                         goodsList.addAll(result.glist)
+
+                        if(goodsList.size > 1) {
+                            binding.changeSeq.visibility = View.VISIBLE
+                        }else
+                            binding.changeSeq.visibility = View.GONE
+
                         goodsAdapter.notifyDataSetChanged()
                     }
                     else -> Toast.makeText(mActivity, result.msg, Toast.LENGTH_SHORT).show()

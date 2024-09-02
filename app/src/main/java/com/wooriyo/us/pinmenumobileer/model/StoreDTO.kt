@@ -14,6 +14,9 @@ data class StoreDTO(
     @SerializedName("paydate") var paydate : String,
     @SerializedName("enddt") var endDate : String,
     @SerializedName("paytype") var paytype: Int,    // 0 : 요금제 없음 , 1: 기본 , 2: 비즈니스, 4: 클라우드나인
+
+    // 타임존 설정
+    @SerializedName("timezone") var timezone : String,
     // 프린터 설정
     @SerializedName("p_fontsize") var fontsize : Int, // 영수증 폰트 사이즈 1: 큰 폰트, 2: 작은 폰트
     @SerializedName("p_kitchen") var kitchen : String, // 주방영수증 사용 여부 Y / N
@@ -68,6 +71,6 @@ data class StoreDTO(
 //    @SerializedName("breakList")  var breaktime: BrkTimeDTO?,
 //    @SerializedName("holidayList")  var spcHoliday: ArrayList<SpcHolidayDTO>?
 ):Serializable {
-    constructor(useridx: Int) :  this(0, useridx, "", "", "", "N", "", "", "", 0, 1, "Y", "N", 0, 0, 0, 0, 0, "N", "", "", "", "", "", "", "", "N", "N", "N", "N", "N", "", "", "", "", "", "", "", "", "", "", null, null, null, null, null, null, null,
+    constructor(useridx: Int) :  this(0, useridx, "", "", "", "N", "", "", "", 0, "UTC-5", 1, "Y", "N", 0, 0, 0, 0, 0, "N", "", "", "", "", "", "", "", "N", "N", "N", "N", "N", "", "", "", "", "", "", "", "", "", "", null, null, null, null, null, null, null,
         "d", "l", "N", "N", "N", "N", "N", "N", "N", "N")
 }

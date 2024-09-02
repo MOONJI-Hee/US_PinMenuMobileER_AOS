@@ -95,6 +95,22 @@ class MoreFragment : Fragment() {
                 }
             }
             setting.setOnClickListener { requireContext().startActivity(Intent(requireContext(), SetActivity::class.java)) }
+
+            timezone.setOnClickListener {
+                when(storeList.size) {
+                    0 -> Toast.makeText(context, R.string.msg_no_store, Toast.LENGTH_SHORT).show()
+                    1 -> {
+                        MyApplication.store = storeList[0]
+                        MyApplication.storeidx = storeList[0].idx
+                        startActivity(Intent(context, TimezoneActivity::class.java).apply{ putExtra("pre", "more")})
+                    }
+                    else ->  {
+                        startActivity(
+                            Intent(requireContext(), SelectStoreActivity::class.java).apply{ putExtra("type", "timezone") }
+                        )
+                    }
+                }
+            }
         }
         return binding.root
     }
