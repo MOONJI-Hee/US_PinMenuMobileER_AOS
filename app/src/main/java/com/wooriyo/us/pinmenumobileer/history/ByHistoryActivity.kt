@@ -32,7 +32,7 @@ import com.wooriyo.us.pinmenumobileer.model.OrderListDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
 import com.wooriyo.us.pinmenumobileer.util.AppHelper
-import com.wooriyo.us.pinmenumobileer.util.AppHelper.Companion.print
+import com.wooriyo.us.pinmenumobileer.util.PrinterHelper.Companion.print
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -73,7 +73,7 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
 
         thread = Thread(Runnable{
-            if(AppHelper.getPairedDevice() == 1) {
+            if(PrinterHelper.getPairedDevice() == 1) {
 //                val connectedPrinter = pref.getConnectedPrinter() ?: return@Runnable
 
                 pairedDevices.forEach{
