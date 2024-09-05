@@ -5,11 +5,8 @@ import android.content.*
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import com.sewoo.request.android.RequestHandler
-import com.wooriyo.us.pinmenumobileer.broadcast.BtDiscoveryReceiver
 import com.wooriyo.us.pinmenumobileer.BaseActivity
 import com.wooriyo.us.pinmenumobileer.MyApplication
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.androidId
@@ -22,7 +19,6 @@ import com.wooriyo.us.pinmenumobileer.model.PrintContentDTO
 import com.wooriyo.us.pinmenumobileer.model.ResultDTO
 import com.wooriyo.us.pinmenumobileer.printer.dialog.SetNickDialog
 import com.wooriyo.us.pinmenumobileer.util.ApiClient
-import com.wooriyo.us.pinmenumobileer.util.AppHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -66,8 +62,6 @@ class NewConnActivity : BaseActivity() {
         }
     }
 
-    val discoveryResult = BtDiscoveryReceiver()
-
     private val choosePrinterModel = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if(it.resultCode == RESULT_OK) {
             loadingDialog.show(supportFragmentManager, "loading")
@@ -81,25 +75,6 @@ class NewConnActivity : BaseActivity() {
             if (MyApplication.bluetoothPort.isConnected) {
                 MyApplication.bluetoothPort.disconnect()
             }
-
-//            Thread(Runnable {
-//                if(printType == 3){
-//                    val list = AppHelper.searchCube(mActivity)
-//
-//                    if(AppHelper.list != null && AppHelper.list!!.size > 0) {
-//                        Log.d("AppeHelper", "device 찾음")
-//                        Log.d("AppeHelper", "프린터 왜 정보 안나와.. >>>> ${(AppHelper.list!![0] as SocketInfo).address}")
-//                        Log.d("AppeHelper", "프린터 왜 정보 안나와.. >>>> ${(AppHelper.list!![0] as SocketInfo).port}")
-//
-//                        Log.d("AppeHelper", "프린터 정보 >>>> ${NetworkPrinterInfo(AppHelper.list!![0] as SocketInfo).getTitle()}")
-//                        Log.d("AppeHelper", "프린터 정보 >>>> ${NetworkPrinterInfo(AppHelper.list!![0] as SocketInfo).getSubTitle()}")
-//                        Log.d("AppeHelper", "프린터 정보 >>>> ${NetworkPrinterInfo(AppHelper.list!![0] as SocketInfo)}")
-//
-////                    AppHelper.stopSearchCube()
-////                        AppHelper.connectCube(mActivity, list!![0] as SocketInfo)
-//                    }
-//                }else searchDevice()
-//            }).start()
         }
     }
 
@@ -107,11 +82,6 @@ class NewConnActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNewConnBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // BroadCast Receiver
-        registerReceiver(discoveryResult, IntentFilter(BluetoothDevice.ACTION_FOUND))
-        registerReceiver(connectDevice, IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED))
-        registerReceiver(connectDevice, IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED))
 
         getPrintSetting()
 

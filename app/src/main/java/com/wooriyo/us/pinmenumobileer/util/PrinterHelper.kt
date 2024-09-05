@@ -11,6 +11,9 @@ import com.rt.printerlibrary.cmd.Cmd
 import com.rt.printerlibrary.cmd.EscFactory
 import com.rt.printerlibrary.connect.PrinterInterface
 import com.rt.printerlibrary.enumerate.CommonEnum
+import com.rt.printerlibrary.enumerate.CommonEnum.ALIGN_LEFT
+import com.rt.printerlibrary.enumerate.CommonEnum.ALIGN_RIGHT
+import com.rt.printerlibrary.enumerate.CommonEnum.FontStyle
 import com.rt.printerlibrary.enumerate.ConnectStateEnum
 import com.rt.printerlibrary.enumerate.ESCFontTypeEnum
 import com.rt.printerlibrary.enumerate.SettingEnum
@@ -28,6 +31,7 @@ import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.remoteDevices
 import com.wooriyo.us.pinmenumobileer.R
 import com.wooriyo.us.pinmenumobileer.config.AppProperties
 import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.RT_TITLE_BIG
+import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.RT_TITLE_RECEIPT
 import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.RT_TITLE_SMALL
 import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.TITLE_MENU
 import com.wooriyo.us.pinmenumobileer.model.OrderDTO
@@ -340,18 +344,19 @@ class PrinterHelper {
                 escCmd.append(escCmd.getTextCmd(defaultText, PhoneNumberUtils.formatNumber(MyApplication.store.tel, "US")))
                 escCmd.append(escCmd.lfcrCmd)
 
-                // 하이픈
-                escCmd.append(escCmd.lfcrCmd)
-                escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
-                escCmd.append(escCmd.lfcrCmd)
-
                 // 주문 날짜
-                escCmd.append(escCmd.lfcrCmd)
                 escCmd.append(escCmd.getTextCmd(defaultText, order.regdt))
                 escCmd.append(escCmd.lfcrCmd)
 
                 // 하이픈
+                escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
                 escCmd.append(escCmd.lfcrCmd)
+
+                // 타이틀 (Product Qty Amt)
+                escCmd.append(escCmd.getTextCmd(defaultText, RT_TITLE_RECEIPT))
+                escCmd.append(escCmd.lfcrCmd)
+
+                // 하이픈
                 escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
                 escCmd.append(escCmd.lfcrCmd)
 
@@ -369,20 +374,21 @@ class PrinterHelper {
                 escCmd.append(escCmd.lfcrCmd)
 
                 // 가격
-                escCmd.append(escCmd.lfcrCmd)
                 escCmd.append(escCmd.getTextCmd(defaultText, "SubTotal : $${price(order.amount)}"))
                 escCmd.append(escCmd.lfcrCmd)
                 escCmd.append(escCmd.getTextCmd(defaultText, "Tip : $${order.tip}"))
                 escCmd.append(escCmd.lfcrCmd)
-                escCmd.append(escCmd.getTextCmd(defaultText, "Tax : $${order.tax}\n"))
+                escCmd.append(escCmd.getTextCmd(defaultText, "Tax : $${order.tax}"))
                 escCmd.append(escCmd.lfcrCmd)
 
                 // 하이픈
                 escCmd.append(escCmd.getTextCmd(defaultText, hyphen.toString()))
                 escCmd.append(escCmd.lfcrCmd)
 
+                defaultText.bold = SettingEnum.Enable
+                defaultText.doubleWidth = SettingEnum.Enable
+
                 // 총 가격
-                escCmd.append(escCmd.lfcrCmd)
                 escCmd.append(escCmd.getTextCmd(defaultText, "Total : $${price(order.total_price)}\n\n\n"))
                 escCmd.append(escCmd.lfcrCmd)
 
