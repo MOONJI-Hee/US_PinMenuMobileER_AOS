@@ -113,9 +113,6 @@
             android:name=".printer.SelectCateActivity"
             android:exported="false" />
         <activity
-            android:name=".printer.SelectPrinterActivity"
-            android:exported="false" />
-        <activity
             android:name=".printer.ContentSetActivity"
             android:exported="false" />
         <activity
@@ -129,9 +126,6 @@
             android:exported="false" />
         <activity
             android:name=".printer.SupportPrinterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".printer.NewConnActivity"
             android:exported="false" />
         <activity
             android:name=".store.RegStoreActivity"

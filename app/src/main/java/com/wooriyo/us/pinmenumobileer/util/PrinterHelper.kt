@@ -30,6 +30,9 @@ import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.pairedDevices
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.remoteDevices
 import com.wooriyo.us.pinmenumobileer.R
 import com.wooriyo.us.pinmenumobileer.config.AppProperties
+import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.ONE_LINE_SMALL
+import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.RT_ONE_LINE_BIG
+import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.RT_ONE_LINE_SMALL
 import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.RT_TITLE_BIG
 import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.RT_TITLE_RECEIPT
 import com.wooriyo.us.pinmenumobileer.config.AppProperties.Companion.RT_TITLE_SMALL
@@ -374,11 +377,11 @@ class PrinterHelper {
                 escCmd.append(escCmd.lfcrCmd)
 
                 // 가격
-                escCmd.append(escCmd.getTextCmd(defaultText, "SubTotal : $${price(order.amount)}"))
+                escCmd.append(escCmd.getTextCmd(defaultText, getReceiptPrice("Subtotal", order.amount)))
                 escCmd.append(escCmd.lfcrCmd)
-                escCmd.append(escCmd.getTextCmd(defaultText, "Tip : $${order.tip}"))
+                escCmd.append(escCmd.getTextCmd(defaultText, getReceiptPrice("Tip", order.tip)))
                 escCmd.append(escCmd.lfcrCmd)
-                escCmd.append(escCmd.getTextCmd(defaultText, "Tax : $${order.tax}"))
+                escCmd.append(escCmd.getTextCmd(defaultText, getReceiptPrice("Tax", order.tax)))
                 escCmd.append(escCmd.lfcrCmd)
 
                 // 하이픈
@@ -389,7 +392,12 @@ class PrinterHelper {
                 defaultText.doubleWidth = SettingEnum.Enable
 
                 // 총 가격
-                escCmd.append(escCmd.getTextCmd(defaultText, "Total : $${price(order.total_price)}\n\n\n"))
+                val diff = RT_ONE_LINE_BIG - 8 - price(order.total_price).length
+                escCmd.append(escCmd.getTextCmd(defaultText, "Total :"))
+                for(i in 1..diff) {
+                    escCmd.append(escCmd.getTextCmd(defaultText, " "))
+                }
+                escCmd.append(escCmd.getTextCmd(defaultText, "$${price(order.total_price)}\n\n\n"))
                 escCmd.append(escCmd.lfcrCmd)
 
                 escCmd.append(escCmd.cmdCutNew)
@@ -460,6 +468,20 @@ class PrinterHelper {
                     result.append("\n - $it")
                 }
             }
+
+            return result.toString()
+        }
+
+        fun getReceiptPrice(title: String, price: Double): String {
+            val result = StringBuffer()
+
+            val diff = RT_ONE_LINE_SMALL - 3 - title.length - price(price).length
+
+            result.append("$title :")
+            for(i in 1..diff) {
+                result.append(" ")
+            }
+            result.append("$${price(price)}")
 
             return result.toString()
         }
@@ -656,7 +678,5 @@ class PrinterHelper {
 
             return 1.0
         }
-
-
     }
 }

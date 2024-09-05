@@ -23,9 +23,6 @@ import retrofit2.Response
 class SelectCateActivity : BaseActivity() {
     lateinit var binding : ActivitySelectCateBinding
 
-//    val TAG = "SelectCateActivity"
-//    val mActivity = this@SelectCateActivity
-
     val allCateList = ArrayList<CategoryDTO>()
     val cateAdapter = CateAdapter(allCateList)
 
