@@ -56,6 +56,12 @@ class AppProperties {
                 var RT_PRODUCT = RT_PRODUCT_SMALL
                 var RT_QTY = RT_QTY_SMALL
 
+                const val RT_TITLE_SMALL = "Product                                     Qty" // 작은 글씨 기준
+                const val RT_TITLE_BIG = "Product              Qty" // 큰 글씨 기준
+                const val RT_TITLE_RECEIPT = "Product                           Qty       Amt "
+
+                var TITLE_MENU = RT_TITLE_SMALL
+
                 const val FONT_BIG = 37
                 const val FONT_SMALL = 28
 
@@ -93,7 +99,5 @@ class AppProperties {
                 const val SPACE_SMALL = 5
 
                 const val SPACE = SPACE_BIG
-
-                const val TITLE_MENU = "메     뉴     명                          수량         금액  "
         }
 }
