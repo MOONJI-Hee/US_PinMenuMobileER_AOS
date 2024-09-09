@@ -20,6 +20,9 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="29" />
 
+    <uses-feature android:name="android.software.companion_device_setup"/>
+    <uses-feature android:name="android.hardware.bluetooth" android:required="true"/>
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
