@@ -39,6 +39,16 @@ class TimezoneActivity : BaseActivity() {
         binding.run {
             if(pre != "more") back.visibility = View.GONE
 
+            val utc = MyApplication.store.timezone
+            when(utc) {
+                "UTC-5" -> setRadioClickEvent(radioEastern, tvEastern)
+                "UTC-6" -> setRadioClickEvent(radioCentral, tvCentral)
+                "UTC-7" -> setRadioClickEvent(radioMountain, tvMountain)
+                "UTC-8" -> setRadioClickEvent(radioPacific, tvPacific)
+                "UTC-9" -> setRadioClickEvent(radioAlaska, tvAlaska)
+                "UTC-10" -> setRadioClickEvent(radioHawaii, tvHawaii)
+            }
+
             eastern.setOnClickListener { setRadioClickEvent(radioEastern, tvEastern) }
             central.setOnClickListener { setRadioClickEvent(radioCentral, tvCentral) }
             mountain.setOnClickListener { setRadioClickEvent(radioMountain, tvMountain) }

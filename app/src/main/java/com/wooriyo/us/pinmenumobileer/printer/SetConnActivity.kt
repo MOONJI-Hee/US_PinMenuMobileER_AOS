@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -18,6 +19,7 @@ import com.rt.printerlibrary.observer.PrinterObserver
 import com.rt.printerlibrary.observer.PrinterObserverManager
 import com.rt.printerlibrary.utils.FuncUtils
 import com.wooriyo.us.pinmenumobileer.BaseActivity
+import com.wooriyo.us.pinmenumobileer.MainActivity
 import com.wooriyo.us.pinmenumobileer.MyApplication
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.androidId
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.bluetoothAdapter
@@ -26,6 +28,7 @@ import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.remoteDevices
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.storeidx
 import com.wooriyo.us.pinmenumobileer.MyApplication.Companion.useridx
 import com.wooriyo.us.pinmenumobileer.R
+import com.wooriyo.us.pinmenumobileer.broadcast.DownloadReceiver
 import com.wooriyo.us.pinmenumobileer.databinding.ActivitySetConnBinding
 import com.wooriyo.us.pinmenumobileer.listener.DialogListener
 import com.wooriyo.us.pinmenumobileer.model.PrintContentDTO
@@ -66,7 +69,7 @@ class SetConnActivity : BaseActivity(), PrinterObserver {
             override fun onReceive(context: Context, intent: Intent) {
                 val action = intent.action
                 if (BluetoothDevice.ACTION_ACL_CONNECTED == action) {
-                    loadingDialog.dismiss()
+//                    loadingDialog.dismiss()
                     Toast.makeText(mActivity, "Bluetooth Connection Success", Toast.LENGTH_SHORT).show()
                     printerAdapter.notifyItemChanged(connPos)
 //                    MyApplication.pref.setConnectedPrinter(remoteDevices[connPos])
@@ -88,8 +91,14 @@ class SetConnActivity : BaseActivity(), PrinterObserver {
                 }
             }
         }
-        registerReceiver(connectDevice, IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED))
-        registerReceiver(connectDevice, IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED))
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(connectDevice, IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED), Context.RECEIVER_NOT_EXPORTED)
+            registerReceiver(connectDevice, IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED), Context.RECEIVER_NOT_EXPORTED)
+        }else {
+            registerReceiver(connectDevice, IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED))
+            registerReceiver(connectDevice, IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED))
+        }
 
         val nickDialog = SetNickDialog(binding.phoneNick.text.toString(), 1, "안드로이드 스마트폰")
         nickDialog.setOnNickChangeListener(object : DialogListener {
@@ -142,7 +151,12 @@ class SetConnActivity : BaseActivity(), PrinterObserver {
             mBluetoothIntentFilter?.addAction(BluetoothDevice.ACTION_FOUND)
             mBluetoothIntentFilter?.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
 
-            registerReceiver(mBluetoothReceiver, mBluetoothIntentFilter)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                registerReceiver(mBluetoothReceiver, mBluetoothIntentFilter, Context.RECEIVER_NOT_EXPORTED)
+            }else {
+                registerReceiver(mBluetoothReceiver, mBluetoothIntentFilter)
+            }
+
             bluetoothAdapter.startDiscovery()
         }
 
